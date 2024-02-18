@@ -1,0 +1,57 @@
+:root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
+    --primaryColor: rgb(236, 244, 214);
+    --secondaryColor: rgb(154, 208, 194);
+    --gradientColor: linear-gradient(to right, rgb(154, 208, 194), rgb(45, 149, 150));
+    --whiteColorDean: hsl(0, 0%, 93%);
+    --whiteColor: hsl(0, 0%, 100%);
+    --blueColor: rgb(45, 149, 150);
+    --textColor: rgb(38, 80, 115);
+    --grayText: rgb(190, 190, 190);
+    --inputColor: rgb(239, 239, 239);
+    --bodyColor: rgb(248, 248, 246);
+    --cardBG: rgb(225, 225, 235);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.main {
+    background-color: var(--primaryColor);
+
+}
+
+
+.options {
+    padding: 0px 24px;
+    margin-top: 0;
+    margin-bottom: 1rem;
+
+}
+
+li {
+    margin-top: 3px;
+    color: var(--textColor);
+    font-size: 15px;
+    font-weight: normal;
+    padding: 3px 3px;
+    line-height: 20px;
+    text-transform: capitalize;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.bell {
+    margin-top: 5px;
+    color: var(--textColor);
+    font-size: 23px;
+    font-weight: normal;
+    padding: 3px 5px;
+    line-height: 26px;
+    text-transform: capitalize;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 30px;
+    height: 30px;
+}
