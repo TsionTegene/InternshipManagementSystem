@@ -23,12 +23,12 @@ interface ISideBarMenu {
 export const hr = [
     {
         title: 'Dashboard',
-        path: '/dashboard',
+        path: '/hr/dashboard',
         icon: <LuLayoutDashboard />,
     },
     {
         title: 'Application',
-        path: '/application',
+        path: '/hr/application',
         icon: <FaWpforms />,
     },
     {
@@ -44,7 +44,7 @@ export const hr = [
 
     {
         title: 'Mentors',
-        path: '/mentordetail',
+        path: '/hr/mentordetail',
         icon: <GiTeamIdea />,
     },
 ];
@@ -98,7 +98,7 @@ export const collegedean = [
 export const departmenthead = [
     {
         title: 'Student',
-        path: '/students',
+        path: '/departmenthead/students',
         icon: <CgList />,
     },
     {

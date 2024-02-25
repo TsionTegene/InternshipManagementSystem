@@ -11,10 +11,10 @@ import SidebarLink from "./SidebarLink";
 import { useState } from "react";
 import { getMenu } from "./getmenu";
 
-const role = "departmenthead";
+const role = "student";
 
 export const menuUtems = getMenu(role);
-const Sidebar = ({ isCollapsed, open, setOpen }) => {
+const Sidebar = ({ isCollapsed, open, setOpen }: any) => {
 
     const isDesktop = useMediaQuery("(min-width: 1280px)");
 

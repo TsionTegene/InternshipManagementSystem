@@ -1,6 +1,6 @@
 "use client";
-import Navbar from "@/components/dashboard/navbar/navbar";
-import Sidebar from "@/components/dashboard/sidebar/sidebar";
+import Navbar from "@/components/navbar/navbar";
+import Sidebar from "@/components/sidebar/sidebar";
 import { Button } from "@/components/ui/button";
 import { FaAngleRight } from "react-icons/fa";
 import { useState } from "react";
@@ -21,9 +21,9 @@ const Layout = ({ children, }: {
                 : " lg:grid-cols-notCollapsed   "
                 }`}
         >
-            <header className=" relative  py-3 px-12  rounded-sm ">
-                <div className="flex items-center space-x-5">
-                    <div className="lg:hidden py-3">
+            <header className=" relative  py-3 px space-x-5">
+                <div className="lg:hidden py-12  rounded-sm ">
+                    <div className="flex items-center-3">
                         <RiMenu4Line className="size-8" onClick={() => setOpen(!open)} />
                     </div>
 

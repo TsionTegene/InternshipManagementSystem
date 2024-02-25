@@ -2,12 +2,12 @@
     --foreground-rgb: 0, 0, 0;
     --background-start-rgb: 214, 219, 220;
     --background-end-rgb: 255, 255, 255;
-    --primaryColor: rgb(236, 244, 214);
+    --primaryColor: rgb(218, 255, 251);
     --secondaryColor: rgb(154, 208, 194);
-    --gradientColor: linear-gradient(to right, rgb(154, 208, 194), rgb(45, 149, 150));
+    --gradientColor: linear-gradient(to top, rgb(154, 208, 194), rgb(38, 80, 115););
     --whiteColorDean: hsl(0, 0%, 93%);
     --whiteColor: hsl(0, 0%, 100%);
-    --blueColor: rgb(45, 149, 150);
+    --blueColor: rgb(88, 185, 178);
     --textColor: rgb(38, 80, 115);
     --grayText: rgb(190, 190, 190);
     --inputColor: rgb(239, 239, 239);
@@ -55,3 +55,88 @@ li {
     width: 30px;
     height: 30px;
 }
+
+.landing {
+    /* background: var(--primaryColor); */
+    background-image: url('/images/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    /* opacity: 0.3; */
+    padding: 2%;
+}
+
+.colone {
+    padding-top: 5%;
+    padding-left: 7%;
+    padding-right: 5%;
+    width: 60%;
+}
+
+.coltwo {
+    padding-right: 5%;
+    width: auto;
+}
+
+p {
+    font-size: 20px;
+    color: var(--textColor);
+    text-wrap: balance;
+}
+
+.text {
+    font-size: 23px;
+    color: var(--blueColor);
+    text-wrap: balance;
+    padding-bottom: 1%;
+}
+
+.title {
+    font-size: 35px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--textColor);
+    padding-bottom: 3%;
+}
+
+.card {
+    width: 25%;
+    background: var(--gradientColor);
+    border-radius: 12%;
+}
+
+.cardtext {
+    color: var(--primaryColor);
+}
+
+.icon {
+    margin-top: 5px;
+    color: var(--whiteColor);
+    font-weight: normal;
+    padding: 3px 5px;
+    line-height: 26px;
+    text-transform: capitalize;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 40px;
+    height: 40px;
+}
+
+.btn {
+    border-radius: 20px;
+    background: var(--textColor);
+    color: var(--whiteColor);
+}
+
+.modal {
+    padding: 5%;
+    justify-content: center;
+    background: var(--gradientColor);
+    margin: 5%;
+    align-items: center;
+    border-radius: 50px;
+
+}
+
+/* .signupCard {
+    display: flex;
+    background: var(--gradientColor);
+} */

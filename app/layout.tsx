@@ -1,7 +1,7 @@
 import { Inter, Poppins, Roboto } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/themeprovider/ThemeProvider";
-import Navbar from "@/components/dashboard/navbar/navbar";
+import Navbar from "@/components/navbar/navbar";
 // import ThemeProvider from "@/components/themeprovider/ThemeProvider";
 // import Navbar from "@/components/home/Navbar";
 // import Footer from "@/components/home/Footer";

@@ -1,6 +1,6 @@
 "use client";
-import Navbar from "@/components/dashboard/navbar/navbar";
-import Sidebar from "@/components/dashboard/sidebar/sidebar";
+import Navbar from "@/components/navbar/navbar";
+import Sidebar from "@/components/sidebar/sidebar";
 import { Button } from "@/components/ui/button";
 import { FaAngleRight } from "react-icons/fa";
 import { useState } from "react";
