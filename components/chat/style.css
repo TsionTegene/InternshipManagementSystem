@@ -1,0 +1,14 @@
+.message {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px;
+  }
+  
+  .message.right {
+    align-self: flex-end; /* Aligns to right side of the list item */
+  }
+  
+  .message.left {
+    align-self: flex-start; /* Aligns to left side of the list item */
+  }
+  

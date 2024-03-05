@@ -13,6 +13,7 @@ import { IconType } from "react-icons";
 import { GiTeamIdea } from 'react-icons/gi';
 import { GrInProgress } from 'react-icons/gr';
 import { BsPersonFillGear } from "react-icons/bs";
+import { TbReportAnalytics } from "react-icons/tb";
 
 interface ISideBarMenu {
     title: string,
@@ -75,6 +76,11 @@ export const student = [
         path: "/student/myadvisor",
         icon: <MdOutlineSupervisorAccount />,
     },
+    // {
+    //     title: "Report to Advisor and Mentor",
+    //     path: "/student/myadvisor",
+    //     icon: <TbReportAnalytics />,
+    // },
 ];
 export const collegedean = [
     {

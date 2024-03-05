@@ -4,7 +4,7 @@
     --background-end-rgb: 255, 255, 255;
     --primaryColor: rgb(218, 255, 251);
     --secondaryColor: rgb(154, 208, 194);
-    --gradientColor: linear-gradient(to top, rgb(154, 208, 194), rgb(38, 80, 115););
+    --gradientColor: linear-gradient(to top, rgb(154, 208, 194), rgb(38, 80, 115); );
     --whiteColorDean: hsl(0, 0%, 93%);
     --whiteColor: hsl(0, 0%, 100%);
     --blueColor: rgb(88, 185, 178);
@@ -136,7 +136,3 @@ p {
 
 }
 
-/* .signupCard {
-    display: flex;
-    background: var(--gradientColor);
-} */
