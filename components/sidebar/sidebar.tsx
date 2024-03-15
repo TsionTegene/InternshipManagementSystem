@@ -11,7 +11,7 @@ import SidebarLink from "./SidebarLink";
 import { useState } from "react";
 import { getMenu } from "./getmenu";
 
-const role = "student";
+const role = "collegedean";
 
 export const menuUtems = getMenu(role);
 const Sidebar = ({ isCollapsed, open, setOpen }: any) => {

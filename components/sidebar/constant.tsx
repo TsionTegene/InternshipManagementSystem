@@ -34,12 +34,12 @@ export const hr = [
     },
     {
         title: 'New Application',
-        path: '/newapplication',
+        path: '/hr/newapplication',
         icon: <MdFiberNew />,
     },
     {
         title: 'Students',
-        path: '/studentdetail',
+        path: '/hr/studentdetail',
         icon: <PiStudentFill />,
     },
 
@@ -82,6 +82,20 @@ export const student = [
     //     icon: <TbReportAnalytics />,
     // },
 ];
+export const mentor = [
+    {
+        title: "Evaluate",
+        path: "/mentor/evaluate",
+        icon: <FaLightbulb />,
+    },
+    {
+        title: "Report",
+        path: "/mentor/report",
+        icon: <FaTasks />
+        ,
+    },
+
+];
 export const collegedean = [
     {
         title: 'Department Head',
@@ -95,9 +109,10 @@ export const collegedean = [
         icon: <PiUserListLight />,
     },
     {
-        title: 'Approval',
-        path: '/approval',
-        icon: <MdApproval />,
+        title: 'Form',
+        path: '/form',
+        icon: <FaWpforms />
+        ,
     },
 ];
 
