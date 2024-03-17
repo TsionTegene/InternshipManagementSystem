@@ -99,18 +99,18 @@ export const mentor = [
 export const collegedean = [
     {
         title: 'Department Head',
-        path: '/dashboard',
+        path: '/collegedean/dashboard',
         icon: <BsPersonFillGear />,
     },
 
     {
         title: 'Advisor',
-        path: '/advisors',
+        path: '/collegedean/advisors',
         icon: <PiUserListLight />,
     },
     {
         title: 'Form',
-        path: '/form',
+        path: '/collegedean/form',
         icon: <FaWpforms />
         ,
     },
