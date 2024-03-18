@@ -12,16 +12,16 @@ const questions=[
 
   return (
     <div>
-      <div>
+      {/* <div>
         <p>Evaluation Form</p>
         <ol>
           <li>
             {questions.map((quest)=>(
-              
+
             ))}
           </li>
         </ol>
-      </div>
+      </div> */}
     </div>
   )
 }
