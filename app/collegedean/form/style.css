@@ -1,0 +1,20 @@
+:root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
+    --primaryColor: rgb(218, 255, 251);
+    --secondaryColor: rgb(154, 208, 194);
+    --gradientColor: linear-gradient(to top, rgb(154, 208, 194), rgb(38, 80, 115); );
+    --whiteColorDean: hsl(0, 0%, 93%);
+    --whiteColor: hsl(0, 0%, 100%);
+    --blueColor: rgb(88, 185, 178);
+    --textColor: rgb(38, 80, 115);
+    --grayText: rgb(190, 190, 190);
+    --inputColor: rgb(239, 239, 239);
+    --bodyColor: rgb(248, 248, 246);
+    --cardBG: rgb(225, 225, 235);
+}
+
+.mainScreen{
+
+};
