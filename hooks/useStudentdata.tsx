@@ -1,3 +1,4 @@
+import studentsignup from '@/api/student';
 import { useQuery } from '@tanstack/react-query'
 
 const fetchData = async (url :any ) => {
@@ -9,8 +10,13 @@ const fetchData = async (url :any ) => {
 };
 
 export const useDataFetching = (dynamicParam:any) => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-  const apiUrl = `${baseUrl}/${dynamicParam}`;
+  
+  // const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  // const apiUrl = `${baseUrl}/${dynamicParam}`;
 
-  return useQuery({queryKey: [`${apiUrl}`], queryFn: () => fetchData(apiUrl)});
+
+  return useQuery({
+    queryKey: [`studentsinup`],
+     queryFn: () => studentsignup
+    });
 };

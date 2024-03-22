@@ -83,6 +83,7 @@ export default function Home() {
   ];
 
   return (
+    
     <div className="landing">
       <nav className="flex justify-between">
         <div className={`ml-5 py-4`}>
