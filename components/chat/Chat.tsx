@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Avatar,
   AvatarFallback,
@@ -26,6 +26,16 @@ const initialMessages = [
 const Chat = () => {
   const [messages, setMessages] = useState(initialMessages);
   const [inputValue, setInputValue] = useState('');
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    //@ts-ignore
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSendMessage = () => {
     if (inputValue.trim() !== '') {
@@ -41,15 +51,15 @@ const Chat = () => {
   };
 
   return (
-    <div className="conversation overflow-hidden bg-gray-200 dark:bg-slate-600">
-      <div className="chatInfo flex bg-slate-600 dark:bg-gray-400 gap-2 items-center p-3 rounded-t-xl">
+    <div className="chatContainer bg-gray-200 dark:bg-slate-600 flex flex-col">
+      <div className="chatInfo bg-slate-600 dark:bg-gray-400 gap-2 items-center p-3 rounded-t-xl">
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <h6>Username</h6>
+        <h6 className="text-white">Username</h6>
       </div>
-      <div className="chatBody flex flex-col flex-grow p-3 ">
+      <div className="chatBody flex flex-col p-3 overflow-auto">
         {messages.length >= 2 && (
           <ul className='flex flex-col'>
             {messages.map((message, index) => (
@@ -57,10 +67,11 @@ const Chat = () => {
                 <Message isUser={message.isUser} content={message.content} timestamp={message.timestamp} />
               </li>
             ))}
+            <div ref={messagesEndRef} />
           </ul>
         )}
       </div>
-      <div className='flex gap-2 p-2'>
+      <div className='chatInput flex gap-2 p-2'>
         <div className='input flex flex-col justify-end w-full'>
           <Input placeholder='Type Here...' value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
         </div>
