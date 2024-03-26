@@ -1,7 +1,7 @@
-import { Mutation, useMutation } from '@tanstack/react-query';
-import studentData from './studentdata'; // Assuming studentData contains registration details
+import { Mutation, useMutation } from '@tanstack/react-query';// Assuming studentData contains registration details
+import studentData from './type';
 
-async function registerStudent(data: studentData) {
+ async function registerStudent(data: studentData) {
   const url = 'http://localhost:5000/auth/register/student'; // Replace with your actual API endpoint
 
   const response = await fetch(url, {

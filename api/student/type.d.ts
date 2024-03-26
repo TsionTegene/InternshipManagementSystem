@@ -1,6 +1,4 @@
 export default interface  studentData {
-
-
     email: string;
     password: string;
     firstName: string;
@@ -17,5 +15,4 @@ export default interface  studentData {
     skills: string[];
     resumeUrl?: string;
     resumePublicId?: string;
-
 }
