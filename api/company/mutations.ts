@@ -1,10 +1,10 @@
 // Implementing the mutations for the company entity using axios
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { ICompanyRegistrationForm } from "./type";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-export function registerCompany(data: ICompanyRegistrationForm) {
+export function registerCompany(data: ICompanyRegistrationForm): Promise < AxiosResponse < any >> {
     const endPoint = 'auth/register/company';
     const url = `${apiUrl}/${endPoint}`;
 
