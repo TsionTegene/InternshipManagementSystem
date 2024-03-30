@@ -5,7 +5,6 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 import Message from './Message';
-import Inputfield from './Inputfield';
 import { Button } from '../ui/button';
 import './style.css';
 import { Input } from '../ui/input';
@@ -58,7 +57,7 @@ const Chat = () => {
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <h6 className="text-white">Username</h6>
-      </div>
+      S</div>
       <div className="chatBody flex flex-col p-3 overflow-auto">
         {messages.length >= 2 && (
           <ul className='flex flex-col'>

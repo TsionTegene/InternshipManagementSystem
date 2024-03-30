@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
-
+//@ts-ignore
 const SidebarLink = ({ list, isCollapsed }) => {
     const path = usePathname();
     return (
