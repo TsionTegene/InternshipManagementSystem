@@ -1,7 +1,7 @@
 
   import studentData from "./type";
 
-async function registerStudent(data: studentData) {
+export async function registerStudent(data: studentData) {
     const url = 'http://localhost:5000/auth/register/student'; // Replace with your actual API endpoint
   
     const response = await fetch(url, {

@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
+import { useStudentSignup } from "@/hooks/useStudentsignup"
 import Link from "next/link"
 import {
     Form,
@@ -62,12 +62,13 @@ const formSchema = z.object({
     profilepicture: z.optional(z.string().min(1)), // Optional profile picture field
 
 })
+
 export function StudentForm() {
     const form = useForm({
         resolver: zodResolver(formSchema),
     });
 
-    const onSubmit = (formValues) => {
+    const onSubmit = (formValues: any) => {
         console.log(formValues);
     }
     return (
@@ -91,7 +92,7 @@ export function StudentForm() {
                                         <FormItem>
                                             <FormLabel>First Name</FormLabel>
                                             <FormControl>
-                                                <Input {...field} />
+                                                <Input  {...field} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>

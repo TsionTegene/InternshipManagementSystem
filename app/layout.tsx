@@ -2,12 +2,15 @@ import { Inter, Poppins, Roboto } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/themeprovider/ThemeProvider";
 import Navbar from "@/components/navbar/navbar";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ReactQueryProvider from "@/hooks/query_Provider";
 // import ThemeProvider from "@/components/themeprovider/ThemeProvider";
 // import Navbar from "@/components/home/Navbar";
 // import Footer from "@/components/home/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({ subsets: ["latin"], weight: "400" });
+const queryClient = new QueryClient();
 
 export const metadata = {
   title: "Create Next App",
@@ -27,7 +30,9 @@ export default function RootLayout({ children, }: {
           disableTransitionOnChange
         >
 
-          {children}
+           <ReactQueryProvider>
+             {children}
+        </ReactQueryProvider>
 
         </ThemeProvider>
       </body>
