@@ -65,25 +65,27 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { FaX } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
+import '@/app/signup/page'
 
 
 export default function Home() {
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  // const [open, setOpen] = useState(false);
+  // const handleOpen = () => setOpen(true);
+  // const handleClose = () => setOpen(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const handleLoginOpen = () => setLoginOpen(true);
   const handleLoginClose = () => setLoginOpen(false);
-
+  const Router = useRouter();
   const items = [
     { title: 'For Business', description: 'Improve efficiency, reduce administrative burden, and gain valuable insights into your Internship program.', icon: <IoMdBusiness className="icon" /> },
     { title: 'For Student', description: 'Enhance your internship experience with clear communication channels and opportunities for feedback and growth.', icon: <PiStudentBold className="icon" /> },
-    { title: 'For Educators', description: ' Collaborate effectively with businesses to place students in meaningful internships and track their progress towards learning objectives.', icon: <FaUniversity className="icon" /> },
+    { title: 'For Educators', description: 'Collaborate effectively with businesses to place students in meaningful internships and track their progress towards learning objectives.', icon: <FaUniversity className="icon" /> },
   ];
 
   return (
-    
+
     <div className="landing">
       <nav className="flex justify-between">
         <div className={`ml-5 py-4`}>
@@ -96,7 +98,7 @@ export default function Home() {
         <div className="flex gap-5 ml-auto pl-5 p-3 my-2  rounded-xl items-center ">
           <Link className={buttonVariants({ variant: "ghost" })} href={"#"}>About Us</Link>
           <Button variant="outline" className="btn" onClick={handleLoginOpen}>Login</Button>
-          <Button variant="outline" className="btn" onClick={handleOpen}>sign up</Button>
+          <Link href={"/signup"} className="btn p-2">sign up</Link>
         </div>
       </nav>
 
@@ -170,81 +172,11 @@ export default function Home() {
 
       }
 
-      {open &&
-        <div className="flex items-center">
-          <Card className="w-[950px] ml-28 rounded-3xl" style={{ background: 'linear-gradient(to top, rgb(154, 208, 194), rgb(23, 107, 135))' }}>
-            <CardHeader>
-              <div>
-
-                <FaX onClick={handleClose} style={{ float: "right" }} className='text-white' />
-              </div>
-              <div className="flex flex-col items-center">
-                <CardTitle className="text-white">Sign up</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <form>
-                <div className="flex w-full items-center gap-12">
-                  <div className="ml-10">
-                    <div className="flex flex-col space-y-1.5 w-80 mb-4">
-                      <Label htmlFor="name" className="text-white text-md">First Name:</Label>
-                      <Input id="name" placeholder="First Name" />
-                    </div>
-                    <div className="flex flex-col space-y-1.5 w-80 mb-4">
-                      <Label htmlFor="name" className="text-white text-md">Middle Name:</Label>
-                      <Input id="name" placeholder="Middle Name" />
-                    </div>
-                    <div className="flex flex-col space-y-1.5 w-80 mb-4">
-                      <Label htmlFor="name" className="text-white text-md">User Name:</Label>
-                      <Input id="name" placeholder="User Name" />
-                    </div>
-                    <div className="flex flex-col space-y-1.5 w-80 mb-4">
-                      <Label htmlFor="role" className="text-white text-md">Role</Label>
-                      <Select>
-                        <SelectTrigger id="role">
-                          <SelectValue placeholder="Select" />
-                        </SelectTrigger>
-                        <SelectContent position="popper">
-                          <SelectItem value="student">Student</SelectItem>
-                          <SelectItem value="company">Company</SelectItem>
-                          <SelectItem value="university">University</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                  <div className="pl-20 gap-28">
-                    <div className="flex flex-col space-y-1.5 w-80 mb-4">
-                      <Label htmlFor="name" className="text-white text-md">Phone Number:</Label>
-                      <Input id="name" placeholder="User Name" />
-                    </div>
-                    <div className="flex flex-col space-y-1.5 w-80 mb-4">
-                      <Label htmlFor="name" className="text-white text-md">Password:</Label>
-                      <Input id="name" placeholder="Password" type="password" />
-                    </div>
-                    <div className="flex flex-col space-y-1.5 w-80 mb-4">
-                      <Label htmlFor="name" className="text-white text-md">Confirm Password:</Label>
-                      <Input id="name" placeholder="Confirm Password" type="password" />
-                    </div>
-                    <div className="flex flex-col space-y-1.5 w-80 mb-4">
-                      <Label htmlFor="name" className="text-white text-md">Profile Picture:</Label>
-                      <Button variant="outline" className="btn w-36" ><FaUpload className="mr-3" />Upload</Button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button className="w-32 rounded-3xl ml-14">
-                SignUp
-              </Button>
-            </CardFooter>
-          </Card>
-        </div>
-      }
+    
 
 
 
-      {!open && !loginOpen &&
+      {!loginOpen &&
         <div>
           <div className="flex flex-row">
 

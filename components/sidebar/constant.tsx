@@ -94,6 +94,11 @@ export const mentor = [
         icon: <FaTasks />
         ,
     },
+    {
+        title: 'Students',
+        path: '/mentor/students',
+        icon: <PiStudentFill />,
+    },
 
 ];
 export const collegedean = [
