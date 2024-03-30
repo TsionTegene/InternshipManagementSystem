@@ -26,11 +26,16 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FaPlus } from "react-icons/fa"
 import { MoveUpRight, UploadIcon } from "lucide-react"
+import { Value } from "@radix-ui/react-select"
+import { useState } from "react"
+
+
+const initialValue = "Bereket"
 
 
 const formSchema = z.object({
     firstname: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
+        message: "firstname must be at least 2 characters.",
     }),
     middlename: z.string().min(2, {
         message: "Username must be at least 2 characters.",
@@ -53,10 +58,10 @@ const formSchema = z.object({
     phonenumber: z.string().min(2, {
         message: "Enter your phone number.",
     }),
-    year: z.number().int().min(1, {
+    year: z.string().min(1, {
         message: "Enter a valid year.",
     }),
-    gpa: z.number().min(1, {
+    gpa: z.string().min(1, {
         message: "Enter a valid GPA.",
     }),
     profilepicture: z.optional(z.string().min(1)), // Optional profile picture field
@@ -64,12 +69,42 @@ const formSchema = z.object({
 })
 
 export function StudentForm() {
+
+    const[firtname ,setFirstname] =useState("")
+    const[middlename ,setmiddlename] =useState("")
+    const[phone ,setphone] =useState("")
+    const[email ,setemail] =useState("")
+    const[username ,setusername] =useState("")
+    const[password ,setpassword] =useState("")
+    const[university ,setuniversity] =useState("")
+    const[department ,setdepartment] =useState("")
+    const[year ,setyear] =useState("")
+    const[profileimg ,setprofileimg] =useState("")
+    const[gpa ,setgpa] =useState("")
+
+
+
+
+
     const form = useForm({
         resolver: zodResolver(formSchema),
     });
 
     const onSubmit = (formValues: any) => {
-        console.log(formValues);
+        console.log(formValues.firstname);
+        setFirstname(formValues.firstname)
+        setmiddlename(formValues.middlename)
+        setphone(formValues.phonenumber)
+        setemail(formValues.email)
+        setusername(formValues.username)
+        setpassword(formValues.password)
+        setgpa(formValues.gpa)
+        setprofileimg(formValues.profilepicture)
+        setyear(formValues.year)
+        setdepartment(formValues.department)
+        setuniversity(formValues.university)
+   
+
     }
     return (
         <Card className="mx-auto max-w-lg my-10 ">
@@ -85,19 +120,20 @@ export function StudentForm() {
                         <div className="grid gap-4">
                             <div className="grid grid-cols-2 gap-4">
 
-                                <FormField
-                                    control={form.control}
-                                    name="firstname"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>First Name</FormLabel>
-                                            <FormControl>
-                                                <Input  {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                            <FormField
+                                control={form.control}
+                                name="firstname"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>First Name</FormLabel>
+                                        <FormControl>
+                                        <Input {...field}  />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
 
                                 <FormField
                                     control={form.control}
