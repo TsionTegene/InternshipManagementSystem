@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/themeprovider/ThemeProvider";
 import Navbar from "@/components/navbar/navbar";
 import ReactQueryProvider from "@/queries/ReactQueryProvider";
+import { QueryClient } from "@tanstack/react-query";
 // import ThemeProvider from "@/components/themeprovider/ThemeProvider";
 // import Navbar from "@/components/home/Navbar";
 // import Footer from "@/components/home/Footer";

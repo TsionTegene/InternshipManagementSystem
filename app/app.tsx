@@ -196,8 +196,8 @@ export default function Home() {
             </div>
           </div>
           <div className="flex ml-15 justify-evenly">
-            {items.map((item) => (
-              <Cards title={item.title} description={item.description} icon={item.icon} />
+            {items.map((item, index) => (
+              <Cards key={index} title={item.title} description={item.description} icon={item.icon} />
             ))}
           </div>
         </div>
