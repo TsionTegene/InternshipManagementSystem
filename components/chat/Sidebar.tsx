@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Image from 'next/image';
 interface User {
   id: string;
   username: string;
@@ -10,9 +10,9 @@ interface SidebarProps {
   users: User[];
 }
 
-const Sidebar: React.FC = () => {
-  // Fake data for testing
-  const fakeUsers: User[] = [
+const Sidebar: React.FC<SidebarProps> = () => {
+  // Use fake users if users prop is not provided
+  const userList =  [
     {
       id: '1',
       username: 'John Doe',
@@ -30,13 +30,17 @@ const Sidebar: React.FC = () => {
     },
   ];
 
-  // Use fake users if users prop is not provided
-  const userList = fakeUsers;
-
   return (
-    <div className="sidebar bg-gray-200 p-4">
+    <div className="sidebar bg-gray-200 p-4 flex flex-col h-full">
+        <div className={`ml-3 py-4`}>
+                                <Image
+                                    src={"/images/logo.png"}
+                                    width={150}
+                                    height={150}
+                                    className="size-13" alt={""} />
+      </div>
       <h2 className="text-lg font-semibold mb-4">Users</h2>
-      <ul className="space-y-4">
+      <ul className="flex-1 space-y-4 overflow-y-auto">
         {userList.map(user => (
           <li key={user.id} className="flex items-center p-2 rounded-lg bg-white shadow-md">
             <img src={user.image} alt={user.username} className="w-10 h-10 rounded-full mr-3" />
