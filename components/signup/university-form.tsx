@@ -22,7 +22,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { FaPlus } from "react-icons/fa";
-import { MoveUpRight, UploadIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, MoveUpRight, UploadIcon } from "lucide-react";
+import { useState } from "react";
+import { useUniversitySignup } from "@/hooks/useUniversitysignup";
 
 const formSchema = z.object({
     universityName: z.string().min(2, {
@@ -62,13 +64,33 @@ const formSchema = z.object({
 });
 
 export function UniversityForm() {
+
+    const [selectedImage, setSelectedImage] = useState("No Image Chosen");
+    const [selectedFile, setSelectedFile] = useState("No File Chosen");
+
+    const [showPassword, setShowPassword] = useState(false);
+    const university = useUniversitySignup();
     const form = useForm({
         resolver: zodResolver(formSchema),
     });
 
-    const onSubmit = (formValues) => {
-        console.log(formValues);
-    };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+      };
+
+      const onSubmit = async (formValues: any) => {
+        console.log("button clicked ")
+        const formData = new FormData();
+        for (const field in formValues) {
+          console.log(field, formValues[field]);
+          formData.append(field, formValues[field]);
+        }
+    
+    
+        return university.mutate(formData);
+      };
+    
 
     return (
         <Card className="mx-auto max-w-lg my-10 ">
@@ -161,19 +183,41 @@ export function UniversityForm() {
                                         </FormItem>
                                     )}
                                 />
-                                <FormField
-                                    control={form.control}
-                                    name="adminPassword"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Admin Password</FormLabel>
-                                            <FormControl>
-                                                <Input type="password" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                <FormField
+                  control={form.control}
+                  name="adminPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl className="relative">
+                        <div className="flex items-center w-full">
+                          <Input
+                            type={showPassword ? "text" : "password"}
+                            {...field}
+                          />
+                          <span
+                            className={`absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer ${
+                              showPassword ? "text-blue-500" : "text-gray-400"
+                            }`}
+                            onClick={togglePasswordVisibility}
+                          >
+                            {/* Use pseudo-element for the icon */}
+                            {showPassword ? (
+                              <EyeIcon className="h4 w-4" aria-hidden="true" />
+                            ) : (
+                              <EyeOffIcon
+                                className="h4 w-4"
+                                aria-hidden="true"
+                              />
+                            )}
+                          </span>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                                 <FormField
                                     control={form.control}
                                     name="adminFirstName"
@@ -252,19 +296,53 @@ export function UniversityForm() {
                                         </FormItem>
                                     )}
                                 />
-                                <FormField
-                                    control={form.control}
-                                    name="logo"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Logo</FormLabel>
-                                            <FormControl className="grid grid-flow-col">
-                                                <Button className="w-full"><UploadIcon /> Upload</Button>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+
+                <FormField
+                  control={form.control}
+                  name="logo"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Logo</FormLabel>
+                      <FormControl className="flex flex-col">
+                        <div className="">
+                          <div className="flex flex-row items-center">
+                            <input
+                              type="file"
+                              id="custome-input"
+                              onChange={(e) => {
+                                if (e.target.files) {
+                                  setSelectedImage(e.target.files[0].name);
+                                  
+                                }
+                              }}
+                              hidden
+                            />
+                            <label
+                              htmlFor="custome-input"
+                              className="w-full flex text-sm justify-center text-slate-800 mr-4 py-2 px-4 rounded-md border-0 font-semibold bg-slate-100 hover:bg-slate-200 cursor-pointer "
+                            >
+                              <UploadIcon />
+                              <span className="mx-3 text-sm ">
+                                Upload 
+                              </span>
+                            </label>
+                          </div>
+                          <label
+                            htmlFor="custome-input"
+                            className="text-slate-500 truncate ..."
+                          >
+                            {selectedImage && (
+                              <span className="block mt-2 text-sm text-gray-500">
+                                Selected image: {selectedImage}
+                              </span>
+                            )}
+                          </label>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                             </div>
                         </div>
                         <Button type="submit" className="w-full">
