@@ -1,7 +1,7 @@
 import { IStudentSignup } from '@/types';
 
-export async function registerStudent(data: IStudentSignup) {
-  const url = 'http://localhost:5000/auth/register/student'; // Replace with your actual API endpoint
+export async function registerStudent(formData: FormData) {
+  const url = 'https://web-based-internship-management-system-2-y60l.onrender.com/auth/register/student'; // Replace with your actual API endpoint
 
   // const response = await fetch(url, {
   //   method: 'POST',
@@ -18,6 +18,6 @@ export async function registerStudent(data: IStudentSignup) {
   // const responseData = await response.json();
   // return responseData; // The response should contain the token
 
-  console.log(data);
+  console.log("This is from the API: ", formData.get('resume'));
 }
 

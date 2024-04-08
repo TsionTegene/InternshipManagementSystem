@@ -4,6 +4,8 @@ import { IStudentSignup } from '@/types';
 
 export const useStudentSignup = ()=> {
   const mutation = useMutation({
-    mutationFn: (data: IStudentSignup) => registerStudent(data),
+    mutationFn: (formData: FormData) => registerStudent(formData),
   })
+
+  return mutation;
 };

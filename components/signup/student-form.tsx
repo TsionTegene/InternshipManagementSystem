@@ -25,7 +25,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FaPlus } from "react-icons/fa";
-import { MoveUpRight, UploadIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, MoveUpRight, UploadIcon } from "lucide-react";
 import { Value } from "@radix-ui/react-select";
 import { useState } from "react";
 import { IStudentSignup } from "@/types";
@@ -39,10 +39,10 @@ const formSchema = z.object({
   middlename: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
-  university: z.string().min(2, {
+  universityName: z.string().min(2, {
     message: "Enter your department.",
   }),
-  department: z.string().min(2, {
+  departmentName: z.string().min(2, {
     message: "Enter your department.",
   }),
   username: z.string().min(2, {
@@ -54,6 +54,9 @@ const formSchema = z.object({
   password: z.string().min(6, {
     message: "Password must be at least 6 characters.",
   }),
+  confirm_password: z.string().min(6, {
+    message: "Rewrite the password.",
+  }),
   phonenumber: z.string().min(2, {
     message: "Enter your phone number.",
   }),
@@ -63,38 +66,53 @@ const formSchema = z.object({
   gpa: z.string().min(1, {
     message: "Enter a valid GPA.",
   }),
-  profilepicture: z.optional(z.string().min(1)), // Optional profile picture field
-});
+  image: z.optional(z.string().min(1)), // Optional profile picture field
+  resume: z.optional(z.string().min(1)),
+}).refine((data) => data.password == data.confirm_password, {
+  message: "Passwords do not match",
+  path: ["confirm_password"],
+})
 
 export function StudentForm() {
-  const { handleSubmit, control, formState } = useForm({
-    resolver: zodResolver(formSchema),
-  });
   const [profileImg, setProfileImg] = useState<File | null>(null);
   const [resume, setResume] = useState<File | null>(null);
 
   const [selectedImage, setSelectedImage] = useState("No Image Chosen");
   const [selectedFile, setSelectedFile] = useState("No File Chosen");
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
 
+  const studentSignup = useStudentSignup();
+
   const onSubmit = async (formValues: any) => {
     const formData = new FormData();
-    // Append form fields directly to formData
     for (const field in formValues) {
       console.log(field, formValues[field]);
       formData.append(field, formValues[field]);
     }
 
-    // Append files only if selected
     if (profileImg) {
       formData.append("profilepic", profileImg);
     }
     if (resume) {
+      console.log("Resume", resume);
       formData.append("resume", resume);
     }
+
+    return studentSignup.mutate(formData);
   };
   return (
     <Card className="mx-auto max-w-3xl my-10 ">
@@ -122,7 +140,6 @@ export function StudentForm() {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="phonenumber"
@@ -178,14 +195,36 @@ export function StudentForm() {
                     </FormItem>
                   )}
                 />
+                {/* Password field with toggle button */}
                 <FormField
                   control={form.control}
                   name="password"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" {...field} />
+                      <FormControl className="relative">
+                        <div className="flex items-center w-full">
+                          <Input
+                            type={showPassword ? "text" : "password"}
+                            {...field}
+                          />
+                          <span
+                            className={`absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer ${
+                              showPassword ? "text-blue-500" : "text-gray-400"
+                            }`}
+                            onClick={togglePasswordVisibility}
+                          >
+                            {/* Use pseudo-element for the icon */}
+                            {showPassword ? (
+                              <EyeIcon className="h4 w-4" aria-hidden="true" />
+                            ) : (
+                              <EyeOffIcon
+                                className="h4 w-4"
+                                aria-hidden="true"
+                              />
+                            )}
+                          </span>
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -205,14 +244,38 @@ export function StudentForm() {
                     </FormItem>
                   )}
                 />
+                {/* Confirm Password field with toggle button */}
                 <FormField
                   control={form.control}
-                  name="password"
+                  name="confirm_password"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Confirm Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" {...field} />
+                      <FormControl className="relative">
+                        <div className="flex items-center w-full">
+                          <Input
+                            type={showConfirmPassword ? "text" : "password"}
+                            {...field}
+                          />
+                          <span
+                            className={`absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer ${
+                              showConfirmPassword
+                                ? "text-blue-500"
+                                : "text-gray-400"
+                            }`}
+                            onClick={toggleConfirmPasswordVisibility}
+                          >
+                            {/* Use pseudo-element for the icon */}
+                            {showConfirmPassword ? (
+                              <EyeIcon className="h4 w-4" aria-hidden="true" />
+                            ) : (
+                              <EyeOffIcon
+                                className="h4 w-4"
+                                aria-hidden="true"
+                              />
+                            )}
+                          </span>
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -237,6 +300,19 @@ export function StudentForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Year</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="gpa"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>GPA</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -290,24 +366,12 @@ export function StudentForm() {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="gpa"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>GPA</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+
                 <FormField
                   control={form.control}
                   name="resume"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="col-start-2">
                       <FormLabel>Resume</FormLabel>
                       <FormControl className="flex flex-col">
                         <div className="">
