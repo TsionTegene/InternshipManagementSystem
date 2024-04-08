@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { z } from "zod";
 import { useStudentSignup } from "@/hooks/useStudentsignup";
 import Link from "next/link";
@@ -28,6 +28,7 @@ import { FaPlus } from "react-icons/fa";
 import { MoveUpRight, UploadIcon } from "lucide-react";
 import { Value } from "@radix-ui/react-select";
 import { useState } from "react";
+import { IStudentSignup } from "@/types";
 
 const initialValue = "Bereket";
 
@@ -66,17 +67,11 @@ const formSchema = z.object({
 });
 
 export function StudentForm() {
-  const [firtname, setFirstname] = useState("");
-  const [middlename, setmiddlename] = useState("");
-  const [phone, setphone] = useState("");
-  const [email, setemail] = useState("");
-  const [username, setusername] = useState("");
-  const [password, setpassword] = useState("");
-  const [university, setuniversity] = useState("");
-  const [department, setdepartment] = useState("");
-  const [year, setyear] = useState("");
-  const [profileimg, setprofileimg] = useState("");
-  const [gpa, setgpa] = useState("");
+  const { handleSubmit, control, formState } = useForm({
+    resolver: zodResolver(formSchema),
+  });
+  const [profileImg, setProfileImg] = useState<File | null>(null);
+  const [resume, setResume] = useState<File | null>(null);
 
   const [selectedImage, setSelectedImage] = useState("No Image Chosen");
   const [selectedFile, setSelectedFile] = useState("No File Chosen");
@@ -85,19 +80,21 @@ export function StudentForm() {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (formValues: any) => {
-    console.log(formValues.firstname);
-    setFirstname(formValues.firstname);
-    setmiddlename(formValues.middlename);
-    setphone(formValues.phonenumber);
-    setemail(formValues.email);
-    setusername(formValues.username);
-    setpassword(formValues.password);
-    setgpa(formValues.gpa);
-    setprofileimg(formValues.profilepicture);
-    setyear(formValues.year);
-    setdepartment(formValues.department);
-    setuniversity(formValues.university);
+  const onSubmit = async (formValues: any) => {
+    const formData = new FormData();
+    // Append form fields directly to formData
+    for (const field in formValues) {
+      console.log(field, formValues[field]);
+      formData.append(field, formValues[field]);
+    }
+
+    // Append files only if selected
+    if (profileImg) {
+      formData.append("profilepic", profileImg);
+    }
+    if (resume) {
+      formData.append("resume", resume);
+    }
   };
   return (
     <Card className="mx-auto max-w-3xl my-10 ">
@@ -194,6 +191,7 @@ export function StudentForm() {
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
                   name="university"
@@ -202,6 +200,19 @@ export function StudentForm() {
                       <FormLabel>University</FormLabel>
                       <FormControl>
                         <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <FormControl>
+                        <Input type="password" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -248,6 +259,7 @@ export function StudentForm() {
                               onChange={(e) => {
                                 if (e.target.files) {
                                   setSelectedImage(e.target.files[0].name);
+                                  setProfileImg(e.target.files[0]);
                                 }
                               }}
                               hidden
@@ -306,6 +318,7 @@ export function StudentForm() {
                               onChange={(e) => {
                                 if (e.target.files) {
                                   setSelectedFile(e.target.files[0].name);
+                                  setResume(e.target.files[0]);
                                 }
                               }}
                               hidden
