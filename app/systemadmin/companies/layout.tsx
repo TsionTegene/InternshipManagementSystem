@@ -4,6 +4,8 @@ import Sidebar from "@/components/sidebar/sidebar";
 import { Button } from "@/components/ui/button";
 import { FaAngleRight } from "react-icons/fa";
 import { useState } from "react";
+import { AlignJustify } from "lucide-react";
+import { IoIosArrowDropleft } from "react-icons/io";
 import { RiMenu4Line } from "react-icons/ri";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
