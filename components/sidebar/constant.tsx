@@ -1,6 +1,6 @@
 
 import { LuLayoutDashboard } from "react-icons/lu";
-import { FaLightbulb, FaTasks, FaUserSecret } from 'react-icons/fa';
+import { FaLightbulb, FaTasks, FaUniversity, FaUserSecret } from 'react-icons/fa';
 import { FaWpforms } from "react-icons/fa6";
 import { TfiUser } from 'react-icons/tfi';
 import { PiStudentFill, PiUserListLight } from "react-icons/pi";
@@ -14,6 +14,7 @@ import { GiTeamIdea } from 'react-icons/gi';
 import { GrInProgress } from 'react-icons/gr';
 import { BsPersonFillGear } from "react-icons/bs";
 import { TbReportAnalytics } from "react-icons/tb";
+import { RiDashboardFill } from "react-icons/ri";
 
 interface ISideBarMenu {
     title: string,
@@ -94,6 +95,35 @@ export const mentor = [
         icon: <FaTasks />
         ,
     },
+
+];
+export const systemadmin = [
+    {
+        title: "Dashboard",
+        path: "/systemadmin/dashboard",
+        icon:<RiDashboardFill />
+,
+    },
+    {
+        title: "Universities",
+        path: "/systemadmin/universities",
+        icon: <FaUniversity />
+        ,
+    },
+{                                                                                                                                                                                                                                                                                                                                                                              
+        title: "Companies",
+        path: "/systemadmin/companies",
+        icon: <FaUniversity />
+
+        ,
+    },
+   {
+        title: "Students",
+        path: "/systemadmin/students",
+        icon: <PiStudentFill />
+
+        ,
+    }, 
 
 ];
 export const collegedean = [
