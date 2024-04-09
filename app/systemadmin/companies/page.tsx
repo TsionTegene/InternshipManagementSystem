@@ -27,7 +27,7 @@ const page = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {/* Rows 1-6 */}
+          
           {[...Array(6)].map((_, index) => (
             <TableRow key={index}>
               <TableCell className="font-medium">{index + 1}</TableCell>
@@ -36,7 +36,7 @@ const page = () => {
               <TableCell>Addis Ababa</TableCell>
               <TableCell>Tech</TableCell>
               <TableCell>
-                {/* Action buttons */}
+              
            <div className="flex justify-center">
             <button className="bg-blue-500 hover:bg-blue-50 text-white font-bold py-1 px-2 rounded mr-2 text-xs">
               Edit
