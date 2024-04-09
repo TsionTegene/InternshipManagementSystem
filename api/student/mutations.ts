@@ -1,23 +1,25 @@
-import { IStudentSignup } from '@/types';
+import axios from 'axios';
 
 export async function registerStudent(formData: FormData) {
-  const url = 'https://web-based-internship-management-system-2-y60l.onrender.com/auth/register/student'; // Replace with your actual API endpoint
+  // const url = 'http://localhost:5000/auth/register/student'; 
 
-  // const response = await fetch(url, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify(data),
-  // });
+  console.log('skills', formData.get('skills'))
+  await fetch('http://localhost:5000/auth/register/student', {
+    method: 'POST',
+    body: formData,
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json() // or .text() if the response is plain text
+    })
+    .then(data => {
+      console.log('Success:', data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 
-  // if (!response.ok) {
-  //   throw new Error(`HTTP error! status: ${response.status}`);
-  // }
-
-  // const responseData = await response.json();
-  // return responseData; // The response should contain the token
-
-  console.log("This is from the API: ", formData.get('resume'));
 }
 
