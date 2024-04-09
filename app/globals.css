@@ -75,3 +75,22 @@
     @apply bg-background text-foreground;
   }
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+::-webkit-scrollbar-thumb-y {
+  opacity: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border-radius: 4px;
+  background-color: #b6b6b6;
+}
+
+:hover::-webkit-scrollbar {
+  opacity: 0;
+}
