@@ -21,8 +21,8 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { FaPlus } from "react-icons/fa";
-import { EyeIcon, EyeOffIcon, MoveUpRight, UploadIcon } from "lucide-react";
+import { FaAddressBook, FaPlus } from "react-icons/fa";
+import { EyeIcon, EyeOffIcon, Image, MoveUpRight, UploadIcon } from "lucide-react";
 import { useState } from "react";
 import { useUniversitySignup } from "@/hooks/useUniversitysignup";
 
@@ -61,12 +61,19 @@ const formSchema = z.object({
         subcity: z.string().min(2),
     }),
     logo: z.optional(z.string().min(1)), // Optional profile picture field
+    image: z.optional(z.string().min(1)), // Optional profile picture field
+
 });
 
 export function UniversityForm() {
 
+    const [adminpic, setAdminpic] = useState<File | null>(null);
+    const [logo, setLogo] = useState<File | null>(null);
+  
     const [selectedImage, setSelectedImage] = useState("No Image Chosen");
-    const [selectedFile, setSelectedFile] = useState("No File Chosen");
+    const [selectedLogo, setSelectedLogo] = useState("No File Chosen");
+
+
 
     const [showPassword, setShowPassword] = useState(false);
     const university = useUniversitySignup();
@@ -80,14 +87,41 @@ export function UniversityForm() {
       };
 
       const onSubmit = async (formValues: any) => {
-        console.log("button clicked ")
         const formData = new FormData();
+
         for (const field in formValues) {
-          console.log(field, formValues[field]);
-          formData.append(field, formValues[field]);
+          // Check if the field is the "address" object
+          if (field === "address") {
+            const addressObj = formValues[field];
+            // Iterate over the keys in the "address" object
+            for (const nestedField in addressObj) {
+              // Append each nested field with its value to the formData
+              formData.append(`address[${nestedField}]`, addressObj[nestedField]);
+            }
+          }else if(field ==="image") {
+            if (adminpic) {
+              formData.append("image", adminpic);
+              
+            }
+
+          } else if(field ==="logo") {
+            if (logo) {
+              formData.append("logo", logo);
+            }
+
+
+          }else {
+            // Append other fields as usual
+            formData.append(field, formValues[field]);
+          }
         }
-    
-    
+
+ 
+          //@ts-ignore
+        for (let pair of formData.entries()) {
+          console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
+        }
+      console.log(formData.get("logo"))
         return university.mutate(formData);
       };
     
@@ -296,13 +330,12 @@ export function UniversityForm() {
                                         </FormItem>
                                     )}
                                 />
-
-                <FormField
+              <FormField
                   control={form.control}
-                  name="logo"
+                  name="image"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Logo</FormLabel>
+                      <FormLabel>Profile Picture</FormLabel>
                       <FormControl className="flex flex-col">
                         <div className="">
                           <div className="flex flex-row items-center">
@@ -312,7 +345,7 @@ export function UniversityForm() {
                               onChange={(e) => {
                                 if (e.target.files) {
                                   setSelectedImage(e.target.files[0].name);
-                                  
+                                  setAdminpic(e.target.files[0]);
                                 }
                               }}
                               hidden
@@ -323,7 +356,7 @@ export function UniversityForm() {
                             >
                               <UploadIcon />
                               <span className="mx-3 text-sm ">
-                                Upload 
+                                Upload Image
                               </span>
                             </label>
                           </div>
@@ -343,6 +376,54 @@ export function UniversityForm() {
                     </FormItem>
                   )}
                 />
+
+                <FormField
+                  control={form.control}
+                  name="logo"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Logo</FormLabel>
+                      <FormControl className="flex flex-col">
+                        <div className="">
+                          <div className="flex flex-row items-center">
+                            <input
+                              type="file"
+                              id="logo-input"
+                              onChange={(e) => {
+                                if (e.target.files) {
+                                  setSelectedLogo(e.target.files[0].name);
+                                  setLogo(e.target.files[0])
+                                }
+                              }}
+                              hidden
+                            />
+                            <label
+                              htmlFor="logo-input"
+                              className="w-full flex text-sm justify-center text-slate-800 mr-4 py-2 px-4 rounded-md border-0 font-semibold bg-slate-100 hover:bg-slate-200 cursor-pointer "
+                            >
+                              <UploadIcon />
+                              <span className="mx-3 text-sm ">
+                                Upload 
+                              </span>
+                            </label>
+                          </div>
+                          <label
+                            htmlFor="logo-input"
+                            className="text-slate-500 truncate ..."
+                          >
+                            {selectedLogo && (
+                              <span className="block mt-2 text-sm text-gray-500">
+                                Selected Logo: {selectedLogo}
+                              </span>
+                            )}
+                          </label>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
                             </div>
                         </div>
                         <Button type="submit" className="w-full">
