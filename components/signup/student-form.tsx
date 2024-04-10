@@ -22,52 +22,64 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOffIcon, MoveUpRight, UploadIcon } from "lucide-react";
 import { useState } from "react";
+import { useUniversityData } from "@/hooks/useFetchUniversity";
+import { useDeparmentData } from "@/hooks/useFetchDepartment";
 
 const initialValue = "Bereket";
 
-const formSchema = z.object({
-  firstName: z.string().min(2, {
-    message: "firstname must be at least 2 characters.",
-  }),
-  middleName: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  universityName: z.string().min(2, {
-    message: "Enter your department.",
-  }),
-  departmentName: z.string().min(2, {
-    message: "Enter your department.",
-  }),
-  userName: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  email: z.string().email({
-    message: "Invalid email address.",
-  }),
-  password: z.string().min(6, {
-    message: "Password must be at least 6 characters.",
-  }),
-  confirm_password: z.string().min(6, {
-    message: "Rewrite the password.",
-  }),
-  phoneNum: z.string().min(2, {
-    message: "Enter your phone number.",
-  }),
-  year: z.string().min(1, {
-    message: "Enter a valid year.",
-  }),
-  gpa: z.string().min(1, {
-    message: "Enter a valid GPA.",
-  }),
-  // image: z.optional(z.string().min(1)), // Optional profile picture field
-  // resume: z.optional(z.string().min(1)),
-}).refine((data) => data.password == data.confirm_password, {
-  message: "Passwords do not match",
-  path: ["confirm_password"],
-})
+const formSchema = z
+  .object({
+    firstName: z.string().min(2, {
+      message: "firstname must be at least 2 characters.",
+    }),
+    middleName: z.string().min(2, {
+      message: "Username must be at least 2 characters.",
+    }),
+    universityName: z.string().min(2, {
+      message: "Enter your department.",
+    }),
+    departmentName: z.string().min(2, {
+      message: "Enter your department.",
+    }),
+    userName: z.string().min(2, {
+      message: "Username must be at least 2 characters.",
+    }),
+    email: z.string().email({
+      message: "Invalid email address.",
+    }),
+    password: z.string().min(6, {
+      message: "Password must be at least 6 characters.",
+    }),
+    confirm_password: z.string().min(6, {
+      message: "Rewrite the password.",
+    }),
+    phoneNum: z.string().min(2, {
+      message: "Enter your phone number.",
+    }),
+    year: z.string().min(1, {
+      message: "Enter a valid year.",
+    }),
+    gpa: z.string().min(1, {
+      message: "Enter a valid GPA.",
+    }),
+    // image: z.optional(z.string().min(1)), // Optional profile picture field
+    // resume: z.optional(z.string().min(1)),
+  })
+  .refine((data) => data.password == data.confirm_password, {
+    message: "Passwords do not match",
+    path: ["confirm_password"],
+  });
 
 export function StudentForm() {
   const [profileImg, setProfileImg] = useState<File | null>(null);
@@ -78,6 +90,9 @@ export function StudentForm() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const { universities, isLoading, isError, error } = useUniversityData();
+  const { departments, isDLoading, isDError, errorD } = useDeparmentData();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -96,13 +111,13 @@ export function StudentForm() {
   const onSubmit = async (formValues: any) => {
     const formData = new FormData();
     for (const field in formValues) {
-      if(field == "confirm_password") continue;
+      if (field == "confirm_password") continue;
       console.log(field, formValues[field]);
       formData.append(field, formValues[field]);
     }
 
     if (profileImg) {
-      console.log("image: ", profileImg)
+      console.log("image: ", profileImg);
       formData.append("image", profileImg);
     }
     if (resume) {
@@ -241,7 +256,27 @@ export function StudentForm() {
                     <FormItem>
                       <FormLabel>University</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <div className="grid gap-3">
+                          {isLoading && <div>Loading...</div>}
+                          {isError && <div>Error Occured</div>}
+                          {!isLoading && !isError && (
+                            <Select {...field} aria-label="Select University">
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select University" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {universities.map((university: any) => (
+                                  <SelectItem
+                                    key={university.id}
+                                    value={university.name}
+                                  >
+                                    {university.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          )}
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -291,7 +326,30 @@ export function StudentForm() {
                     <FormItem>
                       <FormLabel>Department</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <div className="grid gap-3">
+                          {isDLoading && <div>Loading...</div>}
+                          {isDError && <div>Error Occured</div>}
+                          {!isDLoading && !isDError && (
+                            <Select
+                              {...field}
+                              aria-label="Select Department"
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select Department" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {departments.map((department: any) => (
+                                  <SelectItem
+                                    key={department.id}
+                                    value={department.name}
+                                  >
+                                    {department.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          )}
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -431,3 +489,4 @@ export function StudentForm() {
     </Card>
   );
 }
+

@@ -1,5 +1,5 @@
-export async function fetchUniversity () {
-    const url = "http://localhost:5000/university"
+export async function fetchDepartment() {
+    const url = "http://localhost:5000/department"
 
     const response = await fetch(url, {
         method: "GET",
@@ -9,5 +9,4 @@ export async function fetchUniversity () {
     })
 
     return response.json()
-
 }
