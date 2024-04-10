@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Home from "./app";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Login } from "@/components/login/login";
 
 export default function App() {
 
@@ -10,6 +11,7 @@ export default function App() {
 
   return(
          <Home/>
+        // <Login/>
        
     )
 

@@ -31,7 +31,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
   ];
 
   return (
-    <div className="sidebar bg-gray-200 p-4 flex flex-col h-full">
+    <div className="sidebar bg-gray-200 dark:bg-slate-600 p-4 flex flex-col h-full">
         <div className={`ml-3 py-4`}>
                                 <Image
                                     src={"/images/logo.png"}

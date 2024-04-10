@@ -24,7 +24,7 @@ import { MdOutlineLocalPostOffice } from "react-icons/md";
 import { RiFacebookCircleLine } from "react-icons/ri";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+// import Modal from '@mui/material/Modal';
 import { useState } from "react";
 import {
   DropdownMenu,
@@ -67,7 +67,8 @@ import {
 import { FaX } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import '@/app/signup/page'
-
+import Modal from  "@/modals/loginmodal"
+import { Login } from "@/components/login/login";
 
 export default function Home() {
 
@@ -77,12 +78,21 @@ export default function Home() {
   const [loginOpen, setLoginOpen] = useState(false);
   const handleLoginOpen = () => setLoginOpen(true);
   const handleLoginClose = () => setLoginOpen(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
   const Router = useRouter();
   const items = [
     { title: 'For Business', description: 'Improve efficiency, reduce administrative burden, and gain valuable insights into your Internship program.', icon: <IoMdBusiness className="icon" /> },
     { title: 'For Student', description: 'Enhance your internship experience with clear communication channels and opportunities for feedback and growth.', icon: <PiStudentBold className="icon" /> },
     { title: 'For Educators', description: 'Collaborate effectively with businesses to place students in meaningful internships and track their progress towards learning objectives.', icon: <FaUniversity className="icon" /> },
   ];
+
+  const closeModal = () => {
+    setLoginOpen(false);
+  };
 
   return (
 
@@ -102,7 +112,7 @@ export default function Home() {
         </div>
       </nav>
 
-      {loginOpen &&
+      {/* {loginOpen &&
         <div className="flex items-center">
           <Card className="w-[480px] ml-28 rounded-3xl" style={{ background: 'linear-gradient(to top, rgb(154, 208, 194), rgb(23, 107, 135))' }}>
             <CardHeader>
@@ -170,13 +180,17 @@ export default function Home() {
           </div>
         </div>
 
-      }
+      } */}
 
-    
+      <Modal isOpen={loginOpen} onClose={closeModal} >
+
+        <Login />
+      
+      </Modal>
 
 
 
-      {!loginOpen &&
+     
         <div>
           <div className="flex flex-row">
 
@@ -201,7 +215,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      }
+      
 
       <div className="footer bg-gray-800 text-white p-6 mt-10 rounded-3xl">
         <div className="container mx-auto flex flex-col md:flex-row justify-between">

@@ -8,6 +8,8 @@ import Message from './Message';
 import { Button } from '../ui/button';
 import './style.css';
 import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
+import ChatInput from './input';
 
 const initialMessages = [
   {
@@ -72,9 +74,11 @@ const Chat = () => {
       </div>
       <div className='chatInput flex gap-2 p-2'>
         <div className='input flex flex-col justify-end w-full'>
-          <Input placeholder='Type Here...' value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+          {/* <Input placeholder='Type Here...' value={inputValue} onChange={(e) => setInputValue(e.target.value)} /> */}
+          <ChatInput  />
+
         </div>
-        <Button onClick={handleSendMessage}>Send</Button>
+        {/* <Button onClick={handleSendMessage}>Send</Button> */}
       </div>
     </div>
   );
