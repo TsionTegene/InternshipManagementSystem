@@ -23,13 +23,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { FaPlus } from "react-icons/fa";
 import { EyeIcon, EyeOffIcon, MoveUpRight, UploadIcon } from "lucide-react";
-import { Value } from "@radix-ui/react-select";
 import { useState } from "react";
-import { IStudentSignup } from "@/types";
-import axios from "axios";
 
 const initialValue = "Bereket";
 
@@ -404,7 +399,7 @@ export function StudentForm() {
                             </label>
                           </div>
                           <label
-                            htmlFor="custome-input"
+                            htmlFor="file-custome-input"
                             className="text-slate-500 truncate ..."
                           >
                             {selectedFile && (

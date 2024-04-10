@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 export async function registerStudent(formData: FormData) {
-  // const url = 'http://localhost:5000/auth/register/student'; 
+  const url = 'https://web-based-internship-management-system-3.onrender.com/auth/register/student'; 
 
   console.log('skills', formData.get('skills'))
-  await fetch('http://localhost:5000/auth/register/student', {
+  await fetch(url, {
     method: 'POST',
     body: formData,
   })
