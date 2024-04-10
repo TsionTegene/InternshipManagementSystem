@@ -59,10 +59,12 @@ const formSchema = z
     }),
     industryType: z.string(),
     address: z.object({
-      city: z.string(),
-      region: z.string(),
-      subcity: z.string(),
+      city: z.string().min(2),
+      region: z.string().min(2),
+      subcity: z.string().min(2),
     }),
+    logo: z.optional(z.string().min(1)), // Optional profile picture field
+    image: z.optional(z.string().min(1)), // Optional profile picture field
   })
   .refine((data) => data.HRPassword == data.confirm_password, {
     message: "Passwords do not match",
@@ -92,33 +94,39 @@ export function CompanyForm() {
   });
 
   const companySignup = useRegisterCompany();
-  const onSubmit = (formValues: any) => {
-    const formData = new FormData();
-    for (const field in formValues) {
-      if (field == "confirm_password") continue;
-      console.log(field, formValues[field]);
-      formData.append(field, formValues[field]);
+    const onSubmit = async (formValues: any) => {
+      const formData = new FormData();
 
-      if (field == "address") {
-        const addressObj = formValues[field];
-        for (const key in addressObj) {
-          formData.append(`address[${key}]`, addressObj[key]);
+      for (const field in formValues) {
+        // Check if the field is the "address" object
+        if (field === "address") {
+          const addressObj = formValues[field];
+          // Iterate over the keys in the "address" object
+          for (const nestedField in addressObj) {
+            // Append each nested field with its value to the formData
+            formData.append(`address[${nestedField}]`, addressObj[nestedField]);
+          }
+        } else if (field === "image") {
+          if (profileImg) {
+            formData.append("image", profileImg);
+          }
+        } else if (field === "logoImg") {
+          if (logoImg) {
+            formData.append("logo", logoImg);
+          }
+        } else {
+          // Append other fields as usual
+          formData.append(field, formValues[field]);
         }
       }
-    }
-    if (profileImg) {
-      console.log("image: ", profileImg);
-      formData.append("image", profileImg);
-    }
-    if (logoImg) {
-      console.log("Logo", logoImg);
-      formData.append("logo", logoImg);
-    }
 
-    const tokens = companySignup.mutate(formData);
-    console.log("tokens: ", tokens);
-    return tokens;
-  };
+      //@ts-ignore
+      for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
+      }
+      console.log(formData.get("logo"));
+      return companySignup.mutate(formData);
+    };
 
   return (
     <Card className="mx-auto max-w-lg my-10">
