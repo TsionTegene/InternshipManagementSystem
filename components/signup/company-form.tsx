@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -94,20 +93,18 @@ export function CompanyForm() {
 
   const companySignup = useRegisterCompany();
   const onSubmit = (formValues: any) => {
-
     const formData = new FormData();
     for (const field in formValues) {
       if (field == "confirm_password") continue;
       console.log(field, formValues[field]);
       formData.append(field, formValues[field]);
 
-    if (field == "address") {
+      if (field == "address") {
         const addressObj = formValues[field];
-        for(const key in addressObj){
-            formData.append(`address[${key}]`, addressObj[key]);
+        for (const key in addressObj) {
+          formData.append(`address[${key}]`, addressObj[key]);
         }
-    }
-
+      }
     }
     if (profileImg) {
       console.log("image: ", profileImg);
@@ -117,7 +114,7 @@ export function CompanyForm() {
       console.log("Logo", logoImg);
       formData.append("logo", logoImg);
     }
-    
+
     const tokens = companySignup.mutate(formData);
     console.log("tokens: ", tokens);
     return tokens;
