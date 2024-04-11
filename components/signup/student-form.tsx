@@ -36,6 +36,7 @@ import {
   EyeIcon,
   EyeOffIcon,
   MoveUpRight,
+  Phone,
   Plus,
   UploadIcon,
   X,
@@ -168,7 +169,7 @@ export function StudentForm() {
     // return tokens;
   };
   return (
-    <Card className="mx-auto max-w-3xl my-10 ">
+    <Card className="mx-auto max-w-4xl my-10 ">
       <CardHeader>
         <CardTitle className="text-xl">Sign Up</CardTitle>
         <CardDescription>
@@ -179,7 +180,7 @@ export function StudentForm() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid gap-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-5">
                 <FormField
                   control={form.control}
                   name="firstName"
@@ -187,7 +188,7 @@ export function StudentForm() {
                     <FormItem>
                       <FormLabel>First Name</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input placeholder="First Name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -198,14 +199,24 @@ export function StudentForm() {
                   name="phoneNum"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
+                      <FormLabel className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Phone Number
+                      </FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <div className="flex items-center gap-4">
+                        <Phone />
+                          <Input
+                            {...field}
+                            className="text-gray-500 text-sm rounded-lg block pl-8 p-2.5 focus:text-gray-900 focus:outline-none focus:ring-blue-500 focus:ring-offset-2"
+                            placeholder="(09)-123-45-678"
+                          />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
                   name="middleName"
@@ -213,7 +224,7 @@ export function StudentForm() {
                     <FormItem>
                       <FormLabel>Middle Name</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input placeholder="Middle Name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -226,7 +237,7 @@ export function StudentForm() {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input type="email" placeholder="Email" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -239,7 +250,7 @@ export function StudentForm() {
                     <FormItem>
                       <FormLabel>User Name</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input placeholder="Username" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -254,7 +265,7 @@ export function StudentForm() {
                       <FormLabel>Password</FormLabel>
                       <FormControl className="relative">
                         <div className="flex items-center w-full">
-                          <Input
+                          <Input placeholder="Password"
                             type={showPassword ? "text" : "password"}
                             {...field}
                           />
@@ -264,7 +275,6 @@ export function StudentForm() {
                             }`}
                             onClick={togglePasswordVisibility}
                           >
-                            {/* Use pseudo-element for the icon */}
                             {showPassword ? (
                               <EyeIcon className="h4 w-4" aria-hidden="true" />
                             ) : (
@@ -300,7 +310,6 @@ export function StudentForm() {
                             >
                               <SelectTrigger>
                                 <SelectValue placeholder="Select University" />{" "}
-                                {/* here */}
                               </SelectTrigger>
                               <SelectContent>
                                 {universities.map((university: any) => (
@@ -329,7 +338,7 @@ export function StudentForm() {
                       <FormLabel>Confirm Password</FormLabel>
                       <FormControl className="relative">
                         <div className="flex items-center w-full">
-                          <Input
+                          <Input placeholder="Confirm Password"
                             type={showConfirmPassword ? "text" : "password"}
                             {...field}
                           />
@@ -401,7 +410,22 @@ export function StudentForm() {
                     <FormItem>
                       <FormLabel>Year</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Select
+                          onValueChange={(value) => {
+                            field.onChange(value);
+                          }}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Year" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value={"1"}>1</SelectItem>
+                            <SelectItem value={"2"}>2</SelectItem>
+                            <SelectItem value={"3"}>3</SelectItem>
+                            <SelectItem value={"4"}>4</SelectItem>
+                            <SelectItem value={"5"}>5</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -414,7 +438,7 @@ export function StudentForm() {
                     <FormItem>
                       <FormLabel>GPA</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input placeholder="GPA" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -474,34 +498,33 @@ export function StudentForm() {
                       <div className="flex">
                         <FormLabel className="mr-2 mt-2">Skills</FormLabel>
                         <div className="flex flex-wrap">
-                          {skills.map(
-                            (skill, index) => (
-                              (
-                                <div
-                                  key={index}
-                                  className="flex m-2 p-2 gap-1.5 rounded-md bg-slate-800 hover:bg-slate-600"
-                                >
-                                  <FormLabel className="font-bold">
-                                    {skill}
-                                  </FormLabel>
-                                  <X
-                                    size={14}
-                                    className="mt-0.5 hover:cursor-pointer"
-                                    onClick={deleteSkill(index)}
-                                  />
-                                </div>
-                              )
-                            )
-                          )}
+                          {skills.map((skill, index) => (
+                            <div
+                              key={index}
+                              className="flex m-2 p-2 gap-1.5 rounded-md bg-slate-800 hover:bg-slate-600"
+                            >
+                              <FormLabel className="font-bold">
+                                {skill}
+                              </FormLabel>
+                              <X
+                                size={14}
+                                className="mt-0.5 hover:cursor-pointer"
+                                onClick={deleteSkill(index)}
+                              />
+                            </div>
+                          ))}
                         </div>
                       </div>
                       <FormControl>
                         <div className="flex gap-2">
-                          <Input id="skillsArray" />
+                          <Input
+                            id="skillsArray"
+                            placeholder="Add your skills here"
+                          />
                           <div className="border-2 max-h-fit rounded-md">
                             <Plus
                               onClick={skillsInput}
-                              size={36}
+                              size={34}
                               strokeWidth={0.5}
                               color="#bdbdbd"
                               className="hover:bg-slate-800 hover:cursor-pointer"

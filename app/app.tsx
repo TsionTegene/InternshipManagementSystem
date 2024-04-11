@@ -95,7 +95,6 @@ export default function Home() {
   };
 
   return (
-
     <div className="landing">
       <nav className="flex justify-between">
         <div className={`ml-5 py-4`}>
@@ -103,137 +102,97 @@ export default function Home() {
             src={"/images/logo.png"}
             width={140}
             height={140}
-            className="size-13" alt={""} />
+            className="size-13"
+            alt={""}
+          />
         </div>
         <div className="flex gap-5 ml-auto pl-5 p-3 my-2  rounded-xl items-center ">
-          <Link className={buttonVariants({ variant: "ghost" })} href={"#"}>About Us</Link>
-          <Button variant="outline" className="btn" onClick={handleLoginOpen}>Login</Button>
-          <Link href={"/signup"} className="btn p-2">sign up</Link>
+          <Link className={buttonVariants({ variant: "ghost" })} href={"#"}>
+            About Us
+          </Link>
+          <Link href={"/login"} className="btn p-2">
+              Login
+          </Link>
+          <Link href={"/signup"} className="btn p-2">
+            sign up
+          </Link>
         </div>
       </nav>
-
-      {/* {loginOpen &&
-        <div className="flex items-center">
-          <Card className="w-[480px] ml-28 rounded-3xl" style={{ background: 'linear-gradient(to top, rgb(154, 208, 194), rgb(23, 107, 135))' }}>
-            <CardHeader>
-              <div>
-
-                <FaX onClick={handleLoginClose} style={{ float: "right" }} className='text-white' />
-              </div>
-              <div className="flex flex-col items-center">
-                <CardTitle className="text-white">Login</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <form>
-                <div className="flex w-full items-center gap-12">
-                  <div className="ml-10">
-
-                    <div className="flex flex-col space-y-1.5 w-80 mb-4">
-                      <Label htmlFor="name" className="text-white text-md">User Name:</Label>
-                      <Input id="name" placeholder="User Name" />
-                    </div>
-
-                    <div className="flex flex-col space-y-1.5 w-80 mb-4">
-                      <Label htmlFor="name" className="text-white text-md">Password:</Label>
-                      <Input id="name" placeholder="Password" type="password" />
-                    </div>
-                    <div className="flex justify-between">
-
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="remember" />
-                        <label
-                          htmlFor="remember"
-                          className="text-sm text-blue-950 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Remember Me
-                        </label>
-                      </div>
-                      <div>
-                        <Link href="#" className="text-sm text-blue-600" >Forgot Password?</Link>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </form>
-            </CardContent>
-            <CardFooter className="flex flex-col justify-center items-center">
-              <Button className="w-56 rounded-3xl mr-2">
-                Login
-              </Button>
-              <div className="flex gap-2 mt-3">
-                <h6 className="text-sm text-blue-950">Not Registered Yet?</h6>
-                <Link href="#" className="text-sm text-blue-600" >Create Account</Link>
-                <LuArrowUpRight className="text-blue-600 -ml-2 mt-0.5" />
-              </div>
-            </CardFooter>
-          </Card>
+      <div>
+        <div className="flex flex-row">
+          <div className="colone">
+            <p className="title">Web Based Internship Management System</p>
+            <p className="text">
+              Empower your Internship program with web based Internship
+              management system.
+            </p>
+            <p className="mb-8">
+              Streamline workflows, improve communication and track intern
+              status with our all-in-one platfom.
+            </p>
+            <Button variant="outline" className="btn">
+              Get Started
+            </Button>
+          </div>
           <div className="coltwo">
             <Image
               src={"/images/landing.png"}
               alt={"landing"}
               width={480}
               height={500}
-              className="ml-10"
             />
           </div>
         </div>
-
-      } */}
-
-      <Modal isOpen={loginOpen} onClose={closeModal} >
-
-        <Login />
-      
-      </Modal>
-
-
-
-     
-        <div>
-          <div className="flex flex-row">
-
-            <div className="colone">
-              <p className="title">Web Based Internship Management System</p>
-              <p className="text">Empower your Internship program with web based Internship management system.</p>
-              <p className="mb-8">Streamline workflows, improve communication and track intern status with our all-in-one platfom.</p>
-              <Button variant="outline" className="btn">Get Started</Button>
-            </div>
-            <div className="coltwo">
-              <Image
-                src={"/images/landing.png"}
-                alt={"landing"}
-                width={480}
-                height={500}
-              />
-            </div>
-          </div>
-          <div className="flex ml-15 justify-evenly">
-            {items.map((item, index) => (
-              <Cards key={index} title={item.title} description={item.description} icon={item.icon} />
-            ))}
-          </div>
+        <div className="flex ml-15 justify-evenly">
+          {items.map((item, index) => (
+            <Cards
+              key={index}
+              title={item.title}
+              description={item.description}
+              icon={item.icon}
+            />
+          ))}
         </div>
-      
+      </div>
 
       <div className="footer bg-gray-800 text-white p-6 mt-10 rounded-3xl">
         <div className="container mx-auto flex flex-col md:flex-row justify-between">
-
           <div className="w-full md:w-1/4 mb-4 md:mb-0">
             <h6 className="font-bold ">About Us</h6>
-            <p className="mt-2 text-white text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc congue euismod facilisis. Sed mollis, orci non vestibulum aliquet, felis sem placerat ex, vitae pulvinar turpis dolor at enim.</p>
+            <p className="mt-2 text-white text-sm">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+              congue euismod facilisis. Sed mollis, orci non vestibulum aliquet,
+              felis sem placerat ex, vitae pulvinar turpis dolor at enim.
+            </p>
           </div>
 
           <div className="w-full md:w-1/4 mb-4 md:mb-0">
             <h6 className="font-bold">Services</h6>
             <ul className="mt-2">
-              <li className="text-white flex"><FaArrowRight className="mr-1 " /><p className="text-white text-10 text-sm">Internship Application</p></li>
-              <li className="text-white flex"><FaArrowRight className="mr-1" /><p className="text-white text-10 text-sm">student evaluation</p></li>
-              <li className="text-white flex"><FaArrowRight className="mr-1" /><p className="text-white text-10 text-sm">feedback and rating</p></li>
-              <li className="text-white flex"><FaArrowRight className="mr-1" /><p className="text-white text-10 text-sm">internship posting</p></li>
-              <li className="text-white flex"><FaArrowRight className="mr-1" /><p className="text-white text-10 text-sm">progress tracking</p></li>
-
+              <li className="text-white flex">
+                <FaArrowRight className="mr-1 " />
+                <p className="text-white text-10 text-sm">
+                  Internship Application
+                </p>
+              </li>
+              <li className="text-white flex">
+                <FaArrowRight className="mr-1" />
+                <p className="text-white text-10 text-sm">student evaluation</p>
+              </li>
+              <li className="text-white flex">
+                <FaArrowRight className="mr-1" />
+                <p className="text-white text-10 text-sm">
+                  feedback and rating
+                </p>
+              </li>
+              <li className="text-white flex">
+                <FaArrowRight className="mr-1" />
+                <p className="text-white text-10 text-sm">internship posting</p>
+              </li>
+              <li className="text-white flex">
+                <FaArrowRight className="mr-1" />
+                <p className="text-white text-10 text-sm">progress tracking</p>
+              </li>
             </ul>
           </div>
 
@@ -258,16 +217,16 @@ export default function Home() {
 
         <div className="flex flex-col items-center mt-4 md:mt-0">
           <div className="border-b-2 border-white mb-2 w-6/12 mt-5"></div>
-          <p className="mb-2 text-sm text-white">&copy; 2024 Copyright: IMS.com</p>
+          <p className="mb-2 text-sm text-white">
+            &copy; 2024 Copyright: IMS.com
+          </p>
           <div className="flex space-x-4">
             <RiFacebookCircleLine className=" size-5" />
             <FaGithub className=" size-5" />
             <IoLogoGoogle className=" size-5" />
           </div>
         </div>
-
       </div>
     </div>
-
-  )
+  );
 }
