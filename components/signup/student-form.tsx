@@ -35,6 +35,8 @@ import { EyeIcon, EyeOffIcon, MoveUpRight, UploadIcon } from "lucide-react";
 import { useState } from "react";
 import { useUniversityData } from "@/hooks/useFetchUniversity";
 import { useDeparmentData } from "@/hooks/useFetchDepartment";
+import { Textarea } from "@/components/ui/textarea";
+
 
 const initialValue = "Bereket";
 
@@ -85,6 +87,7 @@ export function StudentForm() {
   const [profileImg, setProfileImg] = useState<File | null>(null);
   const [resume, setResume] = useState<File | null>(null);
 
+  const [selectedUniversity, setSelectedUniversity] = useState("");
   const [selectedImage, setSelectedImage] = useState("No Image Chosen");
   const [selectedFile, setSelectedFile] = useState("No File Chosen");
 
@@ -93,7 +96,7 @@ export function StudentForm() {
 
   const { universities, isLoading, isError, error } = useUniversityData();
   const { departments, isDLoading, isDError, errorD } = useDeparmentData();
-
+  
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -114,6 +117,15 @@ export function StudentForm() {
       if (field == "confirm_password") continue;
       console.log(field, formValues[field]);
       formData.append(field, formValues[field]);
+
+      if (field == "skills") {
+        console.log("skills: ", formValues[field]);
+        // const skillsArray = formValues[field].split(",");
+        // skillsArray.forEach((skill: string) => {
+        //   console.log("skill: ", skill);
+        //   formData.append("skills", skill);
+        // });
+      }
     }
 
     if (profileImg) {
@@ -125,15 +137,9 @@ export function StudentForm() {
       formData.append("resume", resume);
     }
 
-    const skillsArray = ["JavaScript", "NestJS"];
-
-    skillsArray.forEach((skill) => {
-      formData.append("skills", skill);
-    });
-
-    const tokens = studentSignup.mutate(formData);
-    console.log("tokens: ", tokens);
-    return tokens;
+    // const tokens = studentSignup.mutate(formData);
+    // console.log("tokens: ", tokens);
+    // return tokens;
   };
   return (
     <Card className="mx-auto max-w-3xl my-10 ">
@@ -260,9 +266,15 @@ export function StudentForm() {
                           {isLoading && <div>Loading...</div>}
                           {isError && <div>Error Occured</div>}
                           {!isLoading && !isError && (
-                            <Select {...field} aria-label="Select University">
+                            <Select
+                              onValueChange={(value) => {
+                                field.onChange(value);
+                              }}
+                              aria-label="Select University"
+                            >
                               <SelectTrigger>
-                                <SelectValue placeholder="Select University" />
+                                <SelectValue placeholder="Select University" />{" "}
+                                {/* here */}
                               </SelectTrigger>
                               <SelectContent>
                                 {universities.map((university: any) => (
@@ -326,7 +338,7 @@ export function StudentForm() {
                     <FormItem>
                       <FormLabel>Department</FormLabel>
                       <FormControl>
-                        <div className="grid gap-3">
+                        {/* <div className="grid gap-3">
                           {isDLoading && <div>Loading...</div>}
                           {isDError && <div>Error Occured</div>}
                           {!isDLoading && !isDError && (
@@ -349,7 +361,8 @@ export function StudentForm() {
                               </SelectContent>
                             </Select>
                           )}
-                        </div>
+                        </div> */}
+                        <Input {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -427,7 +440,31 @@ export function StudentForm() {
                     </FormItem>
                   )}
                 />
-
+                <FormField
+                  control={form.control}
+                  name="skills"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Skills</FormLabel>
+                      <FormControl>
+                        <Textarea
+                        // onChange={(e) => {
+                        //   console.log(e.target.value);
+                        //   field.onChange(e.target.value.trim());
+                        // }}
+                        // onBlur={(e) => {
+                        //   console.log(e.target.value);
+                        //   // field.onBlur(e.target.value.trim());                        
+                        // }}
+                        
+                        // { ...field }
+                          placeholder="e.g., Programming, Communication, Teamwork"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="resume"
