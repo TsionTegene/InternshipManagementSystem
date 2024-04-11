@@ -31,12 +31,21 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { EyeIcon, EyeOffIcon, MoveUpRight, UploadIcon } from "lucide-react";
+import {
+  CircleFadingPlus,
+  EyeIcon,
+  EyeOffIcon,
+  MoveUpRight,
+  Plus,
+  UploadIcon,
+  X,
+} from "lucide-react";
 import { useState } from "react";
 import { useUniversityData } from "@/hooks/useFetchUniversity";
 import { useDeparmentData } from "@/hooks/useFetchDepartment";
 import { Textarea } from "@/components/ui/textarea";
-
+import { TbSquareRoundedPlus } from "react-icons/tb";
+import { PiDeviceTabletSpeakerFill } from "react-icons/pi";
 
 const initialValue = "Bereket";
 
@@ -86,6 +95,7 @@ const formSchema = z
 export function StudentForm() {
   const [profileImg, setProfileImg] = useState<File | null>(null);
   const [resume, setResume] = useState<File | null>(null);
+  const [skills, setSkills] = useState<string[]>([]);
 
   const [selectedUniversity, setSelectedUniversity] = useState("");
   const [selectedImage, setSelectedImage] = useState("No Image Chosen");
@@ -96,7 +106,27 @@ export function StudentForm() {
 
   const { universities, isLoading, isError, error } = useUniversityData();
   const { departments, isDLoading, isDError, errorD } = useDeparmentData();
-  
+
+  const skillsInput = () => {
+    const input = document.getElementById("skillsArray") as HTMLInputElement;
+    input.value = input.value.trim();
+    if (input.value == "") return;
+
+    if (skills.includes(input.value)) {
+      input.value = "";
+      return;
+    }
+    setSkills([...skills, input.value]);
+    input.value = "";
+  };
+
+  const deleteSkill = (index: number) => {
+    return () => {
+      const newSkills = skills.filter((_, i) => i !== index);
+      setSkills(newSkills);
+    };
+  };
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -117,17 +147,13 @@ export function StudentForm() {
       if (field == "confirm_password") continue;
       console.log(field, formValues[field]);
       formData.append(field, formValues[field]);
-
-      if (field == "skills") {
-        console.log("skills: ", formValues[field]);
-        // const skillsArray = formValues[field].split(",");
-        // skillsArray.forEach((skill: string) => {
-        //   console.log("skill: ", skill);
-        //   formData.append("skills", skill);
-        // });
-      }
     }
 
+    skills.forEach((skill: string) => {
+      console.log("skill: ", skill);
+      formData.append("skills", skill);
+    });
+    
     if (profileImg) {
       console.log("image: ", profileImg);
       formData.append("image", profileImg);
@@ -442,26 +468,47 @@ export function StudentForm() {
                 />
                 <FormField
                   control={form.control}
-                  name="skills"
+                  name="Skills"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Skills</FormLabel>
+                      <div className="flex">
+                        <FormLabel className="mr-2 mt-2">Skills</FormLabel>
+                        <div className="flex flex-wrap">
+                          {skills.map(
+                            (skill, index) => (
+                              (
+                                <div
+                                  key={index}
+                                  className="flex m-2 p-2 gap-1.5 rounded-md bg-slate-800 hover:bg-slate-600"
+                                >
+                                  <FormLabel className="font-bold">
+                                    {skill}
+                                  </FormLabel>
+                                  <X
+                                    size={14}
+                                    className="mt-0.5 hover:cursor-pointer"
+                                    onClick={deleteSkill(index)}
+                                  />
+                                </div>
+                              )
+                            )
+                          )}
+                        </div>
+                      </div>
                       <FormControl>
-                        <Textarea
-                        // onChange={(e) => {
-                        //   console.log(e.target.value);
-                        //   field.onChange(e.target.value.trim());
-                        // }}
-                        // onBlur={(e) => {
-                        //   console.log(e.target.value);
-                        //   // field.onBlur(e.target.value.trim());                        
-                        // }}
-                        
-                        // { ...field }
-                          placeholder="e.g., Programming, Communication, Teamwork"
-                        />
+                        <div className="flex gap-2">
+                          <Input id="skillsArray" />
+                          <div className="border-2 max-h-fit rounded-md">
+                            <Plus
+                              onClick={skillsInput}
+                              size={36}
+                              strokeWidth={0.5}
+                              color="#bdbdbd"
+                              className="hover:bg-slate-800 hover:cursor-pointer"
+                            />
+                          </div>
+                        </div>
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -526,4 +573,3 @@ export function StudentForm() {
     </Card>
   );
 }
-
