@@ -1,122 +1,55 @@
-// In the parent component of createForm, make sure to use the "use client" directive
-"use client";
+'use client'
+import React, { useState } from 'react';
+import Card from '@/components/card/Cards';
+import { Input } from '@/components/ui/input';
+import Link from 'next/link';
 
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+const Page = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredOpportunities, setFilteredOpportunities] = useState([]);
 
-export default function createForm() {
-  const router = useRouter();
+  const opportunities = [
+    { id: 1, title: 'lorem ipsum 1', imageUrl: '/images/landing2.png', startdate: '14/07/2024', enddate: '11/09/2024', address: 'Hawassa' },
+    { id: 2, title: 'lorem ipsum 2', imageUrl: '/images/landing2.png', startdate: '22/01/2024', enddate: '24/05/2024', address: 'Addis Abeba' },
+    { id: 3, title: 'lorem ipsum 3', imageUrl: '/images/landing2.png', startdate: '00/00/00', enddate: '00/00/00', address: 'Addis Abeba' },
+    { id: 4, title: 'lorem ipsum 4', imageUrl: '/images/landing2.png', startdate: '00/00/00', enddate: '00/00/00', address: 'Addis Abeba' },
+    { id: 5, title: 'lorem ipsum 5', imageUrl: '/images/landing2.png', startdate: '00/00/00', enddate: '00/00/00', address: 'Addis Abeba' },
+    { id: 6, title: 'lorem ipsum 6', imageUrl: '/images/landing2.png', startdate: '00/00/00', enddate: '00/00/00', address: 'Addis Abeba' }
+  ];
 
-  const [firstName, setFirstName] = useState('');
-  const [priority, setPriority] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  // Function to handle search query change
+  const handleSearchChange = (e) => {
+    const { value } = e.target;
+    setSearchQuery(value);
+    // Filter opportunities based on search query
+    const filtered = opportunities.filter(opportunity => opportunity.title.toLowerCase().includes(value.toLowerCase()));
+    setFilteredOpportunities(filtered);
+  };
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-    // Add your form submission logic here
-    console.log("Form submitted");
+  // Render either filtered opportunities or all opportunities
+  const renderOpportunities = () => {
+    const dataToRender = searchQuery ? filteredOpportunities : opportunities;
+    return dataToRender.map((opportunity) => (
+      <Link key={opportunity.id} href={`/student/internshipopportunities/${opportunity.id}`} onClick={() => console.log('Navigating to detail:', opportunity.id)}>
+        <Card
+          title={opportunity.title}
+          imageUrl={opportunity.imageUrl}
+          startdate={opportunity.startdate}
+          enddate={opportunity.enddate}
+          address={opportunity.address}
+        />
+      </Link>
+    ));
   };
 
   return (
-    <div className="w-1/2 mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Internship Application Form</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-6">
-          <label className="block mb-2 font-bold">1. Name</label>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block mb-2">First Name</label>
-              <input
-                required
-                type="text"
-                onChange={(e) => setFirstName(e.target.value)}
-                value={firstName}
-                className="border border-gray-500 rounded-md px-2 py-1 w-full"
-                placeholder="Enter your first name"
-              />
-            </div>
-            <div>
-              <label className="block mb-2">Last Name</label>
-              <input
-                required
-                type="text"
-                onChange={(e) => setFirstName(e.target.value)}
-                value={firstName}
-                className="border border-gray-500 rounded-md px-2 py-1 w-full"
-                placeholder="Enter your last name"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="mb-6">
-          <label className="block mb-2 font-bold">2. Address</label>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block mb-2">Region</label>
-              <input
-                required
-                type="text"
-                onChange={(e) => setFirstName(e.target.value)}
-                value={firstName}
-                className="border border-gray-500 rounded-md px-2 py-1 w-full"
-                placeholder="Enter your region"
-              />
-            </div>
-            <div>
-              <label className="block mb-2">City</label>
-              <input
-                required
-                type="text"
-                onChange={(e) => setFirstName(e.target.value)}
-                value={firstName}
-                className="border border-gray-500 rounded-md px-2 py-1 w-full"
-                placeholder="Enter the city you live in"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="mb-6">
-          <label className="block mb-2 font-bold">3. Phone Number</label>
-          <div className="flex">
-            <span className="block mb-2 font-bold">+251</span>
-            <input
-              required
-              type="text"
-              onChange={(e) => setFirstName(e.target.value)}
-              value={firstName}
-              className="border border-gray-500 rounded-md px-2 py-1 w-full"
-              placeholder="Enter your phone Number"
-            />
-          </div>
-        </div>
-        <div className="mb-6">
-          <label className="block mb-2 font-bold">4. College Name</label>
-          <input
-            required
-            type="text"
-            onChange={(e) => setFirstName(e.target.value)}
-            value={firstName}
-            className="border border-gray-500 rounded-md px-2 py-1 w-full"
-            placeholder="Enter your college name"
-          />
-        </div>
-        <div className="mb-6">
-          <label className="block mb-2 font-bold">5. Resume/CV</label>
-          <input
-            type="file"
-            accept=".pdf,.doc,.docx"
-            className="border border-gray-500 rounded-md px-2 py-1"
-          />
-        </div>
-        <div className="text-center">
-          <button
-            type="submit"
-            className="btn-primary px-6 py-2 rounded-lg text-white font-semibold hover:bg-blue-700"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
+    <div>
+      <Input className='flex rounded-full w-10/12 ml-14 -mt-2' placeholder='Search' value={searchQuery} onChange={handleSearchChange} />
+      <div className="grid grid-cols-2 gap-16 ml-15 justify-evenly m-5 mt-10">
+        {renderOpportunities()}
+      </div>
     </div>
   );
-}
+};
+
+export default Page;
