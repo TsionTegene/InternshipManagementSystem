@@ -41,8 +41,8 @@ import {
   UploadIcon,
   X,
 } from "lucide-react";
-import { useState } from "react";
-import { useUniversityData } from "@/hooks/useFetchUniversity";
+import { useEffect, useState } from "react";
+import { useUniversityActions } from "@/hooks/useUniversityActions";
 import { useDeparmentData } from "@/hooks/useFetchDepartment";
 import { Textarea } from "@/components/ui/textarea";
 import { TbSquareRoundedPlus } from "react-icons/tb";
@@ -105,7 +105,9 @@ export function StudentForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const { universities, isLoading, isError, error } = useUniversityData();
+  // const { universities, isLoading, isError, error } = useUniversityData();
+  const { universities,error, isLoading } = useUniversityActions();
+
   const { departments, isDLoading, isDError, errorD } = useDeparmentData();
 
   const skillsInput = () => {
@@ -168,6 +170,15 @@ export function StudentForm() {
     // console.log("tokens: ", tokens);
     // return tokens;
   };
+
+useEffect(()=>{
+  console.log( "UNiversity" + universities)
+  // console.log( "Error" + Error)
+  // console.log( "loading" + Loading)
+
+})
+
+      
   return (
     <Card className="mx-auto max-w-4xl my-10 ">
       <CardHeader>
@@ -300,8 +311,8 @@ export function StudentForm() {
                       <FormControl>
                         <div className="grid gap-3">
                           {isLoading && <div>Loading...</div>}
-                          {isError && <div>Error Occured</div>}
-                          {!isLoading && !isError && (
+                          {error && <div>Error Occured</div>}
+                          {!isLoading && !error && (
                             <Select
                               onValueChange={(value) => {
                                 field.onChange(value);
