@@ -4,7 +4,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 const page = () => {
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Universities</h1> {/* University title added here */}
+      <h1 className="text-2xl font-bold mb-4">Universities</h1> 
       <Table>
         <TableCaption></TableCaption>
         <TableHeader>
@@ -16,49 +16,49 @@ const page = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {/* Row 1 */}
+         
           <TableRow>
             <TableCell className="font-medium">1</TableCell>
             <TableCell>AddisSoftware</TableCell>
             <TableCell>Addis@gmail.com</TableCell>
             <TableCell>Approved</TableCell>
           </TableRow>
-          {/* Row 2 */}
+        
           <TableRow>
             <TableCell className="font-medium">2</TableCell>
             <TableCell>AddisSoftware</TableCell>
             <TableCell>Addis@gmail.com</TableCell>
             <TableCell>Pending</TableCell>
           </TableRow>
-          {/* Row 3 */}
+       
           <TableRow>
             <TableCell className="font-medium">3</TableCell>
             <TableCell>Addis Ababa University</TableCell>
             <TableCell>Addis@gmail.com</TableCell>
             <TableCell>Approved</TableCell>
           </TableRow>
-          {/* Row 4 */}
+       
           <TableRow>
             <TableCell className="font-medium">4</TableCell>
             <TableCell>Addis Ababa University</TableCell>
             <TableCell>Addis@gmail.com</TableCell>
             <TableCell>Pending</TableCell>
           </TableRow>
-          {/* Row 5 */}
+        
           <TableRow>
             <TableCell className="font-medium">5</TableCell>
             <TableCell>Addis Ababa University</TableCell>
             <TableCell>Addis@gmail.com</TableCell>
             <TableCell>Approved</TableCell>
           </TableRow>
-          {/* Row 6 */}
+       
           <TableRow>
             <TableCell className="font-medium">6</TableCell>
             <TableCell>Addis Ababa University</TableCell>
             <TableCell>Addis@gmail.com</TableCell>
             <TableCell>Pending</TableCell>
           </TableRow>
-          {/* Row 7 */}
+       
           <TableRow>
             <TableCell className="font-medium">7</TableCell>
             <TableCell>Addis Ababa University</TableCell>

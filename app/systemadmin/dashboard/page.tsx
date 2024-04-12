@@ -1,40 +1,39 @@
 import React from 'react';
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { FaUniversity, FaEnvelope, FaUser } from 'react-icons/fa'; // Importing icons
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@/components/ui/table";
+import { FaUniversity } from 'react-icons/fa'; 
 
 const Page = () => {
   return (
     <div className="flex justify-center items-center h-screen">
-      <div>
-        <div className="flex justify-center items-center">
-          <div className="flex flex-col justify-between">
-            {/* Card 1 */}
-            <div className="bg-pink-100 p-2 rounded-md mb-4 text-black w-16 h-16 flex items-center justify-center">
-              <FaUser className="text-4xl text-blue-500 mb-2" />
-              <div>
-                <p className="font-bold text-lg">5</p> {/* University text */}
-                <p className="text-sm">Male</p> {/* Subtext */}
-              </div>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-pink-100 p-2 rounded-md mb-4 text-black w-16 h-16 flex items-center justify-center">
-              <FaUser className="text-4xl text-blue-500 mb-2" />
-              <div>
-                <p className="font-bold text-lg">5</p> {/* University text */}
-                <p className="text-sm">Fema</p> {/* Subtext */}
-              </div>
+      <div className="flex justify-center items-center flex-col">
+        {/* Cards Section */}
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          {/* Card 1 */}
+          <div className="bg-pink-100 p-2 rounded-md text-black flex items-center justify-center">
+            <FaUniversity className="text-4xl text-blue-500 mb-2 mr-2" />
+            <div>
+              <p className="font-bold text-lg">5</p>
+              <p className="text-sm">Female</p>
             </div>
           </div>
 
-          {/* Third card */}
-          <div className="bg-pink-50 p-4 rounded-lg mb-4 text-black flex items-center ml-4 flex-wrap">
-            <div className="w-full mb-2">
-              <p className="font-bold text-lg">Total Interns</p>
-              <p className="text-sm">15</p>
+          {/* Card 2 */}
+          <div className="bg-pink-100 p-2 rounded-md text-black flex items-center justify-center">
+            <FaUniversity className="text-4xl text-blue-500 mb-2 mr-2" />
+            <div>
+              <p className="font-bold text-lg">5</p>
+              <p className="text-sm">Female</p>
             </div>
-            <FaUniversity className="text-2xl mr-2" />
-            <div className="flex flex-wrap">
+          </div>
+
+          {/* Card 3 - Total Interns Card */}
+          <div className="bg-pink-50 p-4 rounded-lg text-black flex items-center flex-wrap col-span-2">
+            <div className="w-full mb-2">
+              <p className="font-bold text-lg">15</p>
+              <p className="text-sm">Total Interns</p>
+            </div>
+            {/* Arranged Cards Inside Total Interns Card */}
+            <div className="flex flex-wrap justify-center">
               <div className="bg-pink-100 p-2 rounded-md mr-2 mb-2 text-black w-16 h-16 flex items-center justify-center">
                 <div>
                   <p className="font-bold text-lg">9</p>
@@ -63,69 +62,28 @@ const Page = () => {
           </div>
         </div>
 
-         <Table>
-        <TableCaption></TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">No.</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Status</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {/* Row 1 */}
-          <TableRow>
-            <TableCell className="font-medium">1</TableCell>
-            <TableCell>AddisSoftware</TableCell>
-            <TableCell>Addis@gmail.com</TableCell>
-            <TableCell>Approved</TableCell>
-          </TableRow>
-          {/* Row 2 */}
-          <TableRow>
-            <TableCell className="font-medium">2</TableCell>
-            <TableCell>AddisSoftware</TableCell>
-            <TableCell>Addis@gmail.com</TableCell>
-            <TableCell>Pending</TableCell>
-          </TableRow>
-          {/* Row 3 */}
-          <TableRow>
-            <TableCell className="font-medium">3</TableCell>
-            <TableCell>Addis Ababa University</TableCell>
-            <TableCell>Addis@gmail.com</TableCell>
-            <TableCell>Approved</TableCell>
-          </TableRow>
-          {/* Row 4 */}
-          <TableRow>
-            <TableCell className="font-medium">4</TableCell>
-            <TableCell>Addis Ababa University</TableCell>
-            <TableCell>Addis@gmail.com</TableCell>
-            <TableCell>Pending</TableCell>
-          </TableRow>
-          {/* Row 5 */}
-          <TableRow>
-            <TableCell className="font-medium">5</TableCell>
-            <TableCell>Addis Ababa University</TableCell>
-            <TableCell>Addis@gmail.com</TableCell>
-            <TableCell>Approved</TableCell>
-          </TableRow>
-          {/* Row 6 */}
-          <TableRow>
-            <TableCell className="font-medium">6</TableCell>
-            <TableCell>Addis Ababa University</TableCell>
-            <TableCell>Addis@gmail.com</TableCell>
-            <TableCell>Pending</TableCell>
-          </TableRow>
-          {/* Row 7 */}
-          <TableRow>
-            <TableCell className="font-medium">7</TableCell>
-            <TableCell>Addis Ababa University</TableCell>
-            <TableCell>Addis@gmail.com</TableCell>
-            <TableCell>Approved</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+        {/* Table Section */}
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>No.</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Status</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {/* Table Rows */}
+            {[...Array(7)].map((_, index) => (
+              <TableRow key={index}>
+                <TableCell className="font-medium">{index + 1}</TableCell>
+                <TableCell>AddisSoftware</TableCell>
+                <TableCell>Addis@gmail.com</TableCell>
+                <TableCell>{index % 2 === 0 ? 'Approved' : 'Pending'}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     </div>
   );
