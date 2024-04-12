@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input";
 import { FaAddressBook, FaPlus } from "react-icons/fa";
 import { EyeIcon, EyeOffIcon, Image, MoveUpRight, UploadIcon } from "lucide-react";
 import { useState } from "react";
-import { useUniversitySignup } from "@/hooks/useUniversitysignup";
+import { useUniversityActions } from "@/hooks/useUniversityActions";
 import { useRouter } from 'next/navigation'
 const formSchema = z.object({
     universityName: z.string().min(2, {
@@ -74,7 +74,10 @@ export function UniversityForm() {
     const [selectedLogo, setSelectedLogo] = useState("No File Chosen");
 
   const [showPassword, setShowPassword] = useState(false);
-  const university = useUniversitySignup();
+
+  const {signupUniversity} = useUniversityActions()
+
+  const university = signupUniversity;
     const router  = useRouter();
   const form = useForm({
     resolver: zodResolver(formSchema),
