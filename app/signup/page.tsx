@@ -12,51 +12,29 @@ import bg4 from "@/public/images/bg4.jpg";
 import Link from "next/link";
 
 const Signup = () => {
-    const [selectedRole, setSelectedRole] = useState(null);
     const roles = [
-        { title: 'Student', description: '', icon: <PiStudentBold /> },
-        { title: 'Company', description: '', icon: <CgOrganisation /> },
-        { title: 'University', description: '', icon: <FaUniversity /> },
+      { title: "Student", description: "", icon: <PiStudentBold /> },
+      { title: "Company", description: "", icon: <CgOrganisation /> },
+      { title: "University", description: "", icon: <FaUniversity /> },
     ];
 
-    const handleRoleSelect = (role) => {
-        setSelectedRole(role);
+    const [selectedRole, setSelectedRole] = useState<{ title: string } | null>(null); // Track selected role
+
+    const handleRoleSelect = (role: { title: string }) => {
+      setSelectedRole(role);
     };
 
     const router = useRouter();
 
     const handleSignup = () => {
-        if (!selectedRole) {
-            return;
-        }
-        const roleLowerCase = selectedRole.title.toLowerCase();
-        router.push(`/signup/${roleLowerCase}`);
+      if (!selectedRole) {
+        return;
+      }
+      const roleLowerCase = selectedRole.title.toLowerCase();
+      router.push(`/signup/${roleLowerCase}`);
     };
 
-
     return (
-      // <div className='p-10'>
-      //     <p className='text-2xl text-center'>Sign up as:</p>
-      //     <RadioGroup defaultValue="option-one">
-      //         <div className='flex items-center justify-center gap-2'>
-      //             {roles.map((role, index) => (
-      //                 <div key={index} className="flex  flex-col space-y-2 p-2">
-      //                     <RadioGroupItem
-      //                         value={`option-${index}`}
-      //                         id={`option-${index}`}
-      //                         className='flex ml-auto'
-      //                         onClick={() => handleRoleSelect(role)}
-      //                     />
-      //                     <Card title={role.title} description={role.description} icon={role.icon} />
-      //                 </div>
-      //             ))}
-      //         </div>
-      //     </RadioGroup>
-      //     <div className='flex justify-center p-5'>
-      //         <Button className='btn rounded-full' onClick={handleSignup}>Sign Up</Button>
-      //     </div>
-      // </div>
-
       <div
         className="flex bg-transparent items-center justify-center min-h-screen bg-cover bg-no-repeat"
         style={{
@@ -76,29 +54,26 @@ const Signup = () => {
                 Choose Your Role
               </h3>
               <p className="text-center text-sm text-gray-600">
-                Enter your email below to login to your account
+                Select The Role that You Want To Create An Account With
               </p>
             </div>
             <div className="my-5 grid gap-4">
-              {" "}
-              {/* Use a grid for spacing and responsiveness */}
-              <Button className="flex items-center gap-4 w-full px-4 py-2 rounded-full bg-white border border-gray-300 hover:bg-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
-                <FaUniversity className="text-cyan-500" />{" "}
-                <span className="text-gray-700">University</span>{" "}
-              </Button>
-              <Button className="flex items-center gap-4 w-full px-4 py-2 rounded-full bg-white border border-gray-300 hover:bg-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
-                <CgOrganisation className="text-cyan-500" />{" "}
-                <span className="text-gray-700">Company</span>
-              </Button>
-              <Button className="flex items-center gap-4 w-full px-4 py-2 rounded-full bg-white border border-gray-300 hover:bg-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
-                <PiStudentBold className="text-cyan-500" />{" "}
-                <span className="text-gray-700">Sign Up As Student</span>
-              </Button>
+              {roles.map((role) => (
+                <Button
+                  key={role.title} 
+                  className="flex items-center rounded-full gap-4 w-full px-4 py-2 bg-white border border-gray-300 hover:bg-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                  onClick={() => handleRoleSelect(role)} 
+                >
+                  {role.icon} 
+                  <span className="text-gray-700">{`Sign Up As ${role.title}`}</span>
+                </Button>
+              ))}
             </div>
-
             <Button
               type="submit"
               className="w-full bg-cyan-600 text-white text-lg py-2 rounded-full hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50"
+              disabled={!selectedRole} // Disable button if no role is selected
+              onClick={handleSignup} // Call handleSignup on click
             >
               Select
             </Button>

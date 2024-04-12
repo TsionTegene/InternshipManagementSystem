@@ -29,7 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
   CircleFadingPlus,
@@ -180,7 +180,7 @@ useEffect(()=>{
 
       
   return (
-    <Card className="mx-auto max-w-4xl my-10 ">
+    <Card className="mx-auto max-w-4xl my-10 shadow-2xl rounded-lg overflow-hidden">
       <CardHeader>
         <CardTitle className="text-xl">Sign Up</CardTitle>
         <CardDescription>
@@ -192,12 +192,13 @@ useEffect(()=>{
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid gap-4">
               <div className="grid grid-cols-2 gap-5">
+                {/* First Name */}
                 <FormField
                   control={form.control}
                   name="firstName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>First Name</FormLabel>
+                      <FormLabel>First Name <span className="text-red-700">*</span></FormLabel>
                       <FormControl>
                         <Input placeholder="First Name" {...field} />
                       </FormControl>
@@ -205,20 +206,20 @@ useEffect(()=>{
                     </FormItem>
                   )}
                 />
+                {/* Phone Number */}
                 <FormField
                   control={form.control}
                   name="phoneNum"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Phone Number
+                        Phone Number <span className="text-red-700">*</span>
                       </FormLabel>
                       <FormControl>
                         <div className="flex items-center gap-4">
-                        <Phone />
+                          <Phone />
                           <Input
                             {...field}
-                            className="text-gray-500 text-sm rounded-lg block pl-8 p-2.5 focus:text-gray-900 focus:outline-none focus:ring-blue-500 focus:ring-offset-2"
                             placeholder="(09)-123-45-678"
                           />
                         </div>
@@ -227,13 +228,13 @@ useEffect(()=>{
                     </FormItem>
                   )}
                 />
-
+                {/* Middle Name */}
                 <FormField
                   control={form.control}
                   name="middleName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Middle Name</FormLabel>
+                      <FormLabel>Middle Name <span className="text-red-700">*</span></FormLabel>
                       <FormControl>
                         <Input placeholder="Middle Name" {...field} />
                       </FormControl>
@@ -241,12 +242,13 @@ useEffect(()=>{
                     </FormItem>
                   )}
                 />
+                {/* Email */}
                 <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>Email <span className="text-red-700">*</span></FormLabel>
                       <FormControl>
                         <Input type="email" placeholder="Email" {...field} />
                       </FormControl>
@@ -254,12 +256,13 @@ useEffect(()=>{
                     </FormItem>
                   )}
                 />
+                {/* Username */}
                 <FormField
                   control={form.control}
                   name="userName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>User Name</FormLabel>
+                      <FormLabel>User Name <span className="text-red-700">*</span></FormLabel>
                       <FormControl>
                         <Input placeholder="Username" {...field} />
                       </FormControl>
@@ -273,10 +276,11 @@ useEffect(()=>{
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel>Password <span className="text-red-700">*</span></FormLabel>
                       <FormControl className="relative">
                         <div className="flex items-center w-full">
-                          <Input placeholder="Password"
+                          <Input
+                            placeholder="Password"
                             type={showPassword ? "text" : "password"}
                             {...field}
                           />
@@ -301,7 +305,7 @@ useEffect(()=>{
                     </FormItem>
                   )}
                 />
-
+                {/* University */}
                 <FormField
                   control={form.control}
                   name="universityName"
@@ -349,7 +353,8 @@ useEffect(()=>{
                       <FormLabel>Confirm Password</FormLabel>
                       <FormControl className="relative">
                         <div className="flex items-center w-full">
-                          <Input placeholder="Confirm Password"
+                          <Input
+                            placeholder="Confirm Password"
                             type={showConfirmPassword ? "text" : "password"}
                             {...field}
                           />
@@ -377,6 +382,7 @@ useEffect(()=>{
                     </FormItem>
                   )}
                 />
+                {/* Department */}
                 <FormField
                   control={form.control}
                   name="departmentName"
@@ -384,7 +390,7 @@ useEffect(()=>{
                     <FormItem>
                       <FormLabel>Department</FormLabel>
                       <FormControl>
-                        {/* <div className="grid gap-3">
+                        <div className="grid gap-3">
                           {isDLoading && <div>Loading...</div>}
                           {isDError && <div>Error Occured</div>}
                           {!isDLoading && !isDError && (
@@ -407,13 +413,14 @@ useEffect(()=>{
                               </SelectContent>
                             </Select>
                           )}
-                        </div> */}
-                        <Input {...field} />
+                        </div>
+                    {/* <Input {...field} />  */}
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+                {/* Year */}
                 <FormField
                   control={form.control}
                   name="year"
@@ -430,11 +437,11 @@ useEffect(()=>{
                             <SelectValue placeholder="Select Year" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value={"1"}>1</SelectItem>
-                            <SelectItem value={"2"}>2</SelectItem>
-                            <SelectItem value={"3"}>3</SelectItem>
-                            <SelectItem value={"4"}>4</SelectItem>
-                            <SelectItem value={"5"}>5</SelectItem>
+                            <SelectItem value={"1"}>1th</SelectItem>
+                            <SelectItem value={"2"}>2th</SelectItem>
+                            <SelectItem value={"3"}>3th</SelectItem>
+                            <SelectItem value={"4"}>4th</SelectItem>
+                            <SelectItem value={"5"}>5th</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -442,6 +449,7 @@ useEffect(()=>{
                     </FormItem>
                   )}
                 />
+                {/* GPA */}
                 <FormField
                   control={form.control}
                   name="gpa"
@@ -510,19 +518,17 @@ useEffect(()=>{
                         <FormLabel className="mr-2 mt-2">Skills</FormLabel>
                         <div className="flex flex-wrap">
                           {skills.map((skill, index) => (
-                            <div
+                            <Badge
                               key={index}
-                              className="flex m-2 p-2 gap-1.5 rounded-md bg-slate-800 hover:bg-slate-600"
+                              className="font-bold flex m-1 pl-1 p-2 gap-1.5"
                             >
-                              <FormLabel className="font-bold">
-                                {skill}
-                              </FormLabel>
+                              <div className="">{skill}</div>
                               <X
                                 size={14}
                                 className="mt-0.5 hover:cursor-pointer"
                                 onClick={deleteSkill(index)}
                               />
-                            </div>
+                            </Badge>
                           ))}
                         </div>
                       </div>
@@ -532,15 +538,9 @@ useEffect(()=>{
                             id="skillsArray"
                             placeholder="Add your skills here"
                           />
-                          <div className="border-2 max-h-fit rounded-md">
-                            <Plus
-                              onClick={skillsInput}
-                              size={34}
-                              strokeWidth={0.5}
-                              color="#bdbdbd"
-                              className="hover:bg-slate-800 hover:cursor-pointer"
-                            />
-                          </div>
+                            <Button asChild size="icon"  className="p-2 rounded-full hover:translate-y-1 h-fit w-fit" variant="outline" >
+                              <Plus size={28} strokeWidth={1.5} onClick={skillsInput}/>
+                            </Button>
                         </div>
                       </FormControl>
                     </FormItem>
