@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { UploadIcon } from "lucide-react";
+import { MinusCircleIcon, PlusCircleIcon, UploadIcon } from "lucide-react";
 import { useUniversityActions } from "@/hooks/useUniversityActions";
 
 
@@ -45,6 +45,15 @@ const formSchema = z.object({
   image: z.optional(z.string().min(1)),
   deanmiddlename :z.string().min(2, {
     message: "Middle must be at least 2 characters.",
+  }),
+  departmentName: z.string().min(2, {
+    message: "Department name must be at least 2 characters.",
+  }),
+  departmentEmail: z.string().email({
+    message: "Invalid email address for the Department.",
+  }),
+  departmentPhoneNo: z.string().min(10, {
+    message: "Enter  phone number.",
   }),
 });
 
@@ -79,6 +88,24 @@ export default function ProfileForm() {
     }
 
     return addCollage.mutate(formData);
+  };
+
+  const [departments, setDepartments] = useState([{ id: 1, name: "", email: "", phoneNo: "" }]);
+
+  const handleAddDepartment = () => {
+    const newId = departments.length + 1;
+    setDepartments([...departments, { id: newId, name: "", email: "", phoneNo: "" }]);
+  };
+
+  const handleRemoveDepartment = (id: number) => {
+    setDepartments(departments.filter((dep) => dep.id !== id));
+  };
+
+  const handleDepartmentFieldChange = (id: number, field: string, value: string) => {
+    const updatedDepartments = departments.map((dep) =>
+      dep.id === id ? { ...dep, [field]: value } : dep
+    );
+    setDepartments(updatedDepartments);
   };
 
   return (
@@ -256,6 +283,88 @@ export default function ProfileForm() {
                     </FormItem>
                   )}
                 />
+              <CardTitle className="text-xl">Create Department</CardTitle>
+                <CardDescription>
+                    Enter Required Information to Create a Department
+                </CardDescription>
+                {
+                
+                departments.map((department, index) => (
+              <div key={department.id}>
+                
+
+                <FormField
+                  name="departmentName"
+                  control={form.control}
+                  render={(feild)=>(
+                    <FormItem>
+                    <FormLabel>Department Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter department name"
+                        value={department.name}
+                        onChange={(e) => handleDepartmentFieldChange(department.id, "name", e.target.value)}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                  )}
+                 />
+
+                <FormField
+                  name="departmentEmail"
+                  control={form.control}
+                  render={(feild)=>(
+                    <FormItem>
+                    <FormLabel>Department Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter department email"
+                        value={department.email}
+                        onChange={(e) => handleDepartmentFieldChange(department.id, "email", e.target.value)}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                  )}
+                
+                />
+
+            <FormField
+                name="departmentPhoneNo"
+                control={form.control}
+                render={(feild)=>(
+
+
+                  <FormItem>
+                    <FormLabel>Department Phone Number</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter department phone number"
+                        value={department.phoneNo}
+                        onChange={(e) => handleDepartmentFieldChange(department.id, "phoneNo", e.target.value)}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+
+
+                }
+                
+                />
+                {/* Remove department button for all but the first department */}
+                {index !== 0 && (
+                  <Button type="button" onClick={() => handleRemoveDepartment(department.id)} variant="icon">
+                    <MinusCircleIcon />
+                  </Button>
+                )}
+              </div>
+            ))}
+            {/* Add department button */}
+            <Button type="button" onClick={handleAddDepartment} variant="icon">
+              <PlusCircleIcon />
+            </Button>
 
         <Button type="submit">Submit</Button>
       </form>
