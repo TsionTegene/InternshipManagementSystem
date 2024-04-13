@@ -1,4 +1,4 @@
-import { registerUniversity } from "@/api/university/mutation";
+import { addCollege, registerUniversity } from "@/api/university/mutation";
 import { fetchUniversity } from "@/api/university/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
@@ -23,7 +23,7 @@ export const useUniversitySignup = ()=> {
 export const useUnivesityAddCollage = () =>{
     const mutation = useMutation({
 
-        mutationFn:(formData: FormData) => registerUniversity(formData),
+        mutationFn:(formData: FormData) => addCollege(formData),
 
     })
 

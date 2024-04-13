@@ -1,4 +1,4 @@
-import { student, collegedean, hr, departmenthead, mentor,systemadmin } from './constant';
+import { student, collegedean, hr, departmenthead, mentor,systemadmin, universityAdmin } from './constant';
 
 export const getMenu = (role?: string | null) => {
     return role === 'hr'
@@ -12,6 +12,8 @@ export const getMenu = (role?: string | null) => {
                 :role==='systemadmin'
                 ? systemadmin
                 : role === 'departmenthead'
-                    ? departmenthead
+                ? departmenthead
+                : role === 'universityAdmin'
+                    ? universityAdmin
                     : null;
 };

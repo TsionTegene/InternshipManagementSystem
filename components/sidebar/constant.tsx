@@ -6,7 +6,7 @@ import { TfiUser } from 'react-icons/tfi';
 import { PiStudentFill, PiUserListLight } from "react-icons/pi";
 import { BiHeadphone } from 'react-icons/bi';
 import { CgList } from 'react-icons/cg';
-import { MdCalendarMonth, MdOutlineSupervisorAccount, MdFiberNew, MdApproval } from 'react-icons/md';
+import { MdCalendarMonth, MdOutlineSupervisorAccount, MdFiberNew, MdApproval, MdAddBox } from 'react-icons/md';
 import { SlCalender, SlDocs } from 'react-icons/sl';
 import { VscRequestChanges } from 'react-icons/vsc';
 import { IconType } from "react-icons";
@@ -166,5 +166,24 @@ export const departmenthead = [
         title: 'Approval',
         path: '/approval',
         icon: <MdApproval />,
+    },
+];
+
+
+export const universityAdmin = [
+    {
+        title: 'College',
+        path: '/UniversityAdmin/list_College',
+        icon:  <FaUniversity />,
+    },
+    {
+        title: 'Add College',
+        path: '/UniversityAdmin/Add_Colleges',
+        icon: <MdAddBox />,
+    },
+    {
+        title: 'Student',
+        path: '/UniversityAdmin/students',
+        icon: <PiStudentFill />,
     },
 ];
