@@ -6,7 +6,7 @@ import { TfiUser } from 'react-icons/tfi';
 import { PiStudentFill, PiUserListLight } from "react-icons/pi";
 import { BiHeadphone } from 'react-icons/bi';
 import { CgList } from 'react-icons/cg';
-import { MdCalendarMonth, MdOutlineSupervisorAccount, MdFiberNew, MdApproval, MdAddBox } from 'react-icons/md';
+import { MdCalendarMonth, MdOutlineSupervisorAccount, MdFiberNew, MdApproval, MdAddBox, MdDashboard } from 'react-icons/md';
 import { SlCalender, SlDocs } from 'react-icons/sl';
 import { VscRequestChanges } from 'react-icons/vsc';
 import { IconType } from "react-icons";
@@ -15,7 +15,8 @@ import { GrInProgress } from 'react-icons/gr';
 import { BsPersonFillGear } from "react-icons/bs";
 import { TbReportAnalytics } from "react-icons/tb";
 import { RiDashboardFill } from "react-icons/ri";
-
+import { User } from "lucide-react";
+import Router from "next/router";
 interface ISideBarMenu {
     title: string,
     path: string,
@@ -172,6 +173,11 @@ export const departmenthead = [
 
 export const universityAdmin = [
     {
+        title: 'Dashboard',
+        path: '/UniversityAdmin',
+        icon: <MdDashboard />,
+    },
+    {
         title: 'College',
         path: '/UniversityAdmin/list_College',
         icon:  <FaUniversity />,
@@ -186,4 +192,10 @@ export const universityAdmin = [
         path: '/UniversityAdmin/students',
         icon: <PiStudentFill />,
     },
+    {
+        title: 'Add User',
+        path: '/UniversityAdmin/createUser',
+        icon: <User />,
+    },
+ 
 ];

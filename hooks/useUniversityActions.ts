@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useUniversitySignup, useUniversityData, useUnivesityAddCollage } from '@/queries/useUniversityQueries';
 import useUniversityStore from '@/stores/university.store';
+import { userigisteruser } from '@/queries/useUsersdata';
+import useUserStore from '@/stores/user.store';
 
 export const useUniversityActions = () => {
   const setUniversities = useUniversityStore((state: any) => state.setUniversities);
@@ -40,3 +42,40 @@ export const useUniversityActions = () => {
     addCollage,
   };
 };
+
+export const registerUser = () =>{
+  const setUser = useUserStore((state: any) => state.setUser);
+  const setIsLoading = useUserStore((state: any) => state.setIsLoading);
+  const setError = useUserStore((state: any) => state.setError);
+  const user = useUserStore((state: any) => state.user); 
+
+  const register_user = userigisteruser();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (register_user.isSuccess) {
+          setUser(register_user.data); 
+ 
+        }
+        if (register_user.isPending) {
+          setIsLoading(true);
+        }
+      } catch (error) {
+        console.error('Error fetching university data:', error);
+        setError(error);
+      }
+    };
+
+    fetchData();
+
+  }, [register_user.isSuccess, register_user.isPending, setUser, setIsLoading, setError]);
+
+      return {
+        user,
+        register_user
+
+        
+      }
+
+}
