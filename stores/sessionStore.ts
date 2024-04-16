@@ -1,22 +1,33 @@
 import { create } from 'zustand';
 
-// implementing a session store from zustand jwt token and user data 
 interface SessionState {
+  setIsLoading: any;
+  setIsError: any;
+  setUserId: any;
+  setEmail: any;
+  setRole: any;
+  setError: any;
   isLoading: boolean;
-  token: string | null;
+  isError: boolean;
   error: any;
-  user: any;
+  userId: string | null;
+  email: string | null;
+  role: string | null;
 }
 
 const useSessionStore = create<SessionState>((set) => ({
-  isLoading: false,
-  token: null,
+  userId: null,
+  email: null,
+  role: null,
   error: null,
-  user: null,
-  setToken: (token: string) => set(() => ({ token })),
-  setUser: (user: any) => set(() => ({ user })),
-  setError: (error: any) => set(() => ({ error })),
-  setIsLoading: (isLoading: boolean) => set(() => ({ isLoading })),
-}))
+  isLoading: false, // Add missing property
+  isError: false, // Add missing property
+  setUserId: (userId: string) => set({ userId }),
+  setEmail: (email: string) => set({ email }),
+  setRole: (role: string) => set({ role }),
+  setIsLoading: (isLoading: boolean) => set({ isLoading }),
+  setIsError: (isError: boolean) => set({ isError }),
+  setError: (error: any) => set({ error }),
+}));
 
 export default useSessionStore;

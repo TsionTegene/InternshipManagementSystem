@@ -4,19 +4,49 @@ import bg4 from "@/public/images/bg4.jpg";
 import * as React from "react";
 import "@/app/signup/page";
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { z } from "zod";
+import { useAuthenticate } from "@/hooks/useAuthenticate";
+import useSessionStore from "@/stores/sessionStore";
+
+const formSchema = z.object({
+  email: z.string().email({
+    message: "Invalid email address.",
+  }),
+  password: z.string().min(6, {
+    message: "Password must be at least 6 characters.",
+  }),
+});
 
 export function Login() {
+  const [formData, setFormData] = React.useState({
+    email: "",
+    password: "",
+  });
+
+  const { authenticate, isPending, isError, error } = useAuthenticate();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Move this to the top to ensure no default form submission
+
+    const getData = new FormData(e.currentTarget);
+    // Extracting data from FormData object
+    const formValues = {
+      email: getData.get("email"),
+      password: getData.get("password"),
+    };
+
+    const formData = new FormData();
+    formData.append("email", formValues.email || "");
+    formData.append("password", formValues.password || "");
+
+    // Call the authenticate function with the validated data
+    const result = authenticate(formData);
+    
+  };
+
   return (
+    //
     <div
       className="flex bg-transparent items-center justify-center min-h-screen bg-cover bg-no-repeat"
       style={{
@@ -37,7 +67,7 @@ export function Login() {
               Enter your email below to login to your account
             </p>
           </div>
-          <form className="space-y-4 mt-4">
+          <form className="space-y-4 mt-4" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="email"
@@ -48,6 +78,7 @@ export function Login() {
               <input
                 id="email"
                 type="email"
+                name="email"
                 placeholder="m@example.com"
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500"
@@ -71,20 +102,28 @@ export function Login() {
               <input
                 id="password"
                 type="password"
+                name="password"
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500"
               />
             </div>
             <Button
               type="submit"
+              disabled={isPending}
               className="w-full bg-cyan-600 text-white text-lg py-2 rounded-md hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50"
             >
-              Login
+              {isPending ? "Logging in..." : "Login"}
             </Button>
+            {isError && error && (
+              <p className="error">Error: {error.message}</p>
+            )}
           </form>
           <p className="mt-4 text-center text-sm text-gray-600">
             Don&apos;t have an account?{" "}
-            <Link href={"/signup"} className="text-cyan-700 hover:text-cyan-900 underline">
+            <Link
+              href={"/signup"}
+              className="text-cyan-700 hover:text-cyan-900 underline"
+            >
               Sign up
             </Link>
           </p>
