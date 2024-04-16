@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect } from 'react';
-import { useUniversitySignup, useUniversityData, useUnivesityAddCollage } from '@/queries/useUniversityQueries';
+import { useUniversitySignup, useUniversityData, useUnivesityAddDepartment } from '@/queries/useUniversityQueries';
 import useUniversityStore from '@/stores/university.store';
 import { userigisteruser } from '@/queries/useUsersdata';
 import useUserStore from '@/stores/user.store';
@@ -13,7 +13,6 @@ export const useUniversityActions = () => {
 
   const signupUniversity = useUniversitySignup();
   const universityData = useUniversityData();
-  const addCollage = useUnivesityAddCollage();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +39,7 @@ export const useUniversityActions = () => {
     isLoading: universityData.isLoading,
     error: universityData.error, 
     signupUniversity,
-    addCollage,
+    
   };
 };
 
@@ -80,3 +79,13 @@ export const registerUser = () =>{
       }
 
 }
+
+  export const useCreateDepartment =  ()=>{
+    const addCollage = useUnivesityAddDepartment();
+
+    return {
+      addCollage
+    }
+
+
+  }

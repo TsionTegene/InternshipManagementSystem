@@ -1,4 +1,5 @@
-import { addCollege, registerUniversity } from "@/api/university/mutation";
+import { fetchCollegebyUnId } from "@/api/college/queries";
+import { registerDepartment, registerUniversity } from "@/api/university/mutation";
 import { fetchUniversity } from "@/api/university/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
@@ -12,6 +13,15 @@ export function useUniversityData () {
     return query;
 }
 
+export function usecollegeDatabyUnId () {
+    const query = useQuery({
+        queryKey: ["college"],
+        queryFn: () => fetchCollegebyUnId()
+    })
+
+    return query;
+}
+
 export const useUniversitySignup = ()=> {
     const mutation = useMutation({
       mutationFn: (formData: FormData) => registerUniversity(formData),
@@ -19,11 +29,11 @@ export const useUniversitySignup = ()=> {
   
     return mutation;
   };
-
-export const useUnivesityAddCollage = () =>{
+//@ts-ignore
+export const useUnivesityAddDepartment = () =>{
     const mutation = useMutation({
 
-        mutationFn:(formData: FormData) => addCollege(formData),
+        mutationFn:(formData: FormData) => registerDepartment(formData),
 
     })
 

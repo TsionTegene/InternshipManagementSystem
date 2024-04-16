@@ -1,6 +1,6 @@
 export async function registerUniversity(formData: FormData) {
-  const url = 'https://web-based-internship-management-system-3.onrender.com/auth/register/university';
-// const url = "http://localhost:5000/auth/register/university"
+  // const url = 'https://web-based-internship-management-system-3.onrender.com/auth/register/university';
+const url = "http://localhost:5000/auth/register/university"
   const response = await fetch(url, {
     method: 'POST',
     body: formData,
@@ -15,9 +15,8 @@ export async function registerUniversity(formData: FormData) {
   return responseData;
 }
 
-export async function addCollege(formData: FormData) {
-  const url = 'https://web-based-internship-management-system-3.onrender.com/auth/register/university';
-// const url = "http://localhost:5000/auth/register/university"
+export async function registerDepartment(formData: FormData) {
+  const url = "http://localhost:5000/auth/register/department"
   const response = await fetch(url, {
     method: 'POST',
     body: formData,

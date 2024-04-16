@@ -82,11 +82,6 @@ const Page = () => {
     <CardContent>
       <div>
         <h2 className="text-xl font-bold mb-4 text-center">Students</h2>
-        <div className="flex justify-end mb-4">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Add Student
-          </button>
-        </div>
         <Table>
           <TableCaption></TableCaption>
 

@@ -1,10 +1,10 @@
-import { useDepartment } from "@/queries/useDepartmentQueries";
+import { useUnivesityAddDepartment } from "@/queries/useUniversityQueries";
 import useDepartmentStore from "@/stores/department.store";
 import { useEffect } from "react";
 
 export const useDeparmentData = () => {
     const setDepartments = useDepartmentStore((state: any) => state.setDepartments); // here we are using the setDepartments method from the store to set the departments
-    const data = useDepartment(); // here we are calling the useDepartment hook to fetch the data from the server
+    const data = useUnivesityAddDepartment(); // here we are calling the useDepartment hook to fetch the data from the server
 
     let departments = null;
     if(data.isSuccess) {
@@ -20,7 +20,6 @@ export const useDeparmentData = () => {
 
     return {
         departments: useDepartmentStore((state: any) => state.departments),
-        isDLoading: data.isLoading,
         isDError: data.isError,
         errorD: data.error
     }
