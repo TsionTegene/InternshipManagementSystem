@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect } from 'react';
 import { useUniversitySignup, useUniversityData, useUnivesityAddCollage } from '@/queries/useUniversityQueries';
 import useUniversityStore from '@/stores/university.store';

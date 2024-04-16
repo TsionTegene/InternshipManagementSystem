@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { set, useForm } from "react-hook-form";
 import { z } from "zod";
-import { useStudentSignup } from "@/hooks/useStudentsignup";
+import { useStudentSignup } from "@/hooks/useStudentsActions";
 import Link from "next/link";
 import {
   Form,
