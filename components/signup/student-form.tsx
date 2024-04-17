@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { set, useForm } from "react-hook-form";
 import { z } from "zod";
-import { useStudentSignup } from "@/hooks/useStudentsActions";
+import { useStudentRegister } from "@/hooks/useStudentsActions";
 import Link from "next/link";
 import {
   Form,
@@ -85,8 +85,8 @@ const formSchema = z
     gpa: z.string().min(1, {
       message: "Enter a valid GPA.",
     }),
-    // image: z.optional(z.string().min(1)), // Optional profile picture field
-    // resume: z.optional(z.string().min(1)),
+    image: z.optional(z.string().min(1)), // Optional profile picture field
+    resume: z.optional(z.string().min(1)),
   })
   .refine((data) => data.password == data.confirm_password, {
     message: "Passwords do not match",
@@ -105,7 +105,6 @@ export function StudentForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // const { universities, isLoading, isError, error } = useUniversityData();
   const { universities,error, isLoading } = useUniversityActions();
 
   const { departments, isDLoading, isDError, errorD } = useDeparmentData();
@@ -142,9 +141,10 @@ export function StudentForm() {
     resolver: zodResolver(formSchema),
   });
 
-  const studentSignup = useStudentSignup();
+  const studentSignup = useStudentRegister();
 
   const onSubmit = async (formValues: any) => {
+    console.log("formValues: ", formValues);
     const formData = new FormData();
     for (const field in formValues) {
       if (field == "confirm_password") continue;
@@ -171,14 +171,6 @@ export function StudentForm() {
     // return tokens;
   };
 
-useEffect(()=>{
-  console.log( "UNiversity" + universities)
-  // console.log( "Error" + Error)
-  // console.log( "loading" + Loading)
-
-})
-
-      
   return (
     <Card className="mx-auto max-w-4xl my-10 shadow-2xl rounded-lg overflow-hidden">
       <CardHeader>
@@ -190,7 +182,7 @@ useEffect(()=>{
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="grid gap-4">
+            <div className="grid gap-5">
               <div className="grid grid-cols-2 gap-5">
                 {/* First Name */}
                 <FormField
@@ -198,7 +190,9 @@ useEffect(()=>{
                   name="firstName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>First Name <span className="text-red-700">*</span></FormLabel>
+                      <FormLabel>
+                        First Name <span className="text-red-700">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="First Name" {...field} />
                       </FormControl>
@@ -218,10 +212,7 @@ useEffect(()=>{
                       <FormControl>
                         <div className="flex items-center gap-4">
                           <Phone />
-                          <Input
-                            {...field}
-                            placeholder="(09)-123-45-678"
-                          />
+                          <Input {...field} placeholder="(09)-123-45-678" />
                         </div>
                       </FormControl>
                       <FormMessage />
@@ -234,7 +225,9 @@ useEffect(()=>{
                   name="middleName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Middle Name <span className="text-red-700">*</span></FormLabel>
+                      <FormLabel>
+                        Middle Name <span className="text-red-700">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="Middle Name" {...field} />
                       </FormControl>
@@ -248,7 +241,9 @@ useEffect(()=>{
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email <span className="text-red-700">*</span></FormLabel>
+                      <FormLabel>
+                        Email <span className="text-red-700">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input type="email" placeholder="Email" {...field} />
                       </FormControl>
@@ -262,7 +257,9 @@ useEffect(()=>{
                   name="userName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>User Name <span className="text-red-700">*</span></FormLabel>
+                      <FormLabel>
+                        User Name <span className="text-red-700">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="Username" {...field} />
                       </FormControl>
@@ -276,7 +273,9 @@ useEffect(()=>{
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password <span className="text-red-700">*</span></FormLabel>
+                      <FormLabel>
+                        Password <span className="text-red-700">*</span>
+                      </FormLabel>
                       <FormControl className="relative">
                         <div className="flex items-center w-full">
                           <Input
@@ -383,43 +382,7 @@ useEffect(()=>{
                   )}
                 />
                 {/* Department */}
-                <FormField
-                  control={form.control}
-                  name="departmentName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Department</FormLabel>
-                      <FormControl>
-                        <div className="grid gap-3">
-                          {isDLoading && <div>Loading...</div>}
-                          {isDError && <div>Error Occured</div>}
-                          {!isDLoading && !isDError && (
-                            <Select
-                              {...field}
-                              aria-label="Select Department"
-                            >
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select Department" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {departments.map((department: any) => (
-                                  <SelectItem
-                                    key={department.id}
-                                    value={department.name}
-                                  >
-                                    {department.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          )}
-                        </div>
-                    {/* <Input {...field} />  */}
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                
                 {/* Year */}
                 <FormField
                   control={form.control}
@@ -538,9 +501,18 @@ useEffect(()=>{
                             id="skillsArray"
                             placeholder="Add your skills here"
                           />
-                            <Button asChild size="icon"  className="p-2 rounded-full hover:translate-y-1 h-fit w-fit" variant="outline" >
-                              <Plus size={28} strokeWidth={1.5} onClick={skillsInput}/>
-                            </Button>
+                          <Button
+                            asChild
+                            size="icon"
+                            className="p-2 rounded-full hover:translate-y-1 h-fit w-fit"
+                            variant="outline"
+                          >
+                            <Plus
+                              size={28}
+                              strokeWidth={1.5}
+                              onClick={skillsInput}
+                            />
+                          </Button>
                         </div>
                       </FormControl>
                     </FormItem>
@@ -592,12 +564,15 @@ useEffect(()=>{
                 />
               </div>
               <Button type="submit" className="w-full">
+                <svg className="animete-spin h-5 w-5 mr-3" viewBox="0 0 24 24"> 
+                {/* <!-- ... --> */}
+                  </svg>
                 Create an account
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
               Already have an account?{" "}
-              <Link href="#" className="underline">
+              <Link href="/login" className="underline">
                 Sign in
               </Link>
             </div>
@@ -607,3 +582,48 @@ useEffect(()=>{
     </Card>
   );
 }
+
+// const trial = () => {
+//   return (
+//     <FormField
+//       control={form.control}
+//       name="departmentName"
+//       render={({ field }) => (
+//         <FormItem>
+//           <FormLabel>Department</FormLabel>
+//           <FormControl>
+//             <div className="grid gap-3">
+//               {isDLoading && <div>Loading...</div>}
+//               {isDError && <div>Error Occured</div>}
+//               {!isDLoading && !isDError && (
+//                 <Select {...field} aria-label="Select Department">
+//                   <SelectTrigger>
+//                     <SelectValue placeholder="Select Department" />
+//                   </SelectTrigger>
+//                   <SelectContent>
+//                     {departments.length === 0 ? (
+//                       <SelectItem
+//                         key="no-departments"
+//                         value={"No departments yet"}
+//                       >
+//                         No departments yet
+//                       </SelectItem>
+//                     ) : (
+//                       departments.map((department: any) => (
+//                         <SelectItem key={department.id} value={department.name}>
+//                           {department.name}
+//                         </SelectItem>
+//                       ))
+//                     )}
+//                   </SelectContent>
+//                 </Select>
+//               )}
+//             </div>
+//             {/* <Input {...field} />  */}
+//           </FormControl>
+//           <FormMessage />
+//         </FormItem>
+//       )}
+//     />
+//   );
+// }

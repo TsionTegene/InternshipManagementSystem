@@ -77,21 +77,21 @@ export default function Home() {
         <ul className="flex space-x-4 list-none pl-4">
           <li className="hover:text-white transition duration-300 ease-in-out">
             <Button className=" rounded-2xl">
-              <Link href={"#"} className="font-semibold ">
+              <Link href="/" className="font-semibold ">
                 About Us
               </Link>
             </Button>
           </li>
           <li className="hover:text-white transition duration-300 ease-in-out">
             <Button className=" rounded-2xl">
-              <Link href={"#"} className="font-semibold ">
+              <Link href="/login" className="font-semibold ">
                 Login
               </Link>
             </Button>
           </li>
           <li className="hover:text-white transition duration-300 ease-in-out">
             <Button className=" rounded-2xl">
-              <Link href={"#"} className="font-semibold ">
+              <Link href="/signup" className="font-semibold ">
                 Sign Up
               </Link>
             </Button>
