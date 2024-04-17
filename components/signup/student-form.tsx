@@ -141,30 +141,30 @@ export function StudentForm() {
     resolver: zodResolver(formSchema),
   });
 
-  const studentSignup = useStudentRegister();
-
   const onSubmit = async (formValues: any) => {
-    console.log("formValues: ", formValues);
-    const formData = new FormData();
-    for (const field in formValues) {
-      if (field == "confirm_password") continue;
-      console.log(field, formValues[field]);
-      formData.append(field, formValues[field]);
-    }
+    // console.log("formValues: ", formValues);
+    // const formData = new FormData();
+    // for (const field in formValues) {
+    //   if (field == "confirm_password") continue;
+    //   console.log(field, formValues[field]);
+    //   formData.append(field, formValues[field]);
+    // }
 
-    skills.forEach((skill: string) => {
-      console.log("skill: ", skill);
-      formData.append("skills", skill);
-    });
+    // skills.forEach((skill: string) => {
+    //   console.log("skill: ", skill);
+    //   formData.append("skills", skill);
+    // });
     
-    if (profileImg) {
-      console.log("image: ", profileImg);
-      formData.append("image", profileImg);
-    }
-    if (resume) {
-      console.log("Resume", resume);
-      formData.append("resume", resume);
-    }
+    // if (profileImg) {
+    //   console.log("image: ", profileImg);
+    //   formData.append("image", profileImg);
+    // }
+    // if (resume) {
+    //   console.log("Resume", resume);
+    //   formData.append("resume", resume);
+    // }
+
+    console.log("Hello ?????")
 
     // const tokens = studentSignup.mutate(formData);
     // console.log("tokens: ", tokens);
@@ -382,7 +382,7 @@ export function StudentForm() {
                   )}
                 />
                 {/* Department */}
-                
+
                 {/* Year */}
                 <FormField
                   control={form.control}
@@ -564,9 +564,6 @@ export function StudentForm() {
                 />
               </div>
               <Button type="submit" className="w-full">
-                <svg className="animete-spin h-5 w-5 mr-3" viewBox="0 0 24 24"> 
-                {/* <!-- ... --> */}
-                  </svg>
                 Create an account
               </Button>
             </div>
