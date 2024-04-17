@@ -15,6 +15,7 @@ const Layout = ({ children, }: {
     const [open, setOpen] = useState(false);
 
     return (
+        
         <div
             className={`grid  grid-rows-custom  h-screen transition-all duration-300  ${isCollapsed
                 ? "lg:grid-cols-collapsed "
