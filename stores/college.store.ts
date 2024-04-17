@@ -5,6 +5,8 @@ const useCollegeStore = create((set) => ({
     isLoading: false,
     error: null,
     setColleges: (colleges: any) => set(() => ({colleges})),
+    setError: (error: any) => set(() => ({ error })),
+
 }))
 
 export default useCollegeStore;

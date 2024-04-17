@@ -27,7 +27,7 @@ export const useUniversityActions = () => {
  
         }
         if (universityData.isLoading) {
-          setIsLoading(true);
+          setIsLoading(universityData.isLoading);
         }
       } catch (error) {
         console.error('Error fetching university data:', error);

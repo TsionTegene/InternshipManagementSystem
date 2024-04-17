@@ -18,7 +18,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useCollege } from "@/hooks/useUniversityActions";
 
 const formSchema = z.object({
-  name: z.string().min(2, {
+  Collegename: z.string().min(2, {
     message: "College name must be at least 2 characters.",
   }),
   phoneNum : z.string().min(10, {
@@ -46,12 +46,13 @@ export default function ProfileForm() {
     for (const field in formValues) {
       formData.append(field, formValues[field]);
     }
-    formData.append("universityId" ,"661ecb59812cdbe0c0f691c4")
+    formData.append("universityId" ,"661fbd258ccc2c339bc90202")
       //@ts-ignore
     for (let pair of formData.entries()) {
       //@ts-ignore
       console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
     }
+    console.log(formData.get("Collegename"))
 
     return addcollege.mutate(formData);
   };
@@ -70,7 +71,7 @@ export default function ProfileForm() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="name"
+              name="Collegename"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>College Name</FormLabel>

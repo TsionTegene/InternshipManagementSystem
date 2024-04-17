@@ -33,6 +33,11 @@ export async function registerDepartment(formData: FormData) {
 
 export async function createCollege(formData: FormData) {
   // const url = 'https://web-based-internship-management-system-3.onrender.com/create/college';
+       //@ts-ignore
+       for (let pair of formData.entries()) {
+        //@ts-ignore
+        console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
+      }
 const url = "http://localhost:5000/auth/register/college"
   const response = await fetch(url, {
     method: 'POST',
