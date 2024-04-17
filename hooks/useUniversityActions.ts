@@ -1,9 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect } from 'react';
-import { useUniversitySignup, useUniversityData, useUnivesityAddDepartment } from '@/queries/useUniversityQueries';
+import { useUniversitySignup, useUniversityData, useUnivesityAddDepartment, useUnivesityAddCollege,usecollegeDatabyUnId, useDepartmentData } from '@/queries/useUniversityQueries';
 import useUniversityStore from '@/stores/university.store';
 import { userigisteruser } from '@/queries/useUsersdata';
 import useUserStore from '@/stores/user.store';
+import useDepartmentStore from '@/stores/department.store';
+import useCollegeStore from '@/stores/college.store';
+
+
+
 
 export const useUniversityActions = () => {
   const setUniversities = useUniversityStore((state: any) => state.setUniversities);
@@ -80,11 +85,83 @@ export const registerUser = () =>{
 
 }
 
-  export const useCreateDepartment =  ()=>{
-    const addCollage = useUnivesityAddDepartment();
+  export const useDepartment =  ()=>{
+
+    const setDepartment = useDepartmentStore((state: any) => state.setDepartments);
+    const setIsLoading = useDepartmentStore((state: any) => state.setIsLoading);
+    const setError = useDepartmentStore((state: any) => state.setError);
+    const departments = useDepartmentStore((state: any) => state.departments); 
+
+    const addDepartment = useUnivesityAddDepartment();
+    const deptByUnId = useDepartmentData();
+
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          if (addDepartment.isSuccess) {
+            setDepartment(addDepartment.data); 
+   
+          }
+          if (addDepartment.isPending) {
+
+            setIsLoading(true);
+          }
+        } catch (error) {
+          console.error('Error fetching university data:', error);
+          setError(error);
+        }
+      };
+  
+      fetchData();
+  
+    }, [addDepartment.isSuccess, addDepartment.isPending, setDepartment, setIsLoading, setError]);
 
     return {
-      addCollage
+      departments,
+      addDepartment,
+      deptByUnId,
+      isLoding :addDepartment.isPending,
+      isError :addDepartment.isError
+     
+    }
+
+
+  }
+
+  export const useCollege =  ()=>{
+
+    const setColleges = useCollegeStore((state: any) => state.setColleges);
+    const setIsLoading = useCollegeStore((state: any) => state.setIsLoading);
+    const setError = useCollegeStore((state: any) => state.setError);
+    const colleges = useCollegeStore((state: any) => state.colleges); 
+    
+    const addcollege = useUnivesityAddCollege();
+    const collegeByUnId = usecollegeDatabyUnId()
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          if (addcollege.isSuccess) {
+            setColleges(addcollege.data); 
+   
+          }
+          if (addcollege.isPending) {
+            setIsLoading(true);
+          }
+        } catch (error) {
+          console.error('Error fetching university data:', error);
+          setError(error);
+        }
+      };
+  
+      fetchData();
+  
+    }, [addcollege.isSuccess, addcollege.isPending, setColleges, setIsLoading, setError]);
+
+    return {
+      colleges,
+      addcollege,
     }
 
 

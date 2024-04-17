@@ -1,7 +1,8 @@
-import { fetchCollegebyUnId } from "@/api/college/queries";
-import { registerDepartment, registerUniversity } from "@/api/university/mutation";
-import { fetchUniversity } from "@/api/university/queries";
+import { createCollege, registerDepartment, registerUniversity } from "@/api/university/mutation";
+import { fetchCollegebyUnId, fetchDepartment, fetchUniversity, } from "@/api/university/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
+
+
 
 // using useQuery hook to fetch data from the server
 export function useUniversityData () {
@@ -14,9 +15,11 @@ export function useUniversityData () {
 }
 
 export function usecollegeDatabyUnId () {
+    
+
     const query = useQuery({
         queryKey: ["college"],
-        queryFn: () => fetchCollegebyUnId()
+        queryFn: () => fetchCollegebyUnId("661ecb59812cdbe0c0f691c4")
     })
 
     return query;
@@ -29,7 +32,7 @@ export const useUniversitySignup = ()=> {
   
     return mutation;
   };
-//@ts-ignore
+
 export const useUnivesityAddDepartment = () =>{
     const mutation = useMutation({
 
@@ -39,4 +42,25 @@ export const useUnivesityAddDepartment = () =>{
 
 
     return mutation 
+}
+
+export const useUnivesityAddCollege = () =>{
+    const mutation = useMutation({
+
+        mutationFn:(formData: FormData) => createCollege(formData),
+
+    })
+
+
+    return mutation 
+}
+
+
+export const useDepartmentData = () =>{
+    const query = useQuery({
+        queryKey: ["Department"],
+        queryFn: () => fetchDepartment()
+    })
+
+    return query;
 }

@@ -12,22 +12,22 @@ const formSchema = z.object({
   email: z.string().email({
     message: "Invalid email address.",
   }),
-  password: z.string().min(6, {
+  userPassword: z.string().min(6, {
     message: "Password must be at least 6 characters.",
   }),
-  firstname: z.string().min(3, {
+  firstName: z.string().min(3, {
     message: "firtname is required.",
 
   }),
-  middlename: z.string().min(3, {
+  middleName: z.string().min(3, {
     message: "middlename is required.",
 
   }),
-  username: z.string().min(3, {
+  userName: z.string().min(3, {
     message: "username is required.",
 
   }),
-  phoneNo: z.string().min(10, {
+  phoneNum: z.string().min(10, {
     message: "Enter phone number.",
   }),
 });
@@ -89,7 +89,7 @@ export default function RegistrationForm() {
             />
             <FormField
               control={form.control}
-              name="password"
+              name="userPassword"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
@@ -102,7 +102,7 @@ export default function RegistrationForm() {
             />
             <FormField
               control={form.control}
-              name="firstname"
+              name="firstName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>First Name</FormLabel>
@@ -115,7 +115,7 @@ export default function RegistrationForm() {
             />
             <FormField
               control={form.control}
-              name="middlename"
+              name="middleName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Middle Name</FormLabel>
@@ -128,7 +128,7 @@ export default function RegistrationForm() {
             />
             <FormField
               control={form.control}
-              name="username"
+              name="userName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Username</FormLabel>
@@ -141,7 +141,7 @@ export default function RegistrationForm() {
             />
             <FormField
               control={form.control}
-              name="phoneNo"
+              name="phoneNum"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Phone Number</FormLabel>

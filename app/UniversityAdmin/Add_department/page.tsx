@@ -16,7 +16,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { MinusCircleIcon, PlusCircleIcon, UploadIcon } from "lucide-react";
-import { useCreateDepartment } from "@/hooks/useUniversityActions";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useDepartment,useCollege } from "@/hooks/useUniversityActions";
 
 const depformSchema = z.object({
   departmentName: z.string().min(2, {
@@ -28,32 +29,21 @@ const depformSchema = z.object({
   departmentPhoneNo: z.string().min(10, {
     message: "Enter phone number.",
   }),
+  universityName :z.string().min(2, {
+    message: "University name must be at least 2 characters.",
+  }),
 });
 
 export default function ProfileForm() {
-  const [departments, setDepartments] = useState([{ id: 1, name: "", email: "", phoneNo: "" }]);
 
+  const {addDepartment,isLoding,isError} = useDepartment();
+  const {colleges} =useCollege()
 
 
   const depform = useForm({
     resolver: zodResolver(depformSchema),
   });
 
-  const { addCollage } = useCreateDepartment();
-
-  const onSubmit = async (formValues: any) => {
-    const formData = new FormData();
-
-    for (const field in formValues) {
-      formData.append(field, formValues[field]);
-    }
-
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
-    }
-
-    return addCollage.mutate(formData);
-  };
 
   const handleDepartmentSubmit = async (formValues: any) => {
     const formData = new FormData();
@@ -66,7 +56,7 @@ export default function ProfileForm() {
       console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
     }
 
-    return addCollage.mutate(formData);
+    return addDepartment.mutate(formData);
   };
 
 
@@ -74,6 +64,44 @@ export default function ProfileForm() {
     <Card className="mx-auto max-w-lg my-10">
 
       <CardContent>
+      <FormField
+                  control={depform.control}
+                  name="universityName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>University</FormLabel>
+                      <FormControl>
+                        <div className="grid gap-3">
+                          {isLoding && <div>Loading...</div>}
+                          {isError && <div>Error Occured</div>}
+                          {!isLoding && !isError && (
+                            <Select
+                              onValueChange={(value) => {
+                                field.onChange(value);
+                              }}
+                              aria-label="Select University"
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select University" />{" "}
+                              </SelectTrigger>
+                              <SelectContent>
+                                {colleges.map((university: any) => (
+                                  <SelectItem
+                                    key={university.id}
+                                    value={university.name}
+                                  >
+                                    {university.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          )}
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
       
         <Form {...depform}>
           <form onSubmit={depform.handleSubmit(handleDepartmentSubmit)} className="space-y-8">
