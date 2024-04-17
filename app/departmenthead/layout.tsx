@@ -7,6 +7,7 @@ import { useState } from "react";
 import { AlignJustify } from "lucide-react";
 import { IoIosArrowDropleft } from "react-icons/io";
 import { RiMenu4Line } from "react-icons/ri";
+import ProtectedRoute from "@/lib/ProtectedRoute";
 
 const Layout = ({ children, }: {
     children: React.ReactNode
@@ -15,6 +16,7 @@ const Layout = ({ children, }: {
     const [open, setOpen] = useState(false);
 
     return (
+        <ProtectedRoute roles={['DEPARTMENT_HEAD']}>
         <div
             className={`grid  grid-rows-custom  h-screen transition-all duration-300  ${isCollapsed
                 ? "lg:grid-cols-collapsed "
@@ -50,6 +52,7 @@ const Layout = ({ children, }: {
 
             <main className="pt-10  px-12 overflow-y-scroll ">{children}</main>
         </div>
+        </ProtectedRoute>
     );
 };
 
