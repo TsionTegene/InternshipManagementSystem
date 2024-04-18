@@ -188,6 +188,11 @@ export const universityAdmin = [
         icon: <MdAddBox />,
     },
     {
+        title: 'Add Department',
+        path: '/UniversityAdmin/Add_department',
+        icon: <MdAddBox />,
+    },
+    {
         title: 'Student',
         path: '/UniversityAdmin/students',
         icon: <PiStudentFill />,

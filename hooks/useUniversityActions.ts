@@ -98,11 +98,11 @@ export const registerUser = () =>{
     useEffect(() => {
       const fetchData = async () => {
         try {
-          if (addDepartment.isSuccess) {
-            setDepartment(addDepartment.data); 
+          if (deptByUnId.isSuccess) {
+            setDepartment(deptByUnId.data); 
    
           }
-          if (addDepartment.isPending) {
+          if (deptByUnId.isLoading) {
 
             setIsLoading(true);
           }

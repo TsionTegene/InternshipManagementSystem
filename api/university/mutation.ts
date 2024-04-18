@@ -19,18 +19,20 @@ const url = "http://localhost:5000/auth/register/university"
 
 export async function registerDepartment(formData: FormData) {
   const url = "http://localhost:5000/auth/register/department"
-  const response = await fetch(url, {
-    method: 'POST',
-    body: formData,
-  });
+  try {
+    const response = await axios.post(url, formData, {
+      headers: { 'Content-Type': 'application/json' },
+    });
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    if (!response.data) { // Assuming successful response has data
+      throw new Error('Empty response from server');
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error('Error creating college:', error);
+    throw error; // Re-throw for potential handling in calling code
   }
-  
-
-  const responseData = await response.json();
-  return responseData;
 }
 
 export async function createCollege(formData: any) {

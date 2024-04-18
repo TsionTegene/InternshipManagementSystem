@@ -2,7 +2,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,26 +14,25 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { MinusCircleIcon, PlusCircleIcon, UploadIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useDepartment,useCollege } from "@/hooks/useUniversityActions";
 
 const depformSchema = z.object({
-  departmentName: z.string().min(2, {
+  name: z.string().min(2, {
     message: "Department name must be at least 2 characters.",
   }),
-  departmentEmail: z.string().email({
+ email: z.string().email({
     message: "Invalid email address for the Department.",
   }),
-  departmentPhoneNo: z.string().min(10, {
+  phoneNum: z.string().min(10, {
     message: "Enter phone number.",
   }),
-  universityName :z.string().min(2, {
+  collegeId: z.string().min(2, {
     message: "University name must be at least 2 characters.",
   }),
 });
 
-export default function ProfileForm() {
+export default function DepartmentCreation() {
 
   const {addDepartment,isLoding,isError} = useDepartment();
   const {colleges} =useCollege()
@@ -47,14 +45,16 @@ export default function ProfileForm() {
 
   const handleDepartmentSubmit = async (formValues: any) => {
     const formData = new FormData();
-
     for (const field in formValues) {
       formData.append(field, formValues[field]);
     }
+    formData.append("universityId" ,"661fbd258ccc2c339bc90202")
 
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
-    }
+      //@ts-ignore
+      for (let pair of formData.entries()) {
+        //@ts-ignore
+        console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
+      }
 
     return addDepartment.mutate(formData);
   };
@@ -64,12 +64,20 @@ export default function ProfileForm() {
     <Card className="mx-auto max-w-lg my-10">
 
       <CardContent>
-      <FormField
+
+            <CardTitle className="text-xl">Create Department</CardTitle>
+            <CardDescription>
+              Enter Required Information to Create a Department
+            </CardDescription>
+      
+        <Form {...depform}>
+        <form onSubmit={depform.handleSubmit(handleDepartmentSubmit)} className="space-y-8">
+            <FormField
                   control={depform.control}
-                  name="universityName"
+                  name="collegeId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>University</FormLabel>
+                      <FormLabel>College Name</FormLabel>
                       <FormControl>
                         <div className="grid gap-3">
                           {isLoding && <div>Loading...</div>}
@@ -79,18 +87,18 @@ export default function ProfileForm() {
                               onValueChange={(value) => {
                                 field.onChange(value);
                               }}
-                              aria-label="Select University"
+                              aria-label="Select College"
                             >
                               <SelectTrigger>
-                                <SelectValue placeholder="Select University" />{" "}
+                                <SelectValue placeholder="Select College" />{" "}
                               </SelectTrigger>
                               <SelectContent>
-                                {colleges.map((university: any) => (
+                                {colleges.map((colleges: any) => (
                                   <SelectItem
-                                    key={university.id}
-                                    value={university.name}
+                                    key={colleges.id}
+                                    value={colleges.id}
                                   >
-                                    {university.name}
+                                    {colleges.Collegename}
                                   </SelectItem>
                                 ))}
                               </SelectContent>
@@ -102,17 +110,9 @@ export default function ProfileForm() {
                     </FormItem>
                   )}
                 />
-      
-        <Form {...depform}>
-          <form onSubmit={depform.handleSubmit(handleDepartmentSubmit)} className="space-y-8">
-            <CardTitle className="text-xl">Create Department</CardTitle>
-            <CardDescription>
-              Enter Required Information to Create a Department
-            </CardDescription>
-           
             
                 <FormField
-                  name={`departmentName`}
+                  name={`name`}
                   control={depform.control}
                   render={({ field }) => (
                     <FormItem>
@@ -129,7 +129,7 @@ export default function ProfileForm() {
                   )}
                 />
                 <FormField
-                  name={`departmentEmail`}
+                  name={`email`}
                   control={depform.control}
                   render={({ field }) => (
                     <FormItem>
@@ -146,7 +146,7 @@ export default function ProfileForm() {
                   )}
                 />
                 <FormField
-                  name={`departmentPhoneNo`}
+                  name={`phoneNum`}
                   control={depform.control}
                   render={({ field }) => (
                     <FormItem>
@@ -172,4 +172,3 @@ export default function ProfileForm() {
     </Card>
   );
 }
-

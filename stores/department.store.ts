@@ -5,6 +5,8 @@ const useDepartmentStore = create((set) => ({
     isLoading: false,
     error: null,
     setDepartments: (departments: any) => set(() => ({ departments })),
+    setIsLoading: (isLoading: boolean) => set(() => ({ isLoading })),
+    setError: (error: any) => set(() => ({ error })),
 }))
 
 export default useDepartmentStore;
