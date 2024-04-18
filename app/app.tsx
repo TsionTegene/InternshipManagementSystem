@@ -24,7 +24,11 @@ import Modal from "@/modals/loginmodal";
 import { Login } from "@/components/login/login";
 import Footer from "@/components/footer";
 
+
 export default function Home() {
+
+  const router = useRouter()
+
   // const [open, setOpen] = useState(false);
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
@@ -76,24 +80,18 @@ export default function Home() {
         </div>
         <ul className="flex space-x-4 list-none pl-4">
           <li className="hover:text-white transition duration-300 ease-in-out">
-            <Button className=" rounded-2xl">
-              <Link href="/" className="font-semibold ">
+          <Button variant="secondary" className=" rounded-2xl" onClick={() => router.push('/login')}>
                 About Us
-              </Link>
             </Button>
           </li>
           <li className="hover:text-white transition duration-300 ease-in-out">
-            <Button className=" rounded-2xl">
-              <Link href="/login" className="font-semibold ">
+            <Button className=" rounded-2xl" onClick={() => router.push('/login')}>
                 Login
-              </Link>
             </Button>
           </li>
           <li className="hover:text-white transition duration-300 ease-in-out">
-            <Button className=" rounded-2xl">
-              <Link href="/signup" className="font-semibold ">
+            <Button className=" rounded-2xl" onClick={() => router.push('/signup')}>
                 Sign Up
-              </Link>
             </Button>
           </li>
         </ul>
@@ -101,21 +99,24 @@ export default function Home() {
 
       <div className="landing">
         <div>
-          <div className="flex flex-row">
-            <div className="colone">
-              <p className="title">Web Based Internship Management System</p>
-              <p className="text">
-                Empower your Internship program with web based Internship
-                management system.
+<div className="flex flex-row">
+            <div className="colone lg:w-2/3 xl:w-1/2 mx-auto py-12 px-4 sm:px-6 lg:px-8 lg:py-24">
+              <p className="leading-none max-w-2xl text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500 animate-pulse mb-4 xl:text-6xl">
+                Web Based Internship Management System
               </p>
-              <p className="mb-8">
-                Streamline workflows, improve communication and track intern
-                status with our all-in-one platfom.
+              <p className="text text-lg md:text-xl text-gray-600 mb-4 leading-relaxed">
+                Empower your Internship program with our web-based Internship management system.
               </p>
-              <Button variant="outline" className="btn">
+              <p className="mb-8 text-gray-500 text-base md:text-lg leading-normal">
+                Streamline workflows, improve communication, and track intern status with our all-in-one platform.
+              </p>
+              <button
+                type="button"
+                className="btn bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-gradient-to-bl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 transition duration-300 ease-in-out animate-bounce">
                 Get Started
-              </Button>
+              </button>
             </div>
+
             <div className="coltwo">
               <Image
                 src={"/images/landing.png"}
@@ -130,20 +131,20 @@ export default function Home() {
             {items.map((item, index) => (
               <Card
                 key={index}
-                className="mr-15"
+                className="shadow-2xl border-collapse pl-5 mr-15"
                 style={{
                   background:
-                    "linear-gradient(to top, rgb(154, 208, 194), rgb(23, 107, 135))",
+                    "linear-gradient(90deg, rgba(5,0,84,0.7959558823529411) 0%, rgba(9,66,121,0.7091211484593838) 46%, rgba(10,30,158,0.7651435574229692) 100%)",
                 }}
               >
-                {item.icon}
                 <CardHeader>
                   <CardTitle className="text-2xl font-bold mb-2 text-white">
-                    {item.title}
+                <span>{item.icon}</span>
+                <span>  {item.title}</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription>{item.description}</CardDescription>
+                  <CardDescription className="text-xl text-slate-200">{item.description}</CardDescription>
                 </CardContent>
               </Card>
             ))}
