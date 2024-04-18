@@ -1,4 +1,3 @@
-// In the parent component of createForm, make sure to use the "use client" directive
 "use client";
 
 import { Textarea } from '@/components/ui/textarea';
@@ -8,7 +7,6 @@ import { FaPlus } from 'react-icons/fa';
 export default function createForm() {
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    // Add your form submission logic here
     console.log("Form submitted");
   };
 

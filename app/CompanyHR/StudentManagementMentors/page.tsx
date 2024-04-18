@@ -9,14 +9,11 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
-// Import icons from your icon library
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const Page = () => {
-    // Options for the dropdown
     const lecturerOptions = ["Mr. Abebe", "Mr. John", "Ms. Emily", "Dr. Smith"];
 
-    // Function to determine the background color based on the approval status
     const getStatusColor = (status: string) => {
         switch (status) {
             case 'approved':
@@ -34,7 +31,6 @@ const Page = () => {
             <Table>
                 <TableCaption></TableCaption>
 
-                {/* Table Header */}
                 <TableHeader>
                     <TableRow>
                         <TableHead>No.</TableHead>
@@ -43,9 +39,7 @@ const Page = () => {
                     </TableRow>
                 </TableHeader>
 
-                {/* Table Body */}
                 <TableBody>
-                    {/* Single Row */}
                     <TableRow>
                         <TableCell className="font-medium">1</TableCell>
                         <TableCell>Bereket</TableCell>
