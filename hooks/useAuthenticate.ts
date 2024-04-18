@@ -2,46 +2,60 @@ import { useEffect } from 'react';
 import { useLogin } from '@/queries/useLogin';
 import useSessionStore from '@/stores/sessionStore';
 import jwt from 'jsonwebtoken';
+import { useRouter } from 'next/navigation'; // Import useRouter
 
 export const useAuthenticate = () => {
-    const { mutate, data, isSuccess, isError, isPending, error } = useLogin();
-    const setUserId = useSessionStore((state) => state.setUserId);
-    const setEmail = useSessionStore((state) => state.setEmail);
-    const setRole = useSessionStore((state) => state.setRole);
-    const setIsError = useSessionStore((state) => state.setIsError);
-    const setIsLoading = useSessionStore((state) => state.setIsLoading);
+  const { mutate, data, isSuccess, isError, isPending, error } = useLogin();
+  const setUserId = useSessionStore((state) => state.setUserId);
+  const setEmail = useSessionStore((state) => state.setEmail);
+  const setRole = useSessionStore((state) => state.setRole);
+  const setIsError = useSessionStore((state) => state.setIsError);
+  const setIsLoading = useSessionStore((state) => state.setIsLoading);
+  const router = useRouter(); // Get router instance
 
-    useEffect(() => {
-        if (isError && error) {
-            setIsError(error);
-            setIsLoading(false);
-            return;  // Early exit if there is an error
-        }
+  useEffect(() => {
+    if (isError && error) {
+      setIsError(error);
+      setIsLoading(false);
+      return;
+    }
 
-        if (isPending) {
-            setIsLoading(true);
-            return;  // Early exit if still pending
-        }
+    if (isPending) {
+      setIsLoading(true);
+      return;
+    }
 
-        if (isSuccess && data && data.access_token) {
-            localStorage.setItem('access_token', data.access_token);
-            localStorage.setItem('refresh_token', data.refresh_token);
-            
-            const payload = decodeToken(data.access_token);
-            if (payload) {
-                setUserId(payload.userId);
-                setEmail(payload.email);
-                setRole(payload.role);
-            }
-        }
-    }, [isSuccess, isPending, isError, error, data]); // Only re-run on changes to these values
+    if (isSuccess && data && data.access_token) {
+      const payload = decodeToken(data.access_token);
+      if (payload) {
+        setUserId(payload.userId);
+        setEmail(payload.email);
+        setRole(payload.role);
+        redirectBasedOnRole(payload.role);
+      }
+    }
+  }, [isSuccess, isPending, isError, error, data, router]);
 
-    const authenticate = (formData: any) => {
-        mutate(formData);
-    };
+  const authenticate = (formData: any) => {
+    mutate(formData);
+  };
 
-    return { authenticate, isPending, isError, error };
+  function redirectBasedOnRole(role: string) {
+    switch (role) {
+      case 'UNIVERSITY_ADMIN':
+        router.push('/UniversityAdmin');
+        break;
+      case 'USER':
+        router.push('/user/dashboard');
+        break;
+      default:
+        router.push('/login');
+    }
+  }
+
+  return { authenticate, isPending, isError, error };
 };
+
 
 
 interface DecodedToken {

@@ -36,12 +36,6 @@ export function Login() {
   });
 
   const onSubmit = async (formValues: z.infer<typeof formSchema>) => {
-    console.log(formValues);
-    const formData = new FormData();
-    formData.append("email", formValues.email);
-    formData.append("password", formValues.password);
-    console.log(formData.get("email"));
-    console.log(formData.get("password"));
     const result = authenticate(formValues);
     console.log(result);
   };
