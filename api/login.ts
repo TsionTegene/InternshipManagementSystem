@@ -1,6 +1,6 @@
 // Login implementation
 export async function login(formData: FormData) {
-    const url = 'https://web-based-internship-management-system-3.onrender.com/auth/login';
+    const url = 'http://localhost:5000/auth/login';
     const response = await fetch(url, {
         method: 'POST',
         body: formData,
