@@ -29,8 +29,9 @@ const formSchema = z.object({
   }),
 });
 
-export default function ProfileForm() {
+export default function CollegeForm() {
   
+  const { addcollege ,colleges} = useCollege();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -38,7 +39,6 @@ export default function ProfileForm() {
 
 
 
-  const { addcollege } = useCollege();
 
   const onSubmit = async (formValues: any) => {
     const formData = new FormData();
@@ -53,6 +53,7 @@ export default function ProfileForm() {
       console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
     }
     console.log(formData.get("Collegename"))
+    console.log("list of colleges",colleges)
 
     return addcollege.mutate(formData);
   };

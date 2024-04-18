@@ -1,11 +1,10 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect } from 'react';
 import { useUniversitySignup, useUniversityData, useUnivesityAddDepartment, useUnivesityAddCollege,usecollegeDatabyUnId, useDepartmentData } from '@/queries/useUniversityQueries';
 import useUniversityStore from '@/stores/university.store';
 import { userigisteruser } from '@/queries/useUsersdata';
 import useUserStore from '@/stores/user.store';
 import useDepartmentStore from '@/stores/department.store';
-import useCollegeStore from '@/stores/college.store';
+import {useCollegeStore} from '@/stores/college.store';
 
 
 
@@ -129,40 +128,38 @@ export const registerUser = () =>{
 
   }
 
-  export const useCollege =  ()=>{
-
+  export const useCollege = () => {
     const setColleges = useCollegeStore((state: any) => state.setColleges);
     const setIsLoading = useCollegeStore((state: any) => state.setIsLoading);
     const setError = useCollegeStore((state: any) => state.setError);
     const colleges = useCollegeStore((state: any) => state.colleges); 
     
     const addcollege = useUnivesityAddCollege();
-    const collegeByUnId = usecollegeDatabyUnId()
-
+    const collegeData = usecollegeDatabyUnId();
+    
     useEffect(() => {
       const fetchData = async () => {
         try {
-          if (addcollege.isSuccess) {
-            setColleges(addcollege.data); 
-   
+          if (collegeData.isSuccess) {
+            setColleges(collegeData.data);
           }
-          if (addcollege.isPending) {
+          if (collegeData.isLoading) {
             setIsLoading(true);
           }
         } catch (error) {
-          console.error('Error fetching university data:', error);
+          console.error('Error fetching College data:', error);
           setError(error);
         }
       };
   
       fetchData();
   
-    }, [addcollege.isSuccess, addcollege.isPending, setColleges, setIsLoading, setError]);
-
+    }, [collegeData.isSuccess, collegeData.isLoading, setColleges, setIsLoading, setError]); // Add dependencies here
+  
     return {
       colleges,
       addcollege,
-    }
-
-
-  }
+    };
+  };
+  
+  

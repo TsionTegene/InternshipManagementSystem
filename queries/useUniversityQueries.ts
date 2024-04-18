@@ -14,15 +14,15 @@ export function useUniversityData () {
     return query;
 }
 
-export function usecollegeDatabyUnId () {
+export  function  usecollegeDatabyUnId () {
     
 
     const query = useQuery({
         queryKey: ["college"],
-        queryFn: () => fetchCollegebyUnId("661ecb59812cdbe0c0f691c4")
+        queryFn: () =>  fetchCollegebyUnId("661fbd258ccc2c339bc90202")
     })
 
-    return query;
+    return  query;
 }
 
 export const useUniversitySignup = ()=> {
