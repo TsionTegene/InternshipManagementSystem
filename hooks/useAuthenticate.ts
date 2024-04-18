@@ -12,46 +12,52 @@ export const useAuthenticate = () => {
     const setIsLoading = useSessionStore((state) => state.setIsLoading);
 
     useEffect(() => {
-        const setJwtToken = ({ accessToken, refreshToken }: { accessToken: string, refreshToken: string }) => {
-            localStorage.setItem('accessToken', accessToken)
-            localStorage.setItem('refreshToken', refreshToken)
-        }
-        const accessToken = localStorage.getItem('accessToken');
-
-        const payload = accessToken ? decodeToken(accessToken) : null;
-        if (isSuccess && payload) {
-            setUserId(payload.userId);
-            setEmail(payload.email);
-            setRole(payload.role);
-        }
-        if (isPending) {
-            setIsLoading(true);
-        }
         if (isError && error) {
             setIsError(error);
             setIsLoading(false);
+            return;  // Early exit if there is an error
         }
-    }, [data, isSuccess, isError, isPending, error, setUserId, setEmail, setRole, setIsLoading]);
 
-    const authenticate = (formData: FormData) => {
+        if (isPending) {
+            setIsLoading(true);
+            return;  // Early exit if still pending
+        }
+
+        if (isSuccess && data && data.access_token) {
+            localStorage.setItem('access_token', data.access_token);
+            localStorage.setItem('refresh_token', data.refresh_token);
+            
+            const payload = decodeToken(data.access_token);
+            if (payload) {
+                setUserId(payload.userId);
+                setEmail(payload.email);
+                setRole(payload.role);
+            }
+        }
+    }, [isSuccess, isPending, isError, error, data]); // Only re-run on changes to these values
+
+    const authenticate = (formData: any) => {
         mutate(formData);
     };
-    const payload = data ? decodeToken(data.accessToken) : null;
-    return { authenticate, isPending, isError, error, payload };
+
+    return { authenticate, isPending, isError, error };
 };
 
-const decodeToken = (token: string) => {
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET as string) as { sub: string, email: string, role: string };
 
-    console.log(decodedToken);
-    // Access user information
-    const userId = decodedToken.sub;
-    const email = decodedToken.email;
-    const role = decodedToken.role;
-
-    return { userId, email, role };
+interface DecodedToken {
+    sub: string;
+    email: string;
+    role: string;
 }
 
-function setIsLoading(arg0: boolean) {
-    throw new Error('Function not implemented.');
-}
+const decodeToken = (token: string): { userId: string, email: string, role: string } | undefined => {
+    console.log("Token received for decoding:", token);
+    const decodedToken = jwt.verify(token, "abel5173") as DecodedToken;  // Use the secure or default secret
+    console.log("Decoded token:", decodedToken);
+    return {
+        userId: decodedToken.sub,
+        email: decodedToken.email,
+        role: decodedToken.role
+    };
+};
+

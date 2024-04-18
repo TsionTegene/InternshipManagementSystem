@@ -42,7 +42,7 @@ export function Login() {
     formData.append("password", formValues.password);
     console.log(formData.get("email"));
     console.log(formData.get("password"));
-    const result = await authenticate(formData);
+    const result = authenticate(formValues);
     console.log(result);
   };
   return (
