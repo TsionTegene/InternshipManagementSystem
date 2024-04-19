@@ -52,7 +52,7 @@ export const useAuthenticate = () => {
         router.push('/student');
         break;
       case 'COMPANY_HR':
-        router.push('/company');
+        router.push('/hr');
         break;
       default:
         router.push('/login');

@@ -1,8 +1,12 @@
 import React from 'react'
+import Dashboard from './dashboard/page'
+
 
 const page = () => {
   return (
-    <div>hr page</div>
+    <div>
+      <Dashboard />
+    </div>
   )
 }
 

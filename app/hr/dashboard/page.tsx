@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 'use client'
 import Card from '@/components/card/Cards';
 import React, { useState } from 'react'
@@ -32,18 +33,18 @@ const page = () => {
     <div>
       <div className='flex gap-4'>
         <div className='flex flex-col gap-4 w-2/5'>
-          <Card description="Female Interns" title={totalFemaleInterns} icon={<FaFemale />} />
-          <Card description="Male Interns" title={totalMaleInterns} icon={<FaMale />} />
+          <Card description="Female Interns" title={totalFemaleInterns} icon={<FaFemale />} imageUrl={''} startdate={''} enddate={''} address={''} id={undefined} />
+          <Card description="Male Interns" title={totalMaleInterns} icon={<FaMale />} imageUrl={''} startdate={''} enddate={''} address={''} id={undefined} />
         </div>
         <div>
           <div className='bg-gray-300 rounded-lg p-5'>
             <p>Total Interns</p>
             <p>{totalInterns}</p>
             <div className='flex ml-15 justify-evenly gap-2'>
-              <Card description="Applications received, under consideration." title={totalApplications} />
-              <Card description="Interns who have completed their internship" title={completedInterns} />
-              <Card description="Applications not accepted" title={applicationsNotAccepted} />
-              <Card description="Currently undertaking the internship" title={internsCurrentlyUndertaking} />
+              <Card description="Applications received, under consideration." title={totalApplications} icon={undefined} imageUrl={''} startdate={''} enddate={''} address={''} id={undefined} />
+              <Card description="Interns who have completed their internship" title={completedInterns} icon={undefined} imageUrl={''} startdate={''} enddate={''} address={''} id={undefined} />
+              <Card description="Applications not accepted" title={applicationsNotAccepted} icon={undefined} imageUrl={''} startdate={''} enddate={''} address={''} id={undefined} />
+              <Card description="Currently undertaking the internship" title={internsCurrentlyUndertaking} icon={undefined} imageUrl={''} startdate={''} enddate={''} address={''} id={undefined} />
             </div>
           </div>
         </div>
