@@ -24,6 +24,10 @@ import {
 } from "../ui/card";
 import Link from 'next/link';
 import { useAuthenticate } from "@/hooks/useAuthenticate";
+import Footer from "@/components/footer";
+import Image from "next/image";
+import Header from "@/components/page-header";
+
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -41,6 +45,7 @@ export function Login() {
   };
   return (
     <>
+    <Header />
       <div
         className="flex bg-transparent items-center justify-center min-h-screen bg-cover bg-no-repeat"
         style={{
@@ -52,7 +57,17 @@ export function Login() {
       >
         <Card>
           <CardHeader>
-            <CardTitle>Login</CardTitle>
+            <CardTitle>
+              <div>
+              <Image
+                  src={"/images/logo.png"}
+                  width={140}
+                  height={140}
+                  className="mx-auto animate-pulse"
+                  alt="Company Logo"
+                />
+
+              Login </div></CardTitle>
             <CardDescription>
               Enter your credintials below to login to your account
             </CardDescription>
@@ -126,6 +141,7 @@ export function Login() {
           </CardFooter>
         </Card>
       </div>
+      <Footer />
     </>
   );
 }

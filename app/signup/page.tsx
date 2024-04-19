@@ -10,6 +10,8 @@ import { Button } from '@/components/ui/button';
 import Image from "next/image";
 import bg4 from "@/public/images/bg4.jpg";
 import Link from "next/link";
+import Header from '@/components/page-header';
+import Footer from '@/components/footer';
 
 const Signup = () => {
     const roles = [
@@ -36,42 +38,7 @@ const Signup = () => {
 
     return (
       <div>
-        <nav className="flex justify-between items-center px-4 py-2 fixed top-0 left-0 w-full z-50 bg-gradient-to-b from-cyan-600/70 to-blue-400/10">
-          <Link href="/">
-            <div className="flex items-center">
-              <Image
-                src={"/images/logo.png"}
-                width={140}
-                height={140}
-                className="size-13 animate-pulse"
-                alt={""}
-              />
-            </div>
-          </Link>
-          <ul className="flex space-x-4 list-none pl-4">
-            <li className="hover:text-white transition duration-300 ease-in-out">
-              <Button className=" rounded-2xl">
-                <Link href="/" className="font-semibold ">
-                  About Us
-                </Link>
-              </Button>
-            </li>
-            <li className="hover:text-white transition duration-300 ease-in-out">
-              <Button className="bg-gradient-to-r hover:bg-gradient-to-l from-blue-700 to-blue-500 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline animate-pulse shadow-lg shadow-blue-500/50">
-                <Link href="/login" className="font-semibold ">
-                  Login
-                </Link>
-              </Button>
-            </li>
-            <li className="hover:text-white transition duration-300 ease-in-out">
-              <Button className=" rounded-2xl">
-                <Link href="/signup" className="font-semibold ">
-                  Sign Up
-                </Link>
-              </Button>
-            </li>
-          </ul>
-        </nav>
+        <Header />
         <div
           className="flex bg-transparent items-center justify-center min-h-screen bg-cover bg-no-repeat"
           style={{
@@ -83,14 +50,14 @@ const Signup = () => {
         >
           <div className="flex flex-col md:flex-row justify-center items-center max-w-7xl mx-auto p-6 bg-white shadow-xl rounded-lg overflow-hidden">
             <div className="bg-white p-8 rounded-lg shadow-sm max-w-md w-full">
-              <h2 className="text-cyan-700 font-mono text-center mb-4 text-5xl font-extrabold">
+              <h2 className="text-cyan-700 font-mono text-center mb-4 text-4xl font-extrabold leading-none max-w-2xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-blue-800 animate-pulse xl:text-6xl">
                 Welcome To IMS
               </h2>
               <div className="border-b border-cyan-200 pb-4">
-                <h3 className="text-2xl text-center py-5 font-semibold">
+                <h3 className="text-2xl text-center py-5 font-semibold text md:text-xl text-gray-600 mb-4 leading-relaxed">
                   Choose Your Role
                 </h3>
-                <p className="text-center text-sm text-gray-600">
+                <p className="mb-8 text-gray-600 text-base md:text-sm leading-normal text-center">
                   Select The Role that You Want To Create An Account With
                 </p>
               </div>
@@ -135,6 +102,7 @@ const Signup = () => {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
 };
