@@ -71,7 +71,7 @@ export default function Home() {
   return (
     <div>
 
-      <Header />      
+      <Header />
 
       <div className="landing">
         <div>
@@ -105,17 +105,20 @@ export default function Home() {
           <div className="flex mr-15 justify-evenly gap-10">
             {items.map((item, index) => (
               <Card
-                key={index}
-                className="shadow-2xl border-collapse pl-5 mr-15"
-                style={{
-                  background:
-                    "radial-gradient(circle, rgba(47,90,145,0.7483368347338936) 0%, rgba(16,12,37,0.7343312324929971) 100%)",
-                }}
-              >
+              key={index}
+              className="shadow-2xl border-collapse pl-5 mr-15"
+              style={{
+                background:
+                  "radial-gradient(circle, rgba(47,90,145,0.7483368347338936) 0%, rgba(16,12,37,0.7343312324929971) 100%)",
+                transition: "transform 0.3s ease",
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+              onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+            >
                 <CardHeader>
                   <CardTitle className="text-2xl font-bold mb-2 text-white">
-                <span>{item.icon}</span>
-                <span>  {item.title}</span>
+                    <span>{item.icon}</span>
+                    <span>  {item.title}</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>

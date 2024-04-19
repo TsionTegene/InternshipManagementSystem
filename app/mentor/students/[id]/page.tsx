@@ -27,7 +27,7 @@ const StudentInformationDetailPage = ({ params }) => {
             <h1>Student Detail</h1>
             <StudentsDetail name={student.name} advisor={student.advisor} gpa={student.gpa} university={student.university} department={student.department} imageUrl={'/images/landing.png'} year={'4'} skills={'programming'} project={student.project} internshipTitle={student.internshipTitle} startDate={student.startDate} endDate={student.endDate} />
             <div className='flex justify-center m-2 '>
-                <Button>Evaluate</Button>
+                <Button className='m-2'>Evaluate</Button>
                 <Button className='m-2 '>Reports</Button>
             </div>
         </div>
