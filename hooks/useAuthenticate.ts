@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'; // Import useRouter
 export const useAuthenticate = () => {
   const { mutate, data, isSuccess, isError, isPending, error } = useLogin();
   const setUserId = useSessionStore((state) => state.setUserId);
+  const setUser = useSessionStore((state) => state.setUser)
   const setEmail = useSessionStore((state) => state.setEmail);
   const setRole = useSessionStore((state) => state.setRole);
   const setIsError = useSessionStore((state) => state.setIsError);
@@ -26,6 +27,8 @@ export const useAuthenticate = () => {
     }
 
     if (isSuccess && data && data.access_token) {
+      setUser(data.user)
+      console.log(data.user)
       const payload = decodeToken(data.access_token);
       if (payload) {
         setUserId(payload.userId);
@@ -45,8 +48,11 @@ export const useAuthenticate = () => {
       case 'UNIVERSITY_ADMIN':
         router.push('/UniversityAdmin');
         break;
-      case 'USER':
-        router.push('/user/dashboard');
+      case 'STUDENT':
+        router.push('/student');
+        break;
+      case 'COMPANY_HR':
+        router.push('/company');
         break;
       default:
         router.push('/login');

@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import { ICompanyRegistrationForm } from "./type";
 
 export async function registerCompany(formData: FormData) {
+    // const url = 'https://web-based-internship-management-system-5.onrender.com/auth/register/company';
     const url = 'http://localhost:5000/auth/register/company';
 
     await fetch(url, {

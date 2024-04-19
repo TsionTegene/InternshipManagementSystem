@@ -45,7 +45,7 @@ export function Login() {
   };
   return (
     <>
-    <Header />
+      <Header />
       <div
         className="flex bg-transparent items-center justify-center min-h-screen bg-cover bg-no-repeat"
         style={{
@@ -59,15 +59,16 @@ export function Login() {
           <CardHeader>
             <CardTitle>
               <div>
-              <Image
+                <Image
                   src={"/images/logo.png"}
                   width={140}
                   height={140}
                   className="mx-auto animate-pulse"
                   alt="Company Logo"
                 />
-
-              Login </div></CardTitle>
+                Login{" "}
+              </div>
+            </CardTitle>
             <CardDescription>
               Enter your credintials below to login to your account
             </CardDescription>
@@ -120,7 +121,33 @@ export function Login() {
                   disabled={isPending}
                   className="w-full bg-cyan-600 text-white text-lg py-2 rounded-md hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-50"
                 >
-                  {isPending ? (<><svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24"></svg>Logging...</>) : "Login"}
+                  {isPending ? (
+                    <>
+                      <svg
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      Logging...
+                    </>
+                  ) : (
+                    "Login"
+                  )}
                 </Button>
                 {isError && error && (
                   <p className="error">Error: {error.message}</p>

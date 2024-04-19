@@ -36,5 +36,8 @@ export const useStudentRegister = () => {
     return {
         user,
         signupStudent,
+        isSLoading: signupStudent.isPending,
+        isSError: signupStudent.isError,
+        isSSuccess: signupStudent.isSuccess,
     };
 }

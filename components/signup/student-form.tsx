@@ -47,6 +47,7 @@ import { useDeparmentData } from "@/hooks/useFetchDepartment";
 import { Textarea } from "@/components/ui/textarea";
 import { TbSquareRoundedPlus } from "react-icons/tb";
 import { PiDeviceTabletSpeakerFill } from "react-icons/pi";
+import { useRouter } from "next/navigation";
 
 const initialValue = "Bereket";
 
@@ -63,7 +64,7 @@ const formSchema = z
     }),
     departmentName: z.string().min(2, {
       message: "Enter your department.",
-    }).optional(),
+    }),
     userName: z.string().min(2, {
       message: "Username must be at least 2 characters.",
     }),
@@ -94,7 +95,7 @@ const formSchema = z
   });
 
 export function StudentForm() {
-
+  const router = useRouter();
   const [profileImg, setProfileImg] = useState<File | null>(null);
   const [resume, setResume] = useState<File | null>(null);
   const [skills, setSkills] = useState<string[]>([]);
@@ -103,10 +104,10 @@ export function StudentForm() {
   const [selectedFile, setSelectedFile] = useState("No File Chosen");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    
-  const { signupStudent } = useStudentRegister();
+
+  const { signupStudent, isSLoading, isSError, isSSuccess } = useStudentRegister();
   const { universities, error, isLoading } = useUniversityActions();
-  const { departments, isDLoading,  isDError} = useDeparmentData();
+  const { departments, isDLoading, isDError } = useDeparmentData();
 
   const skillsInput = () => {
     const input = document.getElementById("skillsArray") as HTMLInputElement;
@@ -140,28 +141,28 @@ export function StudentForm() {
     resolver: zodResolver(formSchema),
   });
 
-  const onInvalid = (errors: any) => console.error(errors)
+  const onInvalid = (errors: any) => console.error(errors);
 
   const onSubmit = async (formValues: any) => {
-    console.log("formValues: ", formValues);
+    // console.log("formValues: ", formValues);
     const formData = new FormData();
     for (const field in formValues) {
       if (field == "confirm_password") continue;
-      console.log(field, formValues[field]);
+      // console.log(field, formValues[field]);
       formData.append(field, formValues[field]);
     }
 
     skills.forEach((skill: string) => {
-      console.log("skill: ", skill);
+      // console.log("skill: ", skill);
       formData.append("skills", skill);
     });
-    
+
     if (profileImg) {
-      console.log("image: ", profileImg);
+      // console.log("image: ", profileImg);
       formData.append("image", profileImg);
     }
     if (resume) {
-      console.log("Resume", resume);
+      // console.log("Resume", resume);
       formData.append("resume", resume);
     }
 
@@ -169,76 +170,82 @@ export function StudentForm() {
 
     const tokens = student.mutate(formData);
     console.log("tokens: ", tokens);
-    return tokens;
+    if (isSSuccess) {
+      console.log(tokens)
+      console.log("Student Registered Successfully");
+      router.push("/login");
+    }
   };
 
   return (
     <Card className="mx-auto max-w-4xl my-10 shadow-2xl rounded-lg overflow-hidden">
-        <CardHeader>
-            <CardTitle className="text-xl">Sign Up</CardTitle>
-            <CardDescription>
-                Enter your information to create an account
-            </CardDescription>
-        </CardHeader>
-        <CardContent>
-            <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit, onInvalid)} className="space-y-8">
-                <div className="grid gap-5">
-                    <div className="grid grid-cols-2 gap-5">
-                        
-                      {/* First Name */}
-                      <FormField
-                          control={form.control}
-                          name="firstName"
-                          render={({ field }) => (
-                              <FormItem>
-                                  <FormLabel>
-                                      First Name <span className="text-red-700">*</span>
-                                  </FormLabel>
-                                  <FormControl>
-                                      <Input placeholder="First Name" {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                              </FormItem>
-                          )}
-                      />
+      <CardHeader>
+        <CardTitle className="text-xl">Sign Up</CardTitle>
+        <CardDescription>
+          Enter your information to create an account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit, onInvalid)}
+            className="space-y-8"
+          >
+            <div className="grid gap-5">
+              <div className="grid grid-cols-2 gap-5">
+                {/* First Name */}
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        First Name <span className="text-red-700">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="First Name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                      {/* Phone Number */}
-                      <FormField
-                        control={form.control}
-                        name="phoneNum"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                              Phone Number <span className="text-red-700">*</span>
-                            </FormLabel>
-                            <FormControl>
-                              <div className="flex items-center gap-4">
-                                <Phone />
-                                <Input {...field} placeholder="(09)-123-45-678" />
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                {/* Phone Number */}
+                <FormField
+                  control={form.control}
+                  name="phoneNum"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Phone Number <span className="text-red-700">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <div className="flex items-center gap-4">
+                          <Phone />
+                          <Input {...field} placeholder="(09)-123-45-678" />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                      {/* Middle Name */}
-                      <FormField
-                        control={form.control}
-                        name="middleName"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>
-                              Middle Name <span className="text-red-700">*</span>
-                            </FormLabel>
-                            <FormControl>
-                              <Input placeholder="Middle Name" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                {/* Middle Name */}
+                <FormField
+                  control={form.control}
+                  name="middleName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Middle Name <span className="text-red-700">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="Middle Name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 {/* Email */}
                 <FormField
@@ -386,7 +393,7 @@ export function StudentForm() {
                     </FormItem>
                   )}
                 />
-                
+
                 {/* Department */}
                 <FormField
                   control={form.control}
@@ -399,12 +406,17 @@ export function StudentForm() {
                           {isDLoading && <div>Loading...</div>}
                           {isDError && <div>Error Occured</div>}
                           {!isDLoading && !isDError && (
-                            <Select {...field} aria-label="Select Department">
+                            <Select
+                              onValueChange={(value) => {
+                                field.onChange(value);
+                              }}
+                              aria-label="Select Department"
+                            >
                               <SelectTrigger>
                                 <SelectValue placeholder="Select Department" />{" "}
                               </SelectTrigger>
                               <SelectContent>
-                              {departments.map((department: any) => (
+                                {departments.map((department: any) => (
                                   <SelectItem
                                     key={department.id}
                                     value={department.name}
@@ -600,34 +612,46 @@ export function StudentForm() {
                     </FormItem>
                   )}
                 />
-                    </div>
-                    <Button type="submit" className="w-full">
-                        Create an account
-                    </Button>
-                </div>
-                <div className="mt-4 text-center text-sm">
-                    Already have an account?{" "}
-                    <Link href="/login" className="underline">
-                        Sign in
-                    </Link>
-                </div>
-                </form>
-            </Form>
-        </CardContent>
+              </div>
+              <Button type="submit" className="w-full" disabled={isSLoading}>
+                {isSLoading ? (
+                  <>
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Creating Account...
+                  </>
+                ) : (
+                  "Create an account"
+                )}
+              </Button>
+            </div>
+            <div className="mt-4 text-center text-sm">
+              Already have an account?{" "}
+              <Link href="/login" className="underline">
+                Sign in
+              </Link>
+            </div>
+          </form>
+        </Form>
+      </CardContent>
     </Card>
-)
+  );
 }
-
-// const trial = () => {
-//   return (
-
-//   );
-// }
-
-// const trail2 = () => {
-//   return (
-
-
-
-//   )
-// }
