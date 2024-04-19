@@ -1,5 +1,6 @@
 export async function fetchUniversity () {
-    const url = "http://localhost:5000/university"
+    const url = "https://web-based-internship-management-system-5.onrender.com/university"
+    // const url = "http://localhost:5000/university"
 
     const response = await fetch(url, {
         method: "GET",
@@ -13,7 +14,7 @@ export async function fetchUniversity () {
 }
 
 export async function fetchDepartment() {
-    const url = "http://localhost:5000/department"
+    const url = "https://web-based-internship-management-system-5.onrender.com/department"
 
     const response = await fetch(url, {
         method: "GET",

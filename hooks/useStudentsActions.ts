@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useStudentSignup } from "@/queries/useStudentQueries";
+import { useDepartmentData } from "@/queries/useUniversityQueries";
 import { userigisteruser } from "@/queries/useUsersdata";
 import useUserStore from "@/stores/user.store";
 import { useEffect } from "react";
@@ -11,28 +12,29 @@ export const useStudentRegister = () => {
     const setError = useUserStore((state: any) => state.setError); // here we get the setError function from the user store
     const user = useUserStore((state: any) => state.user); // here we get the user data from the user store
 
-    const register_user = useStudentSignup(); 
+    const signupStudent = useStudentSignup(); 
 
-    // useEffect(() => { // here we use the useEffect hook to fetch the user data from 
-    //     const fetchData = async () => {
-    //         try {
-    //             if (register_user.isSuccess) {
-    //                 setUser(register_user.data);
-    //             }
-    //             if (register_user.isPending) {
-    //                 setIsLoading(true);
-    //             }
-    //         } catch (error) {
-    //             console.error('Error fetching university data:', error);
-    //             setError(error);
-    //         }
-    //     };
+    useEffect(() => { // here we use the useEffect hook to fetch the user data from 
+        const fetchData = async () => {
+            try {
+                if (signupStudent.isSuccess) {
+                    setUser(signupStudent.data);
+                }
+                if (signupStudent.isPending) {
+                    setIsLoading(true);
+                }
+            } catch (error) {
+                console.error('Error fetching student data:', error);
+                setError(error);
+            }
+        };
 
-    //     fetchData();
+        fetchData();
 
-    // }, [register_user.isSuccess, register_user.isPending, setUser, setIsLoading, setError]);
+    }, [signupStudent.isSuccess, signupStudent.isPending, setUser, setIsLoading, setError]);
 
     return {
         user,
+        signupStudent,
     };
 }
