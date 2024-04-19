@@ -9,13 +9,14 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const page = () => {
     const studentList = [
-        { name: 'Bereket Tadele', advisor: 'Kuma' },
-        { name: 'Tsion Tegene', advisor: 'Alazar' },
-        { name: 'Abel Zeleke', advisor: 'Israel' },
-        { name: 'Rebecca Asrat', advisor: 'Joseph' },
+        { id: '1', name: 'Bereket Tadele', advisor: 'Kuma' },
+        { id: '2', name: 'Tsion Tegene', advisor: 'Alazar' },
+        { id: '3', name: 'Abel Zeleke', advisor: 'Israel' },
+        { id: '4', name: 'Rebecca Asrat', advisor: 'Joseph' },
     ];
     return (
         <div>
@@ -32,7 +33,7 @@ const page = () => {
                     {studentList.map((student, index) => (
                         
                         <TableRow key={index}>
-                            <TableCell style={{listStyleType:'decimal'}}>{student.name}</TableCell>
+                            <TableCell style={{ listStyleType: 'decimal' }}> <Link key={student.id} href={`/mentor/students/${student.id}`}>{student.name}</Link> </TableCell>
                             <TableCell>{student.advisor}</TableCell>
                             <TableCell><Button variant={'ghost'} className='border-2'>Evaluate</Button></TableCell>
                             <TableCell><Button variant={'ghost'} className='border-2'>Report</Button></TableCell>

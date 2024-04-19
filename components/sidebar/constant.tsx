@@ -91,8 +91,8 @@ export const mentor = [
         icon: <FaLightbulb />,
     },
     {
-        title: "Report",
-        path: "/mentor/report",
+        title: "Reports",
+        path: "/mentor/reports",
         icon: <FaTasks />
         ,
     },
@@ -107,8 +107,8 @@ export const systemadmin = [
     {
         title: "Dashboard",
         path: "/systemadmin/dashboard",
-        icon:<RiDashboardFill />
-,
+        icon: <RiDashboardFill />
+        ,
     },
     {
         title: "Universities",
@@ -116,20 +116,20 @@ export const systemadmin = [
         icon: <FaUniversity />
         ,
     },
-{                                                                                                                                                                                                                                                                                                                                                                              
+    {
         title: "Companies",
         path: "/systemadmin/companies",
         icon: <FaUniversity />
 
         ,
     },
-   {
+    {
         title: "Students",
         path: "/systemadmin/students",
         icon: <PiStudentFill />
 
         ,
-    }, 
+    },
 
 ];
 export const collegedean = [
