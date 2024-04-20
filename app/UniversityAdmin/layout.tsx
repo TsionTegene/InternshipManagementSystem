@@ -14,7 +14,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    // <ProtectedRoute roles={["UNIVERSITY_ADMIN"]}>
+    <ProtectedRoute roles={["UNIVERSITY_ADMIN"]}>
     <div
       className={`grid  grid-rows-custom  h-screen transition-all duration-300  ${
         isCollapsed
@@ -52,7 +52,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
       <main className="pt-10  px-12 overflow-y-scroll ">{children}</main>
     </div>
-    // </ProtectedRoute>
+  </ProtectedRoute>
   );
 };
 

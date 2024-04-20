@@ -10,12 +10,16 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import SidebarLink from "./SidebarLink";
 import { useState } from "react";
 import { getMenu } from "./getmenu";
+import useSessionStore from "@/stores/sessionStore"
 
-const role = "hr";
+// const role = "hr";
 
-export const menuUtems = getMenu(role);
+
 const Sidebar = ({ isCollapsed, open, setOpen }: any) => {
-
+    
+    const role = useSessionStore((state: any) => state.role)
+    console.log(role)
+    const menuUtems = getMenu(role);
     const isDesktop = useMediaQuery("(min-width: 1280px)");
 
     if (isDesktop) {
@@ -33,7 +37,7 @@ const Sidebar = ({ isCollapsed, open, setOpen }: any) => {
                         className="size-13" alt={""} />
                 </div>
 
-                {menuUtems.map((list) => (
+                {menuUtems?.map((list) => (
                     <li key={list.title}>
                         <SidebarLink
                             isCollapsed={isCollapsed}
@@ -55,7 +59,7 @@ const Sidebar = ({ isCollapsed, open, setOpen }: any) => {
                                     height={150}
                                     className="size-13" alt={""} />
                             </div>
-                            {menuUtems.map((list) => (
+                            {menuUtems?.map((list) => (
                                 <li key={list.title}>
                                     <SidebarLink
                                         isCollapsed={isCollapsed}

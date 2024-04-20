@@ -13,7 +13,7 @@ export const getMenu = (role?: string | null) => {
                 ? systemadmin
                 : role === 'departmenthead'
                 ? departmenthead
-                : role === 'universityAdmin'
+                : role === 'UNIVERSITY_ADMIN'
                     ? universityAdmin
                     : null;
 };
