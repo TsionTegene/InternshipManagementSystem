@@ -1,20 +1,12 @@
 "use client";
 
 import React from "react";
-import {
-    FaArrowRight,
-    FaGithub,
-} from "react-icons/fa";
-import { RiFacebookCircleLine } from "react-icons/ri";
-import { MdOutlineLocalPostOffice } from "react-icons/md";
-import { IoHome, IoLogoGoogle } from "react-icons/io5";
-import { IoIosCall } from "react-icons/io";
 import Image from "next/image";
 
 const Footer = () => {
   return (
     <>
-<footer className="bg-white dark:bg-gray-900">
+<footer className="bg-slate-200 dark:bg-gray-900">
     <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
