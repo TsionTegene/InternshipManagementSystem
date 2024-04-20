@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/themeprovider/ThemeProvider";
 import Navbar from "@/components/navbar/navbar";
 import ReactQueryProvider from "@/queries/ReactQueryProvider";
 import { QueryClient } from "@tanstack/react-query";
+import Footer from "@/components/footer";
 // import ThemeProvider from "@/components/themeprovider/ThemeProvider";
 // import Navbar from "@/components/home/Navbar";
 // import Footer from "@/components/home/Footer";
@@ -33,6 +34,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <Footer />
           </ThemeProvider>
         </ReactQueryProvider>
       </body>

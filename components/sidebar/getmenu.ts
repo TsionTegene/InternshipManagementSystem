@@ -1,7 +1,7 @@
 import { student, collegedean, hr, departmenthead, mentor,systemadmin, universityAdmin } from './constant';
 
 export const getMenu = (role?: string | null) => {
-    return role === 'hr'
+    return role === 'COMPANY_HR'
         ? hr
         : role === 'student'
             ? student

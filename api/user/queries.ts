@@ -39,3 +39,4 @@ export async function allUniversityUerr(id:string) {
     return response.json()
 
 }
+
