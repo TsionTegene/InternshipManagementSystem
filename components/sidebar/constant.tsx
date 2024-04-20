@@ -202,5 +202,10 @@ export const universityAdmin = [
         path: '/UniversityAdmin/createUser',
         icon: <User />,
     },
+    {
+        title: 'Assign Role',
+        path: '/UniversityAdmin/assign_role',
+        icon: <User />,
+    },
  
 ];

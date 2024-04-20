@@ -15,7 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useCollege } from "@/hooks/useUniversityActions";
+import { useCollege, useNullrole } from "@/hooks/useUniversityActions";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const formSchema = z.object({
   Collegename: z.string().min(2, {
@@ -27,11 +28,15 @@ const formSchema = z.object({
   email : z.string().email({
     message: "Invalid email address for the College.",
   }),
+  collegeDeanId: z.string().min(2, {
+    message: "Dean Must be Provided.",
+  }),
 });
 
 export default function CollegeForm() {
   
   const { addcollege ,colleges} = useCollege();
+  const { user, Loading, Error } = useNullrole();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -104,6 +109,45 @@ export default function CollegeForm() {
                   <FormLabel>Office Email</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter office email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+<FormField
+              control={form.control}
+              name="collegeDeanId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Select User</FormLabel>
+                  <FormControl>
+
+                <div className="grid gap-3">
+                {!Loading && <div>Loading...</div>}
+                {Error && <div>Error Occured</div>}
+                {Loading && !Error && (
+                    <Select
+                      onValueChange={(value) => {
+                        console.log("Selected Dean:", value);
+                        field.onChange(value); 
+                      }}
+                      aria-label="Select Dean"
+                    >
+                      <SelectTrigger>
+                    
+                        <SelectValue placeholder="Select Dean" />{" "}
+                      </SelectTrigger>
+                      <SelectContent>
+                        {user.map((user:any) => (
+                          <SelectItem key={user.id} value={user.id}>
+                            {user.firstName}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                  </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
