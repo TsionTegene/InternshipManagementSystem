@@ -1,5 +1,6 @@
 import { registerStudent } from "@/api/student/mutations";
-import { useMutation } from "@tanstack/react-query";
+import { fetchStudentsByCompanyId } from "@/api/student/queries";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 
 // Mutation to signup student
@@ -10,3 +11,10 @@ export const useStudentSignup = () => {
 
     return mutation;
 };
+
+export const useStudentsFilter = (id: string) => {
+    const query = useQuery({
+        queryKey: ["students"], // this is the key that will be used to cache the data
+        queryFn: () => fetchStudentsByCompanyId(id)
+    })
+}
