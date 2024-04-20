@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Card,
   CardContent,
@@ -7,15 +7,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
-export default function WelcomeCard() {
+export default function WelcomeCard(props: any) {
   return (
-    <Card className="bg-blue-100 pt-8 px-3 grid gap-3 grid-cols-2 sm:col-span-3 dark:bg-blue-300">
+    <Card className="transition duration-700 hover:bg-blue-200 dark:hover:bg-blue-400 hover:shadow-sm bg-blue-100 pt-8 px-3 grid gap-3 grid-cols-2 sm:col-span-3 dark:bg-blue-300">
       <CardHeader className="grid grid-rows-2">
         <div>
           <CardTitle className="font-bold my-4 text-blue-950">
-            Welcome To IMS <span className="text-blue-500">Abel</span>
+            Welcome back To IMS{"  "}
+            <span className="text-blue-500">{props.name}</span>
           </CardTitle>
           <CardDescription className="dark:text-blue-800 max-w-lg text-balance leading-7">
             Streamline Your Internship Management Seamlessly with Our Web-Based
@@ -92,4 +93,3 @@ export default function WelcomeCard() {
     </Card>
   );
 }
-
