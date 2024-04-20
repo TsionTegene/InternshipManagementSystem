@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useStudentSignup } from "@/queries/useStudentQueries";
+import { useStudentSignup, useStudentsFilter } from "@/queries/useStudentQueries";
 import { useDepartmentData } from "@/queries/useUniversityQueries";
 import { userigisteruser } from "@/queries/useUsersdata";
+import { useStudentStore } from "@/stores/student.store";
 import useUserStore from "@/stores/user.store";
 import { useEffect } from "react";
 
@@ -40,4 +41,18 @@ export const useStudentRegister = () => {
         isSError: signupStudent.isError,
         isSSuccess: signupStudent.isSuccess,
     };
+}
+
+export const useStudentsFetch = (id: string) => {
+    const setStudents = useStudentStore((state: any) => state.setStudents);
+    const setIsLoading = useStudentStore((state: any) => state.setIsLoading);
+    const setError = useStudentStore((state: any) => state.setError);
+    const students = useStudentStore((state: any) => state.students);
+
+    // const { user } = useUserStore.getState(); // here we get the user data from the user store
+    // const { company, department, university } = user; // here we get the company, department and university data from the user data
+    
+    // const fetchStudentsByCompanyId = useStudentsFilter({ company: company.id }); // here we get the students data by company id
+    
+
 }

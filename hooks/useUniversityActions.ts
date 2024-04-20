@@ -25,7 +25,6 @@ export const useUniversityActions = () => {
       try {
         if (universityData.isSuccess) {
           setUniversities(universityData.data);
-
         }
         if (universityData.isLoading) {
           setIsLoading(universityData.isLoading);
@@ -45,7 +44,6 @@ export const useUniversityActions = () => {
     isLoading: universityData.isLoading,
     error: universityData.error,
     signupUniversity,
-
   };
 };
 
@@ -81,15 +79,15 @@ export const registerUser = () => {
     user,
     register_user
 
+  }
 }
-}
-export const useNullrole = () =>{
+export const useNullrole = () => {
   const setUser = useUserStore((state: any) => state.setUser);
   const setIsLoading = useUserStore((state: any) => state.setIsLoading);
   const setError = useUserStore((state: any) => state.setError);
-  const user = useUserStore((state: any) => state.user); 
-  const Loading = useUserStore((state: any) => state.isLoading); 
-  const Error = useUserStore((state: any) => state.error); 
+  const user = useUserStore((state: any) => state.user);
+  const Loading = useUserStore((state: any) => state.isLoading);
+  const Error = useUserStore((state: any) => state.error);
 
   const userRolenull = useUserRollNull();
 
@@ -97,8 +95,8 @@ export const useNullrole = () =>{
     const fetchData = async () => {
       try {
         if (userRolenull.isSuccess) {
-          setUser(userRolenull.data); 
- 
+          setUser(userRolenull.data);
+
         }
         if (userRolenull.isLoading) {
           setIsLoading(userRolenull.isLoading);
@@ -113,12 +111,12 @@ export const useNullrole = () =>{
 
   }, [userRolenull.isSuccess, userRolenull.isLoading, setUser, setIsLoading, setError]);
 
-      return {
-        user,
-        Loading,
-        Error
-            
-      }
+  return {
+    user,
+    Loading,
+    Error
+
+  }
 
 }
 
@@ -285,14 +283,15 @@ export const useCollege = () => {
     isLoading,
     Error
   };
-};
-export const userole = () =>{
-  
+
+}
+export const userole = () => {
+
   const setRole = useRoleStore((state: any) => state.setRole);
   const IsLoading = useRoleStore((state: any) => state.setIsLoading);
   const IsError = useRoleStore((state: any) => state.setError);
-  const roleName = useRoleStore((state: any) => state.roleName); 
-  const role_Loading = useRoleStore((state: any) => state.isLoading); 
+  const roleName = useRoleStore((state: any) => state.roleName);
+  const role_Loading = useRoleStore((state: any) => state.isLoading);
   const role_error = useRoleStore((state: any) => state.error);
 
   const Role = useAllRoll()
@@ -301,8 +300,8 @@ export const userole = () =>{
     const fetchData = async () => {
       try {
         if (Role.isSuccess) {
-          setRole(Role.data); 
- 
+          setRole(Role.data);
+
         }
         if (Role.isLoading) {
           IsLoading(Role.isLoading);
@@ -317,14 +316,14 @@ export const userole = () =>{
 
   }, [Role.isSuccess, Role.isLoading, setRole, IsLoading, IsError]);
 
-      return {
-        roleName,
-        role_Loading,
-        role_error
-            
-      }
+  return {
+    roleName,
+    role_Loading,
+    role_error
+
+  }
 
 }
 
-  
-  
+
+
