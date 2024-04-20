@@ -15,6 +15,20 @@ export async function registerUser(formData: FormData) {
     const responseData = await response.json();
     return responseData;
   }
+
+  export async function fetchCollegebyUnId (User_ID:any,Role_Name:any) {
+    const url = `http://localhost:5000/users/${User_ID}/assign/${Role_Name}`
+
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+
+    return response.json()
+
+}
   
 
   

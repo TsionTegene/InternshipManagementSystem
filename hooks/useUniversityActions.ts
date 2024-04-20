@@ -2,10 +2,11 @@
 import { useEffect } from 'react';
 import { useUniversitySignup, useUniversityData, useUnivesityAddDepartment, useUnivesityAddCollege, usecollegeDatabyUnId, useDepartmentData } from '@/queries/useUniversityQueries';
 import useUniversityStore from '@/stores/university.store';
-import { userigisteruser } from '@/queries/useUsersdata';
+import { useAllRoll, useUserRollNull, userigisteruser } from '@/queries/useUsersdata';
 import useUserStore from '@/stores/user.store';
 import useDepartmentStore from '@/stores/department.store';
 import { useCollegeStore } from '@/stores/college.store';
+import useRoleStore from '@/stores/role.store';
 
 
 
@@ -80,10 +81,50 @@ export const registerUser = () => {
     user,
     register_user
 
+}
+}
+export const useNullrole = () =>{
+  const setUser = useUserStore((state: any) => state.setUser);
+  const setIsLoading = useUserStore((state: any) => state.setIsLoading);
+  const setError = useUserStore((state: any) => state.setError);
+  const user = useUserStore((state: any) => state.user); 
+  const Loading = useUserStore((state: any) => state.isLoading); 
+  const Error = useUserStore((state: any) => state.error); 
 
-  }
+  const userRolenull = useUserRollNull();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (userRolenull.isSuccess) {
+          setUser(userRolenull.data); 
+ 
+        }
+        if (userRolenull.isLoading) {
+          setIsLoading(userRolenull.isLoading);
+        }
+      } catch (error) {
+        console.error('Error fetching university data:', error);
+        setError(error);
+      }
+    };
+
+    fetchData();
+
+  }, [userRolenull.isSuccess, userRolenull.isLoading, setUser, setIsLoading, setError]);
+
+      return {
+        user,
+        Loading,
+        Error
+            
+      }
 
 }
+
+
+
+
 
 export const useDepartment = () => {
 
@@ -161,5 +202,47 @@ export const useCollege = () => {
     colleges,
     addcollege,
   };
-};
 
+}
+export const userole = () =>{
+  
+  const setRole = useRoleStore((state: any) => state.setRole);
+  const IsLoading = useRoleStore((state: any) => state.setIsLoading);
+  const IsError = useRoleStore((state: any) => state.setError);
+  const roleName = useRoleStore((state: any) => state.roleName); 
+  const role_Loading = useRoleStore((state: any) => state.isLoading); 
+  const role_error = useRoleStore((state: any) => state.error);
+
+  const Role = useAllRoll()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (Role.isSuccess) {
+          setRole(Role.data); 
+ 
+        }
+        if (Role.isLoading) {
+          IsLoading(Role.isLoading);
+        }
+      } catch (error) {
+        console.error('Error fetching Role data:', error);
+        IsError(error);
+      }
+    };
+
+    fetchData();
+
+  }, [Role.isSuccess, Role.isLoading, setRole, IsLoading, IsError]);
+
+      return {
+        roleName,
+        role_Loading,
+        role_error
+            
+      }
+
+}
+
+  
+  
