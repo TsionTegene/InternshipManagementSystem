@@ -75,9 +75,9 @@ export default function Home() {
 
       <div className="landing">
         <div>
-          <div className="flex flex-row">
-            <div className="colone lg:w-2/3 xl:w-1/2 mx-auto py-12 px-4 sm:px-6 lg:px-8 lg:py-24">
-              <p className="leading-none max-w-2xl text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500 animate-pulse mb-4 xl:text-6xl">
+          <div className="flex flex-row mt-10">
+            <div className="colone lg:w-2/3 xl:w-1/2 mx-auto py-12 px-4 sm:px-6 lg:px-8 lg:py-24 ">
+              <p className="leading-none max-w-2xl text-2xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500 animate-pulse mb-4 xl:text-6xl">
                 Web Based Internship Management System
               </p>
               <p className="text text-lg md:text-xl text-gray-600 mb-4 leading-relaxed">
@@ -96,8 +96,8 @@ export default function Home() {
               <Image
                 src={"/images/landing.png"}
                 alt={"landing"}
-                width={480}
-                height={500}
+                width={380}
+                height={400}
               />
             </div>
           </div>
@@ -105,24 +105,26 @@ export default function Home() {
           <div className="flex mr-15 justify-evenly gap-10">
             {items.map((item, index) => (
               <Card
-              key={index}
-              className="shadow-2xl border-collapse pl-5 mr-15"
-              style={{
-                background:
-                  "radial-gradient(circle, rgba(47,90,145,0.7483368347338936) 0%, rgba(16,12,37,0.7343312324929971) 100%)",
-                transition: "transform 0.3s ease",
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-              onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
-            >
+                key={index}
+                className="shadow-2xl border-collapse pl-5 mr-15"
+                style={{
+                  background:
+                    "radial-gradient(circle, rgba(47,90,145,0.7483368347338936) 0%, rgba(16,12,37,0.7343312324929971) 100%)",
+                  transition: "transform 0.3s ease",
+                  maxWidth: "300px",
+                  maxHeight: "350px"
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+                onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+              >
                 <CardHeader>
-                  <CardTitle className="text-2xl font-bold mb-2 text-white">
+                  <CardTitle className="text-xl font-bold  text-white">
                     <span>{item.icon}</span>
                     <span>  {item.title}</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-xl text-slate-200">{item.description}</CardDescription>
+                  <CardDescription className="text-lg text-slate-200">{item.description}</CardDescription>
                 </CardContent>
               </Card>
             ))}
