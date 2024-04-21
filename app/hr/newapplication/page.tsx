@@ -131,6 +131,48 @@ const page = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
+
+  const onInvalid = (errors: any) => console.error(errors);
+
+  const onSubmit = async (formValues: any) => {
+    console.log("formValues: ", formValues);
+    const formData = new FormData();
+    for (const field in formValues) {
+      if (field == "confirm_password") continue;
+      // console.log(field, formValues[field]);
+      formData.append(field, formValues[field]);
+    }
+
+    responsibilities.forEach((responsibility: string) => {
+      console.log("responsibilities: ", responsibility);
+      formData.append("responsibilities", responsibility);
+    });
+
+    responsibilities.forEach((responsibility: string) => {
+      console.log("responsibilities: ", responsibility);
+      formData.append("responsibilities", responsibility);
+    });
+    if (profileImg) {
+      // console.log("image: ", profileImg);
+      formData.append("image", profileImg);
+    }
+    if (resume) {
+      // console.log("Resume", resume);
+      formData.append("resume", resume);
+    }
+
+    const student = signupStudent;
+
+    const tokens = student.mutate(formData);
+    console.log("tokens: ", tokens);
+    if (isSSuccess) {
+      console.log(tokens)
+      console.log("Student Registered Successfully");
+      router.push("/login");
+    }
+
+  }
+
   return (
     <Card className="mx-auto max-w-3xl my-10">
       <CardHeader>
@@ -141,7 +183,8 @@ const page = () => {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit, onInvalid)}
+          className="space-y-8">
             <div className="grid gap-4">
               <div className="grid grid-cols-2 gap-4">
                 <FormField
