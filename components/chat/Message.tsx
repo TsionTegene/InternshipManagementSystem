@@ -20,7 +20,7 @@ const Message = ({ content, timestamp }: isMessage) => {
                 </Avatar>
             </div>
             <div style={{ borderRadius: 50 }}>
-                <div className="messageContent p-2 max-w-80% bg-slate-400 w-15 h-10 rounded-full" >
+                <div className="messageContent p-2 max-w-80% bg-slate-400 w-15 h-10 rounded-t-full rounded-r-full" >
 
                     {<p>{content}</p>}
                 </div>

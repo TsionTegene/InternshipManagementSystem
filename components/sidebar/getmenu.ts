@@ -3,7 +3,7 @@ import { student, collegedean, hr, departmenthead, mentor,systemadmin, universit
 export const getMenu = (role?: string | null) => {
     return role === 'COMPANY_HR'
         ? hr
-        : role === 'student'
+        : role === 'STUDENT'
             ? student
             : role === 'collegedean'
                 ? collegedean
