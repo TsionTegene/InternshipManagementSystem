@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,7 +51,6 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { addDays, format } from "date-fns";
-import { DateRange } from "react-day-picker";
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -108,10 +108,6 @@ const page = () => {
     input.value = input.value.trim();
     if (input.value == "") return;
 
-    const [date, setDate] = useState<DateRange | undefined>({
-      from: new Date(2022, 0, 20),
-      to: addDays(new Date(2022, 0, 20), 20),
-    });
     if (responsibilities.includes(input.value)) {
       input.value = "";
       return;
@@ -152,10 +148,6 @@ const page = () => {
       setQualifications(newQualifications);
     };
   };
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
-  });
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -399,7 +391,7 @@ const page = () => {
                     <FormItem>
                       <FormLabel>Duration</FormLabel>
                       <FormControl>
-                        <div className={cn("grid gap-2", className)}>
+                        {/* <div className={cn("grid gap-2", className)}>
                           <Popover>
                             <PopoverTrigger asChild>
                               <Button
@@ -439,7 +431,8 @@ const page = () => {
                               />
                             </PopoverContent>
                           </Popover>
-                        </div>
+                        </div> */}
+                        <Input {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
