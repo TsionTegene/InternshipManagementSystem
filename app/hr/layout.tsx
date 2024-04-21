@@ -17,10 +17,14 @@ const Layout = ({ children, }: {
 
     return (
 <<<<<<< HEAD
+<<<<<<< HEAD
         // <ProtectedRoute roles={['COMPANY_HR']}>
 =======
         //<ProtectedRoute roles={['COMPANY_HR']}>
 >>>>>>> 6b2469c (On the HR page student management applicatnts form , student management mentors form and detail about mentor pages done)
+=======
+        <ProtectedRoute roles={['COMPANY_HR']}>
+>>>>>>> 4f7cf13 (welcome page for student)
         <div
             className={`grid  grid-rows-custom  h-screen transition-all duration-300  ${isCollapsed
                 ? "lg:grid-cols-collapsed "
@@ -57,10 +61,14 @@ const Layout = ({ children, }: {
             <main className="pt-10  px-12 overflow-y-scroll ">{children}</main>
         </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
         // </ProtectedRoute>
 =======
         //</ProtectedRoute>
 >>>>>>> 6b2469c (On the HR page student management applicatnts form , student management mentors form and detail about mentor pages done)
+=======
+        </ProtectedRoute>
+>>>>>>> 4f7cf13 (welcome page for student)
     );
 };
 

@@ -52,14 +52,14 @@ const Chat = () => {
   };
 
   return (
-    <div className="chatContainer bg-gray-200 dark:bg-slate-600 flex flex-col">
-      <div className="chatInfo bg-slate-600 dark:bg-gray-400 gap-2 items-center p-3 rounded-t-xl">
+    <div className="chatContainer bg-blue-100 dark:bg-slate-600 flex flex-col">
+      <div className="chatInfo bg-slate-600 dark:bg-gray-400 gap-2 items-center p-3 rounded-t-2xl">
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <h6 className="text-white">Username</h6>
-      S</div>
+      </div>
       <div className="chatBody flex flex-col p-3 overflow-auto">
         {messages.length >= 2 && (
           <ul className='flex flex-col'>
@@ -75,7 +75,7 @@ const Chat = () => {
       <div className='chatInput flex gap-2 p-2'>
         <div className='input flex flex-col justify-end w-full'>
           {/* <Input placeholder='Type Here...' value={inputValue} onChange={(e) => setInputValue(e.target.value)} /> */}
-          <ChatInput  />
+          <ChatInput />
 
         </div>
         {/* <Button onClick={handleSendMessage}>Send</Button> */}

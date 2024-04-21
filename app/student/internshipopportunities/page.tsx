@@ -43,8 +43,8 @@ const Page = () => {
   };
 
   return (
-    <div>
-      <Input className='flex rounded-full w-10/12 ml-14 -mt-2' placeholder='Search' value={searchQuery} onChange={handleSearchChange} />
+    <div className=''>
+      <Input className='flex rounded-full w-10/12 ml-14 -mt-2' placeholder='Search...' value={searchQuery} onChange={handleSearchChange} />
       <div className="grid grid-cols-2 gap-16 ml-15 justify-evenly m-5 mt-10">
         {renderOpportunities()}
       </div>

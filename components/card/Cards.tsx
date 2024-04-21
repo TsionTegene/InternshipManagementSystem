@@ -18,7 +18,7 @@ const Card = ({ id, title, description, icon, imageUrl, startdate, enddate, addr
         <div className="flex flex-col card p-4  rounded-md shadow-lg items-center " style={{
             background:
               "radial-gradient(circle, rgba(47,90,145,0.7483368347338936) 0%, rgba(16,12,37,0.7343312324929971) 100%)",
-            transition: "transform 0.3s ease",
+            transition: "transform 0.3s ease",boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)' 
           }}
           onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
           onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}>
