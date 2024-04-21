@@ -45,8 +45,8 @@ const Page = () => {
             <TableCell>Bereket</TableCell>
             <TableCell>
               <div className="flex">
-                <FaEdit className="text-blue-500 cursor-pointer mr-2" />
-                <FaTrash className="text-red-500 cursor-pointer" />
+                <FaEdit className="text-blue-500 cursor-pointer mr-2 text-xl" />
+                <FaTrash className="text-red-500 cursor-pointer text-xl" />
               </div>
             </TableCell>
           </TableRow>

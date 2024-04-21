@@ -9,6 +9,8 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
+import { FaEdit, FaTrash } from 'react-icons/fa';
+
 const Page = () => {
     const lecturerOptions = ["Mr. Abebe", "Mr. John", "Ms. Emily", "Dr. Smith"];
 
@@ -25,32 +27,26 @@ const Page = () => {
 
     return (
         <div>
-            <h2 className="text-xl font-bold mb-4 text-center">Applicants</h2>
+            <h2 className="text-xl font-bold mb-4 text-center">Mentors</h2>
             <Table>
                 <TableCaption></TableCaption>
 
                 <TableHeader>
                     <TableRow>
-                        <TableHead>No.</TableHead>
-                        <TableHead>Name</TableHead>
-                        <TableHead>University</TableHead>
-                        <TableHead>Phone No.</TableHead>
-                        <TableHead>Dep.</TableHead>
-                        <TableHead>Action</TableHead>
+                        <TableHead className="bg-gray-700 text-white">No.</TableHead>
+                        <TableHead className="bg-gray-700 text-white">Name</TableHead>
+                        <TableHead className="bg-gray-700 text-white">Action</TableHead>
                     </TableRow>
                 </TableHeader>
 
                 <TableBody>
                     <TableRow>
-                        <TableCell className="font-medium">1</TableCell>
+                        <TableCell className="text-blue-500 cursor-pointer mr-2">1</TableCell>
                         <TableCell>Bereket</TableCell>
-                        <TableCell>University of XYZ</TableCell>
-                        <TableCell>+251987654321</TableCell>
-                        <TableCell>Software Engineering</TableCell>
                         <TableCell>
-                            <div>
-                                <button className="bg-green-500 text-white px-4 py-2 rounded-lg mr-2">Approve</button>
-                                <button className="bg-red-500 text-white px-4 py-2 rounded-lg">Reject</button>
+                            <div className="flex">
+                                <FaEdit className="text-blue-500 cursor-pointer mr-2" />
+                                <FaTrash className="text-red-500 cursor-pointer" />
                             </div>
                         </TableCell>
                     </TableRow>
