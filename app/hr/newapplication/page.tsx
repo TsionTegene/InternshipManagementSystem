@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z, date } from "zod";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,8 +22,8 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import React, { useState } from 'react'
+} from "@/components/ui/dropdown-menu";
+import React, { useState } from "react";
 import {
   Form,
   FormControl,
@@ -33,17 +33,35 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Plus, PlusCircleIcon, UploadIcon, X } from "lucide-react"
+import {
+  CalendarIcon,
+  Plus,
+  PlusCircleIcon,
+  UploadIcon,
+  X,
+} from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import router from "next/router";
+import { DatePicker } from "@/components/datepicker/datepicker";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { addDays, format } from "date-fns";
+import { DateRange } from "react-day-picker";
+
 const formSchema = z.object({
   title: z.string().min(2, {
     message: "title must be at least 2 characters.",
   }),
-  startdate: z.string().min(2, {
-    message: "Start Date must be at least 2 characters.",
+  startdate: z.date({
+    required_error: "A start date is required.",
   }),
 
-  enddate: z.string().min(2, {
-    message: "End Date must be at least 2 characters.",
+  enddate: z.date({
+    required_error: "A end date is required.",
   }),
 
   duration: z.string().min(2, {
@@ -73,24 +91,27 @@ const formSchema = z.object({
   deadline: z.string().min(2, {
     message: "Deadline must be at least 2 characters.",
   }),
-  profilepicture: z.optional(z.string().min(1)), // Optional profile picture field
-
-})
+});
 
 const page = () => {
   const [profileimg, setprofileimg] = useState("");
-
-  const [position, setPosition] = React.useState("bottom")
+  const [date, setDate] = useState<Date | null>(null);
+  const [position, setPosition] = useState("bottom");
   const [responsibilities, setResponsibilities] = useState<string[]>([]);
   const [qualifications, setQualifications] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState("No Image Chosen");
 
-
   const responsibilitiesInput = () => {
-    const input = document.getElementById("responsibilitiesArray") as HTMLInputElement;
+    const input = document.getElementById(
+      "responsibilitiesArray",
+    ) as HTMLInputElement;
     input.value = input.value.trim();
     if (input.value == "") return;
 
+    const [date, setDate] = useState<DateRange | undefined>({
+      from: new Date(2022, 0, 20),
+      to: addDays(new Date(2022, 0, 20), 20),
+    });
     if (responsibilities.includes(input.value)) {
       input.value = "";
       return;
@@ -102,13 +123,17 @@ const page = () => {
   const deleteResponsibilities = (index: number) => {
     return () => {
       console.log("index: ", index);
-      const newResponsibilities = responsibilities.filter((_, i) => i !== index);
+      const newResponsibilities = responsibilities.filter(
+        (_, i) => i !== index,
+      );
       setResponsibilities(newResponsibilities);
     };
   };
 
   const qualificationsInput = () => {
-    const input = document.getElementById("qualificationsArray") as HTMLInputElement;
+    const input = document.getElementById(
+      "qualificationsArray",
+    ) as HTMLInputElement;
     input.value = input.value.trim();
     if (input.value == "") return;
 
@@ -127,6 +152,10 @@ const page = () => {
       setQualifications(newQualifications);
     };
   };
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: new Date(2022, 0, 20),
+    to: addDays(new Date(2022, 0, 20), 20),
+  });
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -136,42 +165,15 @@ const page = () => {
 
   const onSubmit = async (formValues: any) => {
     console.log("formValues: ", formValues);
-    const formData = new FormData();
-    for (const field in formValues) {
-      if (field == "confirm_password") continue;
-      // console.log(field, formValues[field]);
-      formData.append(field, formValues[field]);
-    }
 
-    responsibilities.forEach((responsibility: string) => {
-      console.log("responsibilities: ", responsibility);
-      formData.append("responsibilities", responsibility);
-    });
-
-    responsibilities.forEach((responsibility: string) => {
-      console.log("responsibilities: ", responsibility);
-      formData.append("responsibilities", responsibility);
-    });
-    if (profileImg) {
-      // console.log("image: ", profileImg);
-      formData.append("image", profileImg);
-    }
-    if (resume) {
-      // console.log("Resume", resume);
-      formData.append("resume", resume);
-    }
-
-    const student = signupStudent;
-
-    const tokens = student.mutate(formData);
-    console.log("tokens: ", tokens);
-    if (isSSuccess) {
-      console.log(tokens)
-      console.log("Student Registered Successfully");
-      router.push("/login");
-    }
-
-  }
+    // const tokens = student.mutate(formData);
+    // console.log("tokens: ", tokens);
+    // if (isSSuccess) {
+    //   console.log(tokens)
+    //   console.log("Student Registered Successfully");
+    //   router.push("/login");
+    // }
+  };
 
   return (
     <Card className="mx-auto max-w-3xl my-10">
@@ -183,8 +185,10 @@ const page = () => {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit, onInvalid)}
-          className="space-y-8">
+          <form
+            onSubmit={form.handleSubmit(onSubmit, onInvalid)}
+            className="space-y-8"
+          >
             <div className="grid gap-4">
               <div className="grid grid-cols-2 gap-4">
                 <FormField
@@ -204,11 +208,36 @@ const page = () => {
                   control={form.control}
                   name="startdate"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex flex-col">
                       <FormLabel>Start Date</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-[240px] pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground",
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a start date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -217,11 +246,36 @@ const page = () => {
                   control={form.control}
                   name="enddate"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex flex-col">
                       <FormLabel>End Date</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-[240px] pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground",
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a end date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -240,9 +294,16 @@ const page = () => {
                           <DropdownMenuContent className="w-56">
                             <DropdownMenuLabel>Schedule</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuRadioGroup value={field.value} onValueChange={field.onChange}>
-                              <DropdownMenuRadioItem value="Full Time">Full Time</DropdownMenuRadioItem>
-                              <DropdownMenuRadioItem value="Part Time">Part Time</DropdownMenuRadioItem>
+                            <DropdownMenuRadioGroup
+                              value={field.value}
+                              onValueChange={field.onChange}
+                            >
+                              <DropdownMenuRadioItem value="Full Time">
+                                Full Time
+                              </DropdownMenuRadioItem>
+                              <DropdownMenuRadioItem value="Part Time">
+                                Part Time
+                              </DropdownMenuRadioItem>
                             </DropdownMenuRadioGroup>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -261,14 +322,24 @@ const page = () => {
                       <FormControl>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Input placeholder="Select compensation" {...field} />
+                            <Input
+                              placeholder="Select compensation"
+                              {...field}
+                            />
                           </DropdownMenuTrigger>
                           <DropdownMenuContent className="w-56">
                             <DropdownMenuLabel>Compensation</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuRadioGroup value={field.value} onValueChange={field.onChange}>
-                              <DropdownMenuRadioItem value="Free">Free</DropdownMenuRadioItem>
-                              <DropdownMenuRadioItem value="Paid">Paid</DropdownMenuRadioItem>
+                            <DropdownMenuRadioGroup
+                              value={field.value}
+                              onValueChange={field.onChange}
+                            >
+                              <DropdownMenuRadioItem value="Free">
+                                Free
+                              </DropdownMenuRadioItem>
+                              <DropdownMenuRadioItem value="Paid">
+                                Paid
+                              </DropdownMenuRadioItem>
                             </DropdownMenuRadioGroup>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -284,7 +355,9 @@ const page = () => {
                   render={({ field }) => (
                     <FormItem>
                       <div className="flex">
-                        <FormLabel className="mr-2 mt-2">Responsibilities</FormLabel>
+                        <FormLabel className="mr-2 mt-2">
+                          Responsibilities
+                        </FormLabel>
                         <div className="flex flex-wrap">
                           {responsibilities.map(
                             (responsibilitiy, index) => (
@@ -304,17 +377,15 @@ const page = () => {
                                   />
                                 </div>
                               )
-                            )
+                            ),
                           )}
                         </div>
                       </div>
                       <FormControl>
                         <div className="flex gap-2">
                           <Input id="responsibilitiesArray" />
-                          <div className='mt-3 ml-2'>
-                            <PlusCircleIcon
-                              onClick={responsibilitiesInput}
-                            />
+                          <div className="mt-3 ml-2">
+                            <PlusCircleIcon onClick={responsibilitiesInput} />
                           </div>
                         </div>
                       </FormControl>
@@ -328,7 +399,47 @@ const page = () => {
                     <FormItem>
                       <FormLabel>Duration</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <div className={cn("grid gap-2", className)}>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                id="date"
+                                variant={"outline"}
+                                className={cn(
+                                  "w-[300px] justify-start text-left font-normal",
+                                  !date && "text-muted-foreground",
+                                )}
+                              >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {date?.from ? (
+                                  date.to ? (
+                                    <>
+                                      {format(date.from, "LLL dd, y")} -{" "}
+                                      {format(date.to, "LLL dd, y")}
+                                    </>
+                                  ) : (
+                                    format(date.from, "LLL dd, y")
+                                  )
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                            >
+                              <Calendar
+                                initialFocus
+                                mode="range"
+                                defaultMonth={date?.from}
+                                selected={date}
+                                onSelect={setDate}
+                                numberOfMonths={2}
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -340,7 +451,9 @@ const page = () => {
                   render={({ field }) => (
                     <FormItem>
                       <div className="flex">
-                        <FormLabel className="mr-2 mt-2">Qualifications</FormLabel>
+                        <FormLabel className="mr-2 mt-2">
+                          Qualifications
+                        </FormLabel>
                         <div className="flex flex-wrap">
                           {qualifications.map(
                             (qualification, index) => (
@@ -360,17 +473,15 @@ const page = () => {
                                   />
                                 </div>
                               )
-                            )
+                            ),
                           )}
                         </div>
                       </div>
                       <FormControl>
                         <div className="flex gap-2">
                           <Input id="qualificationsArray" />
-                          <div className='mt-3 ml-2'>
-                            <PlusCircleIcon
-                              onClick={qualificationsInput}
-                            />
+                          <div className="mt-3 ml-2">
+                            <PlusCircleIcon onClick={qualificationsInput} />
                           </div>
                         </div>
                       </FormControl>
@@ -403,51 +514,6 @@ const page = () => {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="profile"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Profile Picture</FormLabel>
-                      <FormControl className="flex flex-col">
-                        <div className="">
-                          <div className="flex flex-row items-center">
-                            <input
-                              type="file"
-                              id="custome-input"
-                              onChange={(e) => {
-                                if (e.target.files) {
-                                  setSelectedImage(e.target.files[0].name);
-                                }
-                              }}
-                              hidden
-                            />
-                            <label
-                              htmlFor="custome-input"
-                              className="w-full flex text-sm justify-center text-slate-800 mr-4 py-2 px-4 rounded-md border-0 font-semibold bg-slate-100 hover:bg-slate-200 cursor-pointer "
-                            >
-                              <UploadIcon />
-                              <span className="mx-3 text-sm">
-                                Upload Image
-                              </span>
-                            </label>
-                          </div>
-                          <label
-                            htmlFor="custome-input"
-                            className="text-slate-500 truncate ..."
-                          >
-                            {selectedImage && (
-                              <span className="block mt-2 text-sm text-gray-500">
-                                Selected image: {selectedImage}
-                              </span>
-                            )}
-                          </label>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </div>
               <Button type="submit">Submit</Button>
             </div>
@@ -455,7 +521,7 @@ const page = () => {
         </Form>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default page
+export default page;
