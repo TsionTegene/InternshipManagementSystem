@@ -26,10 +26,8 @@ import { Login } from "@/components/login/login";
 import Footer from "@/components/footer";
 import Header from "@/components/page-header";
 
-
 export default function Home() {
-
-  const router = useRouter()
+  const router = useRouter();
 
   // const [open, setOpen] = useState(false);
   // const handleOpen = () => setOpen(true);
@@ -70,9 +68,7 @@ export default function Home() {
 
   return (
     <div>
-
       <Header />
-
       <div className="landing">
         <div>
           <div className="flex flex-row mt-10">
@@ -81,13 +77,17 @@ export default function Home() {
                 Web Based Internship Management System
               </p>
               <p className="text text-lg md:text-xl text-gray-600 mb-4 leading-relaxed">
-                Empower your Internship program with our web-based Internship management system.
+                Empower your Internship program with our web-based Internship
+                management system.
               </p>
               <p className="mb-8 text-gray-500 text-base md:text-lg leading-normal">
-                Streamline workflows, improve communication, and track intern status with our all-in-one platform.
+                Streamline workflows, improve communication, and track intern
+                status with our all-in-one platform.
               </p>
-              <button onClick={() => router.push('/login')}
-                className="btn bg-gradient-to-r from-cyan-600 to-blue-900 text-white font-bold py-2 px-4 rounded-md hover:bg-gradient-to-bl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-700 transition duration-300 ease-in-out animate-bounce">
+              <button
+                onClick={() => router.push("/login")}
+                className="btn bg-gradient-to-r from-cyan-600 to-blue-900 text-white font-bold py-2 px-4 rounded-md hover:bg-gradient-to-bl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-700 transition duration-300 ease-in-out animate-bounce"
+              >
                 Get Started
               </button>
             </div>
@@ -112,26 +112,31 @@ export default function Home() {
                     "radial-gradient(circle, rgba(47,90,145,0.7483368347338936) 0%, rgba(16,12,37,0.7343312324929971) 100%)",
                   transition: "transform 0.3s ease",
                   maxWidth: "300px",
-                  maxHeight: "350px"
+                  maxHeight: "350px",
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-                onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.transform = "scale(1.05)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.transform = "scale(1)")
+                }
               >
                 <CardHeader>
                   <CardTitle className="text-xl font-bold  text-white">
                     <span>{item.icon}</span>
-                    <span>  {item.title}</span>
+                    <span> {item.title}</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-lg text-slate-200">{item.description}</CardDescription>
+                  <CardDescription className="text-lg text-slate-200">
+                    {item.description}
+                  </CardDescription>
                 </CardContent>
               </Card>
             ))}
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }
