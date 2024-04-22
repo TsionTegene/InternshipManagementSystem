@@ -95,7 +95,7 @@ const formSchema = z.object({
 
 const page = () => {
   const [profileimg, setprofileimg] = useState("");
-  const [date, setDate] = useState<Date | null>(null);
+  const [date, setDate] = React.useState<Date | null>(null);
   const [position, setPosition] = useState("bottom");
   const [responsibilities, setResponsibilities] = useState<string[]>([]);
   const [qualifications, setQualifications] = useState<string[]>([]);
