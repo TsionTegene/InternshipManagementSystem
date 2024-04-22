@@ -60,10 +60,11 @@ li {
 .landing {
     /* background: var(--primaryColor); */
     background-image: url('/images/bg.jpg');
-    background-size: cover;
+    background-size: contain;
     background-position: center;
     /* opacity: 0.3; */
-    padding: 2%;
+    /* padding: 0%; */
+    min-width: 640px;
 }
 
 .colone {

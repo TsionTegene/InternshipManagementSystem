@@ -13,6 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
 
+<<<<<<< HEAD
   return (
     <ProtectedRoute roles={["COMPANY_HR"]}>
       <div
@@ -40,6 +41,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <FaAngleRight
                 className={`w-full h-full ${
                   isCollapsed ? "" : "rotate-180 transition-all duration-600 "
+=======
+    return (
+        // <ProtectedRoute roles={['COMPANY_HR']}>
+
+        <div
+            className={`grid  grid-rows-custom  h-screen transition-all duration-300  ${isCollapsed
+                ? "lg:grid-cols-collapsed "
+                : " lg:grid-cols-notCollapsed   "
+>>>>>>> 80f1891 (some modification on the landing page)
                 }`}
               />
             </Button>
@@ -50,10 +60,22 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <Sidebar isCollapsed={isCollapsed} open={open} setOpen={setOpen} />
         </aside>
 
+<<<<<<< HEAD
         <main className="pt-10  px-12 overflow-y-scroll ">{children}</main>
       </div>
     </ProtectedRoute>
   );
+=======
+            <aside className=" hidden lg:block overflow-y-scroll overflow-x-hidden row-custom border-r dark:border-gray-600 border-dashed  ">
+                <Sidebar isCollapsed={isCollapsed} open={open} setOpen={setOpen} />
+            </aside>
+
+            <main className="pt-10  px-12 overflow-y-scroll ">{children}</main>
+        </div>
+        // </ProtectedRoute>
+
+    );
+>>>>>>> 80f1891 (some modification on the landing page)
 };
 
 export default Layout;

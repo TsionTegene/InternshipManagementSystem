@@ -3,12 +3,28 @@
 @tailwind utilities;
 
 
+<<<<<<< HEAD
 @layer base {
+=======
+/* @layer base {
+>>>>>>> 80f1891 (some modification on the landing page)
   :root {
     --background: 0 11.2% 99%;
     --foreground: 222.2 53.3% 4.9%;
     --card: 50 10% 96.2%;
+<<<<<<< HEAD
     --card-foreground: 222.2 84% 5.9%;
+=======
+    --card-foreground: 222.2 84% 5.9%; */
+
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+>>>>>>> 80f1891 (some modification on the landing page)
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
     --primary: 221.2 83.2% 53.3%;
@@ -32,6 +48,17 @@
     --foreground: 210 64% 100%;
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 53.3% 98%;
+<<<<<<< HEAD
+=======
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+>>>>>>> 80f1891 (some modification on the landing page)
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
     --primary: 217.2 91.2% 59.8%;

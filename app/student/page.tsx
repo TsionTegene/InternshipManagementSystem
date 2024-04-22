@@ -14,8 +14,8 @@ import Footer from "@/components/footer";
 const page = () => {
   return (
     <div>
-      <Card className="flex sm:col-span-2 p-5 bg-blue-100 dark:bg-blue-950 rounded-xl">
-        <div>
+      <Card className="flex p-5 bg-blue-100 dark:bg-blue-950 rounded-xl">
+        <div className="">
           <CardHeader className="pb-5">
             <CardTitle className="text-blue-950 font-bold dark:text-white">Welcome 👋</CardTitle>
             <p className="text-2xl font-bold text-blue-950 dark:text-white">Abel</p>
