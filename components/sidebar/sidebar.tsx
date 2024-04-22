@@ -19,7 +19,7 @@ const Sidebar = ({ isCollapsed, open, setOpen }: any) => {
     
     const role = useSessionStore((state: any) => state.role)
     console.log(role)
-    const menuUtems = getMenu('UNIVERSITY_ADMIN');
+    const menuUtems = getMenu(role);
     const isDesktop = useMediaQuery("(min-width: 1280px)");
 
     if (isDesktop) {

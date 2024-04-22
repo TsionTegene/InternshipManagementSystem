@@ -171,7 +171,7 @@ export const departmenthead = [
 ];
 
 
-export const universityAdmin = [
+export const UniversityAdmin = [
     {
         title: 'Dashboard',
         path: '/UniversityAdmin',

@@ -94,7 +94,10 @@ export default function Dashboard() {
   ];
 
 const internshipHeaders = [
-  { key: "student", label: "Student Name", className: "text-left" },
+  { key: "student",
+  label: "Student Name",
+  className: "text-left"
+  },
   {
     key: "internship",
     label: "Internship Position",
@@ -172,13 +175,13 @@ const internshipData = [
         </div>
       </div>
 
-      <div className="grid gap-4 md:gap-8 lg:grid-cols-2">
+      {/* <div className="grid gap-4 md:gap-8 lg:grid-cols-2">
         <DashboardTable
           tableName="Orders Table"
           tableDescription="Recent orders from your store."
           data={data}
           headers={headers}
-        />
+        /> */}
         <DashboardTable
           tableName="Internship Table"
           tableDescription="Posted Internship Applications."
@@ -186,7 +189,7 @@ const internshipData = [
           headers={internshipHeaders}
         />
       </div>
-    </div>
+    // </div>
   );
 }
 
