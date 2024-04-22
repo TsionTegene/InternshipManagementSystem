@@ -13,8 +13,8 @@ export async function fetchUniversity () {
 
 }
 
-export async function fetchDepartment() {
-    const url = "https://web-based-internship-management-system-5.onrender.com/department"
+export async function fetchDepartment(id:string) {
+    const url = `http://localhost:5000/department/un/${id}`
 
     const response = await fetch(url, {
         method: "GET",
@@ -22,7 +22,6 @@ export async function fetchDepartment() {
             "Content-Type": "application/json",
         }
     })
-
     return response.json()
 }
 
@@ -42,7 +41,7 @@ export async function fetchallCollege () {
 }
 
 export async function fetchCollegebyUnId (ID:any) {
-    const url = `http://localhost:5000/college/un/${ID}`
+    const url = `http://localhost:5000/college/${ID}`
 
     const response = await fetch(url, {
         method: "GET",
@@ -54,3 +53,5 @@ export async function fetchCollegebyUnId (ID:any) {
     return response.json()
 
 }
+
+

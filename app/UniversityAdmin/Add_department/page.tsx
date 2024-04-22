@@ -15,7 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useDepartment,useCollege } from "@/hooks/useUniversityActions";
+import { useDepartment,useCollege, useNullrole } from "@/hooks/useUniversityActions";
+import { useEffect, useState } from "react";
 
 const depformSchema = z.object({
   name: z.string().min(2, {
@@ -30,14 +31,17 @@ const depformSchema = z.object({
   collegeId: z.string().min(2, {
     message: "University name must be at least 2 characters.",
   }),
+  departmentHeadId:z.string().min(2, {
+    message: "University name must be at least 2 characters.",
+  }),
 });
 
 export default function DepartmentCreation() {
 
-  const {addDepartment,isLoding,isError} = useDepartment();
-  const {colleges} =useCollege()
-
-
+  const {addDepartment,isLoading:dep_Loading,Error:Dep_Error} = useDepartment();
+  const {colleges,isLoading,Error:college_Error} =useCollege()
+  const { user, Loading, Error } = useNullrole();
+  
   const depform = useForm({
     resolver: zodResolver(depformSchema),
   });
@@ -56,7 +60,7 @@ export default function DepartmentCreation() {
         console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
       }
 
-    return addDepartment.mutate(formData);
+    await addDepartment(formData);
   };
 
 
@@ -80,9 +84,9 @@ export default function DepartmentCreation() {
                       <FormLabel>College Name</FormLabel>
                       <FormControl>
                         <div className="grid gap-3">
-                          {isLoding && <div>Loading...</div>}
-                          {isError && <div>Error Occured</div>}
-                          {!isLoding && !isError && (
+                          {!isLoading && <div>Loading...</div>}
+                          {college_Error && <div>Error Occured</div>}
+                          {isLoading && !college_Error && (
                             <Select
                               onValueChange={(value) => {
                                 field.onChange(value);
@@ -93,7 +97,7 @@ export default function DepartmentCreation() {
                                 <SelectValue placeholder="Select College" />{" "}
                               </SelectTrigger>
                               <SelectContent>
-                                {colleges.map((colleges: any) => (
+                                {colleges?.map((colleges: any) => (
                                   <SelectItem
                                     key={colleges.id}
                                     value={colleges.id}
@@ -162,7 +166,44 @@ export default function DepartmentCreation() {
                     </FormItem>
                   )}
                 />
-               
+               <FormField
+              control={depform.control}
+              name="departmentHeadId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Select User</FormLabel>
+                  <FormControl>
+
+                <div className="grid gap-3">
+                {!Loading && <div>Loading...</div>}
+                {Error && <div>Error Occured</div>}
+                {Loading && !Error && (
+                    <Select
+                      onValueChange={(value) => {
+                        console.log("Selected Dean:", value);
+                        field.onChange(value); 
+                      }}
+                      aria-label="Select Dean"
+                    >
+                      <SelectTrigger>
+                    
+                        <SelectValue placeholder="Select Dean" />{" "}
+                      </SelectTrigger>
+                      <SelectContent>
+                        {user.map((user:any) => (
+                          <SelectItem key={user.id} value={user.id}>
+                            {user.firstName}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                  </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
       
  
             <Button type="submit">Submit</Button>

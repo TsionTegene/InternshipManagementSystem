@@ -1,32 +1,23 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './MyModal.module.css';
-//@ts-ignore 
+import { Button } from '@/components/ui/button';
+import { IoCloseCircleOutline } from "react-icons/io5";
+
 const MyModal = ({ isOpen, onClose, children }) => {
-  useEffect(() => {
-    //@ts-ignore 
-    const handleOutsideClick = (event) => {
-      if (!isOpen) return;
-
-      // Check if the click occurred outside of the modal
-      if (!event.target.closest(`.${styles.modal}`)) {
-        onClose();
-      }
-    };
-
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, [isOpen, onClose]);
-
   if (!isOpen) return null;
+
+  const handleClose = () => {
+    onClose();
+  };
 
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-        <button className={styles.closeButton} onClick={onClose}>
-          &times;
-        </button>
+        {/* <Button className={styles.closeButton} onClick={handleClose}>
+          close
+        </Button> */}
+        <IoCloseCircleOutline className={styles.closeButton} onClick={handleClose} />
+
         {children}
       </div>
     </div>

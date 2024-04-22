@@ -1,10 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { createCollege, registerDepartment, registerUniversity } from "@/api/university/mutation";
+import { createCollege, registerDepartment, registerUniversity, updateCollege, updateDepartment } from "@/api/university/mutation";
 import { fetchCollegebyUnId, fetchDepartment, fetchUniversity, } from "@/api/university/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
-
-
-
 // using useQuery hook to fetch data from the server
 export function useUniversityData() {
     const query = useQuery({
@@ -15,10 +12,10 @@ export function useUniversityData() {
     return query;
 }
 
-export function usecollegeDatabyUnId() {
+export function usecollegeDatabyUnId(id:any) {
     const query = useQuery({
         queryKey: ["college"],
-        queryFn: () => fetchCollegebyUnId("661fbd258ccc2c339bc90202")
+        queryFn: () => fetchCollegebyUnId(id)
     })
 
     return query;
@@ -34,7 +31,7 @@ export const useUniversitySignup = () => {
 
 export const useUnivesityAddDepartment = () => {
     const mutation = useMutation({
-
+       mutationKey:["department"],
         mutationFn: (formData: FormData) => registerDepartment(formData),
 
     })
@@ -45,7 +42,7 @@ export const useUnivesityAddDepartment = () => {
 
 export const useUnivesityAddCollege = () => {
     const mutation = useMutation({
-
+       mutationKey:["college"],
         mutationFn: (formData: FormData) => createCollege(formData),
 
     })
@@ -55,11 +52,32 @@ export const useUnivesityAddCollege = () => {
 }
 
 
-export const useDepartmentData = () => {
+export const useDepartmentData = (id:string) => {
     const query = useQuery({
-        queryKey: ["Department"],
-        queryFn: () => fetchDepartment()
+        queryKey: ["department"],
+        queryFn: () => fetchDepartment(id)
+    })
+    return query;
+}
+
+export const useUpdateCollege = (id:string) => {
+    const mutation = useMutation({
+       mutationKey:["college"],
+        mutationFn: (formData: FormData) => updateCollege(formData,id),
+
     })
 
-    return query;
+
+    return mutation
+}
+
+export const useUpdatedepartment = (id:string) => {
+    const mutation = useMutation({
+       mutationKey:["department"],
+        mutationFn: (formData: FormData) => updateDepartment(formData,id),
+
+    })
+
+
+    return mutation
 }

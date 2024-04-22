@@ -1,153 +1,166 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react';
-import { Table, TableCaption, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import React, { useEffect, useState } from 'react';
 import { FaEdit, FaSave, FaTrash, FaTimes } from 'react-icons/fa';
 import { CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { useCollege } from '@/hooks/useUniversityActions';
+import { Table, TableCaption, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import MyModal from '@/modals/loginmodal';
+import CollegeForm from '@/components/Form/page';
 
 const Page = () => {
+  const { colleges,updateCollegeById, isLoading,Error,newCollegeId ,collegeId} = useCollege(); // Destructure isLoading from useCollege
+
   const [editMode, setEditMode] = useState(false);
   const [editedCollege, setEditedCollege] = useState(null);
-  const [colleges, setColleges] = useState([
-    {
-      id: 1,
-      name: "College Of Computing And Informatics",
-      dean: "Mr. Melaku",
-      phoneNo: "+251911654378"
-    },
-    {
-      id: 2,
-      name: "College Of Engineering and Technology",
-      dean: "Mr. Melaku",
-      phoneNo: "+251911654378"
-    },
-    {
-      id: 3,
-      name: "College Of Engineering and Technology",
-      dean: "Mr. Melaku",
-      phoneNo: "+251911654378"
-    },
-    {
-      id: 4,
-      name: "College Of Computing And Informatics",
-      dean: "Mr. Melaku",
-      phoneNo: "+251911654378"
-    },
-  ]);
-    //@ts-ignore 
-  const handleEdit = (college) => {
-    setEditedCollege(college);
-    setEditMode(true);
-  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCollege, setSelectedCollege] = useState(null);
 
-  const handleSave = () => {
-    const index = colleges.findIndex(c => c.id === editedCollege?.id);
-    if (index !== -1) {
-      const updatedColleges = [...colleges];
-      //@ts-ignore
-      updatedColleges[index] = editedCollege;
-      setColleges(updatedColleges);
-    }
-    // Exit edit mode
-    setEditMode(false);
-    setEditedCollege(null);
+  const openModal = (college) => {
+    setSelectedCollege(college); // Set the selected college
+    setIsModalOpen(true); // Open the modal
+    console.log("college id", collegeId);
+
   };
   
-  // Exit edit mode
+  useEffect(() => {
+    // Call newCollegeId when selectedCollege changes
+    if (selectedCollege) {
+      newCollegeId(selectedCollege?.id);
+      console.log("college id", collegeId);
+      console.log("modal open with", selectedCollege);
+    }
+  }, [selectedCollege, newCollegeId,isModalOpen]);
+  
+  
+  
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+
+
+  const handleSave = () => {
+    // Handle save logic here
+    setEditMode(false);
+    setEditedCollege(null);
+    console.log(editedCollege);
+  };
+
   const handleCancel = () => {
     setEditMode(false);
     setEditedCollege(null);
   };
 
-    //@ts-ignore
   const handleChange = (e, key) => {
-    setEditedCollege(prevState => ({
-      //@ts-ignore
+    setEditedCollege((prevState) => ({
       ...prevState,
-      [key]: e.target.value
+      [key]: e.target.value,
     }));
   };
 
-
   const handleDelete = (id) => {
-    // Filter out the college with the specified id
-    const updatedColleges = colleges.filter(college => college.id !== id);
-    setColleges(updatedColleges);
+    // Handle delete logic here
   };
+
+  
+  const onSubmit = async (formValues: any) => {
+    const formData = new FormData();
+
+    for (const field in formValues) {
+      formData.append(field, formValues[field]);
+    }
+      //@ts-ignore
+    for (let pair of formData.entries()) {
+      //@ts-ignore
+      console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
+    }
+    console.log(formData.get("Collegename"))
+    
+    updateCollegeById(formData)
+    setIsModalOpen(false);
+
+  };
+
   return (
     <CardContent>
       <div>
         <h2 className="text-xl font-bold mb-4 text-center">Colleges</h2>
         <div className="flex justify-end mb-4">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Add College
-          </button>
+          <Button>Add College</Button>
         </div>
-        <Table>
-          <TableCaption></TableCaption>
-
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[100px]">No.</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>College Dean</TableHead>
-              <TableHead>Office Phone No.</TableHead>
-              <TableHead>Action</TableHead>
-            </TableRow>
-          </TableHeader>
-
-          <TableBody>
-            {colleges.map((college, index) => (
-              <TableRow key={college.id}>
-                <TableCell className="font-medium">{index + 1}</TableCell>
-                <TableCell>
-                  {editMode && editedCollege && editedCollege.id === college.id ? (
-                    <Input value={editedCollege.name} onChange={(e) => handleChange(e, 'name')} />
-                  ) : (
-                    college.name
-                  )}
-                </TableCell>
-                <TableCell>
-                  {editMode && editedCollege && editedCollege.id === college.id ? (
-                    <Input value={editedCollege.dean} onChange={(e) => handleChange(e, 'dean')} />
-                  ) : (
-                    college.dean
-                  )}
-                </TableCell>
-                <TableCell>
-                  {editMode && editedCollege && editedCollege.id === college.id ? (
-                    <Input value={editedCollege.phoneNo} onChange={(e) => handleChange(e, 'phoneNo')} />
-                  ) : (
-                    college.phoneNo
-                  )}
-                </TableCell>
-                <TableCell>
-                  <div className="flex space-x-2">
-                    {editMode && editedCollege && editedCollege.id === college.id ? (
-                      <>
-                        <button className="text-blue-700 hover:text-blue-700" onClick={() => handleSave()}>
-                          <FaSave />
-                        </button>
-                        <button className="text-red-700 hover:text-red-700" onClick={() => handleCancel()}>
-                          <FaTimes />
-                        </button>
-                      </>
-                    ) : (
-                      <button className="text-blue-700 hover:text-blue-700" onClick={() => handleEdit(college)}>
-                        <FaEdit />
-                      </button>
-                    )}
-                    <button className="text-red-700 hover:text-red-700" onClick={() => handleDelete(college.id)}>
-                      <FaTrash />
-                    </button>
-                  </div>
-                </TableCell>
+        {!isLoading && <div>Loading...</div>}
+                {Error && <div>Error Occured</div>}
+                {isLoading && !Error && (
+          <Table>
+            <TableCaption></TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead>No.</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>College Dean</TableHead>
+                <TableHead>Office Phone No.</TableHead>
+                <TableHead>Departments</TableHead>
+                <TableHead>Action</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+            
+              {colleges?.map((college, index) => (
+                <TableRow key={college.id}>
+                  <TableCell className="font-medium">{index + 1}</TableCell>
+                  <TableCell>
+                    {editMode && editedCollege && editedCollege.id === college.id ? (
+                      <Input value={editedCollege.Collegename} onChange={(e) => handleChange(e, 'Collegename')} />
+                    ) : (
+                      college.Collegename
+                    )}
+                  </TableCell>
+                  <TableCell>{college.collegeDean?.firstName}</TableCell>
+                  <TableCell>{college.phoneNum}</TableCell>
+                  <TableCell>
+                    <ul>
+                      {college.departments.map((department) => (
+                        <li key={department.id}>{department.name}</li>
+                      ))}
+                    </ul>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex space-x-2">
+                      {editMode && editedCollege && editedCollege.id === college.id ? (
+                        <>
+                          <button className="text-blue-700 hover:text-blue-700" onClick={() => handleSave()}>
+                            <FaSave />
+                          </button>
+                          <button className="text-red-700 hover:text-red-700" onClick={() => handleCancel()}>
+                            <FaTimes />
+                          </button>
+                        </>
+                      ) : (
+                        <button className="text-blue-700 hover:text-blue-700" onClick={() => openModal(college)}>
+                          <FaEdit />
+                        </button>
+                      )}
+                      <button className="text-red-700 hover:text-red-700" onClick={() => handleDelete(college.id)}>
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </div>
+
+      {selectedCollege && (
+        <MyModal isOpen={isModalOpen} onClose={closeModal}>
+          <CollegeForm onSubmit={onSubmit} data={selectedCollege} />
+        </MyModal>
+      )}
     </CardContent>
   );
 };

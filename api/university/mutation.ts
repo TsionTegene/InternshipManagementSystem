@@ -57,3 +57,38 @@ export async function createCollege(formData: any) {
   }
 }
 
+export async function updateCollege(formData: FormData,id:string) {
+  const url = `http://localhost:5000/college/update/${id}`
+  try {
+    const response = await axios.patch(url, formData, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.data) { // Assuming successful response has data
+      throw new Error('Empty response from server');
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error('Error updating college:', error);
+    throw error; // Re-throw for potential handling in calling code
+  }
+}
+
+export async function updateDepartment(formData: FormData,id:string) {
+  const url = `http://localhost:5000/department/update/${id}`
+  try {
+    const response = await axios.patch(url, formData, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.data) { // Assuming successful response has data
+      throw new Error('Empty response from server');
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error('Error updating department:', error);
+    throw error; // Re-throw for potential handling in calling code
+  }
+}

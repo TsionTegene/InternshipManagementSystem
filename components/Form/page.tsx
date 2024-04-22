@@ -1,8 +1,6 @@
-"use client"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,9 +13,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useCollege, useNullrole } from "@/hooks/useUniversityActions";
+import { useNullrole } from "@/hooks/useUniversityActions";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
 const formSchema = z.object({
   Collegename: z.string().min(2, {
     message: "College name must be at least 2 characters.",
@@ -32,38 +29,17 @@ const formSchema = z.object({
     message: "Dean Must be Provided.",
   }),
 });
+//@ts-ignore
+export default function DepartmentForm({ onSubmit, data}) {
 
-export default function CollegeForm() {
-  
-  const { addCollege ,colleges} = useCollege();
+
+  console.log("College =>",data)
   const { user, Loading, Error } = useNullrole();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
 
-
-
-
-  const onSubmit = async (formValues: any) => {
-    const formData = new FormData();
-
-    for (const field in formValues) {
-      formData.append(field, formValues[field]);
-    }
-    formData.append("universityId" ,"661fbd258ccc2c339bc90202")
-      //@ts-ignore
-    for (let pair of formData.entries()) {
-      //@ts-ignore
-      console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
-    }
-    console.log(formData.get("Collegename"))
-    
-    await addCollege(formData);
-  };
-  
-  console.log("list of colleges",colleges)
-  
   return (
     <Card className="mx-auto max-w-lg my-10">
       <CardHeader>
@@ -73,11 +49,12 @@ export default function CollegeForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Form {...form}>
+         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
               name="Collegename"
+              defaultValue={data?.Collegename} // Assuming Collegename is the key for the college name
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>College Name</FormLabel>
@@ -91,6 +68,7 @@ export default function CollegeForm() {
             <FormField
               control={form.control}
               name="phoneNum"
+              defaultValue={data?.phoneNum} 
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Office Phone Number</FormLabel>
@@ -104,6 +82,7 @@ export default function CollegeForm() {
             <FormField
               control={form.control}
               name="email"
+              defaultValue={data?.email} 
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Office Email</FormLabel>
@@ -114,40 +93,37 @@ export default function CollegeForm() {
                 </FormItem>
               )}
             />
-
-<FormField
+            <FormField
               control={form.control}
               name="collegeDeanId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Select User</FormLabel>
                   <FormControl>
-
-                <div className="grid gap-3">
-                {!Loading && <div>Loading...</div>}
-                {Error && <div>Error Occured</div>}
-                {Loading && !Error && (
-                    <Select
-                      onValueChange={(value) => {
-                        console.log("Selected Dean:", value);
-                        field.onChange(value); 
-                      }}
-                      aria-label="Select Dean"
-                    >
-                      <SelectTrigger>
-                    
-                        <SelectValue placeholder="Select Dean" />{" "}
-                      </SelectTrigger>
-                      <SelectContent>
-                        {user.map((user:any) => (
-                          <SelectItem key={user.id} value={user.id}>
-                            {user.firstName}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
-                  </div>
+                    <div className="grid gap-3">
+                      {!Loading && <div>Loading...</div>}
+                      {Error && <div>Error Occured</div>}
+                      {Loading && !Error && (
+                        <Select
+                          onValueChange={(value) => {
+                            console.log("Selected Dean:", value);
+                            field.onChange(value); 
+                          }}
+                          aria-label="Select Dean"
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Dean" />{" "}
+                          </SelectTrigger>
+                          <SelectContent>
+                            {user?.map((user:any) => (
+                              <SelectItem key={user.id} value={user.id}>
+                                {user.firstName}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -156,9 +132,7 @@ export default function CollegeForm() {
             <Button type="submit">Submit</Button>
           </form>
         </Form>
-       
       </CardContent>
     </Card>
   );
 }
-

@@ -183,6 +183,11 @@ export const universityAdmin = [
         icon:  <FaUniversity />,
     },
     {
+        title: 'Department',
+        path: '/UniversityAdmin/list_department',
+        icon:  <FaUniversity />,
+    },
+    {
         title: 'Add College',
         path: '/UniversityAdmin/Add_Colleges',
         icon: <MdAddBox />,
