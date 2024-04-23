@@ -15,18 +15,16 @@ import useSessionStore from "@/stores/sessionStore";
 import decodeToken from "@/lib/decodeToken";
 
 const Sidebar = ({ isCollapsed, open, setOpen }: any) => {
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState<string>("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      let storedRole = useSessionStore((state: any) => state.role);
-      if(!storedRole){
-        storedRole = localStorage.getItem('role')
-      }
-      setRole(storedRole);
+      const storedRole = localStorage.getItem("role");
+      console.log("Stored role:", storedRole);
+      setRole(storedRole ?? ""); // Provide a default value for the role state variable
     }
   }, []);
-  // const role = useSessionStore((state: any) => state.role);
+
   console.log("Role from sidebar:", role);
   const menuUtems = getMenu(role);
   const isDesktop = useMediaQuery("(min-width: 1280px)");

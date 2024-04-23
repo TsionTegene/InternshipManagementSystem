@@ -1,9 +1,18 @@
-import React from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
+"use client";
+
+import React, { useLayoutEffect } from "react";
+import { IsAuthenticated } from "@/lib/IsAuthenticated";
+import { redirect } from "next/navigation";
 
 const page = () => {
-    return (
-        <div>mentor page</div>
-    )
-}
+  useLayoutEffect(() => {
+    const isAuth = IsAuthenticated("COMPNAY_HR");
+    if (!isAuth) {
+      redirect("/login");
+    }
+  }, []);
+  return <div>mentor page</div>;
+};
 
-export default page
+export default page;

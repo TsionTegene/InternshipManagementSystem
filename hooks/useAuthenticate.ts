@@ -48,7 +48,7 @@ export const useAuthenticate = () => {
           setRole(payload.role);
           localStorage.setItem('role', payload.role);
           setUserId(payload.userId);
-          // redirectBasedOnRole(payload.role);
+          redirectBasedOnRole(payload.role);
         }).catch(error => {
           console.error("Error decoding token:", error);
         });

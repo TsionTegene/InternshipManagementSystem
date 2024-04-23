@@ -1,50 +1,32 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useIsLoggedIn } from "@/hooks/useAuthenticate";
-import useSessionStore from "@/stores/sessionStore";
 import { useRouter } from "next/navigation";
 import decodeToken from '@/lib/decodeToken';
 import jwt from 'jsonwebtoken';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { IsAuthenticated } from "./IsAuthenticated";
 
 const ProtectedRoute = ({ children, roles }: { children: React.ReactNode; roles: string[] }) => {
   const router = useRouter();
-  const { role } = useSessionStore(); // zustand sessionStore stores data in the browser, and when on reload 
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem("access_token");
-    console.log("Token from ProtectedRoute:", token)
-    try {
-      const decodedtoken = token ? decodeToken(token) : null;
-      console.log("Decoded token:", decodedtoken);
-      return children;
-    } catch (error) {
-      console.log("Token validation error:", error);
-      router.push('/');
+  const [Role, setRole] = useState<string>("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Use state to manage authentication status
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setRole(localStorage.getItem("role") || ""); // Provide a default value for the role state variable
+      const token = localStorage.getItem("access_token");
+      IsAuthenticated().then(isAuthenticated => {
+        console.log("IsAuthenticated: ", isAuthenticated)
+        setIsAuthenticated(isAuthenticated || false); // Provide a default value of false if isAuthenticated is undefined
+      }).catch(error => {
+        console.error("Error in IsAuthenticated:", error)
+        router.push('/login');
+      });
     }
-  }
-  // useEffect(() => {
-  //   const token = localStorage.getItem("access_token");
-  //   console.log("Token from ProtectedRoute:", token)
-  //   try {
-  //     const decodedtoken = token ? decodeToken(token) : null;
-  //     console.log("Decoded token:", decodedtoken);
-  //   } catch (error) {
-  //     console.log("Token validation error:", error);
-  //     router.push('/');
-  //   }
-  //   return () => {
-  //     children;
-  //   };
-  // }, [router, children]);
-  if (!role || !roles.includes(role)) {
-    console.log(role);
-    router.push('/');
-  }
-  return children;
+  }, [])
 
+  // Render children only if authenticated and role matches
+  return isAuthenticated && roles.includes(Role) ? {children} : router.push('/login');
 };
-export default ProtectedRoute;
 
-interface DecodedToken {
-  sub: string;
-  email: string;
-  role: string;
-}
+export default ProtectedRoute;
