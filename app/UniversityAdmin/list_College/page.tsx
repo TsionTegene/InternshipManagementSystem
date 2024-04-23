@@ -61,7 +61,7 @@ const Page = () => {
       [key]: e.target.value,
     }));
   };
-
+//@ts-ignore
   const handleDelete = (id) => {
     // Handle delete logic here
   };
