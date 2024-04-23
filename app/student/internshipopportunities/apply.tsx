@@ -13,7 +13,6 @@ export default function createForm() {
 
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    // Add your form submission logic here
     console.log("Form submitted");
   };
 

@@ -3,12 +3,6 @@
 @tailwind utilities;
 
 
-/* @layer base {
-  :root {
-    --background: 0 11.2% 99%;
-    --foreground: 222.2 53.3% 4.9%;
-    --card: 50 10% 96.2%;
-    --card-foreground: 222.2 84% 5.9%; */
 
 
 @layer base {
@@ -32,6 +26,7 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
+<<<<<<< HEAD
     --radius: 1rem;
   }
 
@@ -40,6 +35,8 @@
     --foreground: 210 64% 100%;
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 53.3% 98%;
+=======
+>>>>>>> e828d58 (Student detail for HR done!)
     --radius: 0.5rem;
   }
 
@@ -67,6 +64,12 @@
 }
 
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> e828d58 (Student detail for HR done!)
 @layer base {
   * {
     @apply border-border;
