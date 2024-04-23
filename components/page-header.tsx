@@ -13,8 +13,9 @@ function Header() {
   return (
     <nav className="flex justify-between items-center px-2 py-1 fixed top-0 left-0 w-full z-50 bg-gradient-to-b from-cyan-600/70 to-blue-400/10">
       <div className="flex items-center">
-        <Link href='/'>
+        <Link href="/">
           <Image
+            priority={true}
             src={"/images/logo.png"}
             width={140}
             height={140}
@@ -25,23 +26,33 @@ function Header() {
       </div>
       <ul className="flex space-x-2 list-none pl-4">
         <li className="hover:text-white transition duration-300 ease-in-out">
-          <Button variant="secondary" className=" rounded-2xl" onClick={() => router.push('/login')}>
+          <Button
+            variant="secondary"
+            className=" rounded-2xl"
+            onClick={() => router.push("/login")}
+          >
             About Us
           </Button>
         </li>
         <li className="hover:text-white transition duration-300 ease-in-out">
-          <Button className=" rounded-2xl bg-cyan-600" onClick={() => router.push('/login')}>
+          <Button
+            className=" rounded-2xl bg-cyan-600"
+            onClick={() => router.push("/login")}
+          >
             Login
           </Button>
         </li>
         <li className="hover:text-white transition duration-300 ease-in-out">
-          <Button className=" rounded-2xl bg-cyan-600" onClick={() => router.push('/signup')}>
+          <Button
+            className=" rounded-2xl bg-cyan-600"
+            onClick={() => router.push("/signup")}
+          >
             Sign Up
           </Button>
         </li>
       </ul>
     </nav>
-  )
+  );
 }
 
 export default Header

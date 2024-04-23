@@ -9,11 +9,9 @@ import { IoIosArrowDropleft } from "react-icons/io";
 import { RiMenu4Line } from "react-icons/ri";
 import ProtectedRoute from "@/lib/ProtectedRoute";
 
-const Layout = ({ children, }: {
-    children: React.ReactNode
-}) => {
-    const [isCollapsed, setIsCollapsed] = useState(false);
-    const [open, setOpen] = useState(false);
+const Layout = ({ children }: { children: React.ReactNode }) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [open, setOpen] = useState(false);
 
     return (
         // <ProtectedRoute roles={['MENTOR']}>

@@ -8,9 +8,11 @@ interface SessionState {
   setEmail: any;
   setRole: any;
   setError: any;
+  setToken: any;
   isLoading: boolean;
   isError: boolean;
   error: any;
+  token: any;
   user: any;
   userId: string | null;
   email: string | null;
@@ -25,6 +27,7 @@ const useSessionStore = create<SessionState>((set) => ({
   error: null,
   isLoading: false, // Add missing property
   isError: false, // Add missing property
+  token: null,
   setUser: (user: any) => set({user}),
   setUserId: (userId: string) => set({ userId }),
   setEmail: (email: string) => set({ email }),
@@ -32,6 +35,7 @@ const useSessionStore = create<SessionState>((set) => ({
   setIsLoading: (isLoading: boolean) => set({ isLoading }),
   setIsError: (isError: boolean) => set({ isError }),
   setError: (error: any) => set({ error }),
+  setToken: (token: any) => set({ token }),
 }));
 
 export default useSessionStore;

@@ -27,20 +27,23 @@ export async function registerStudent(formData: FormData) {
 export async function updateStudent(id: string, data: any) {
   const url = `http://localhost:5000/student/${id}`;
 
-  const response = await fetch(url, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+  if (typeof window !== "undefined") {
+    const accessToken = localStorage.getItem("access_token");
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(data),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const responseData = await response.json();
+    return responseData;
   }
-
-  const responseData = await response.json();
-  return responseData;
 }
 

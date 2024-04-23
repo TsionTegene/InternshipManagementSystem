@@ -1,12 +1,18 @@
+"use client";
+
 import { useEffect } from 'react';
-import { useLogin } from '@/queries/useLogin';
+import { useLogin, useRefreshToken } from '@/queries/useLogin';
 import useSessionStore from '@/stores/sessionStore';
 import jwt from 'jsonwebtoken';
 import { useRouter } from 'next/navigation'; // Import useRouter
+import { isLoggedIn } from '@/lib/isLoggedIn';
+import router from 'next/router';
+import decodeToken from '@/lib/decodeToken';
 
 export const useAuthenticate = () => {
-  const { mutate, data, isSuccess, isError, isPending, error } = useLogin();
+  const { data, mutate, isSuccess, isError, isPending, error } = useLogin();
   const setUserId = useSessionStore((state) => state.setUserId);
+  const setToken = useSessionStore((state) => state.setToken)
   const setUser = useSessionStore((state) => state.setUser)
   const setEmail = useSessionStore((state) => state.setEmail);
   const setRole = useSessionStore((state) => state.setRole);
@@ -20,28 +26,46 @@ export const useAuthenticate = () => {
       setIsLoading(false);
       return;
     }
+    if (isSuccess) {
+      console.log("isSuccess: ", isSuccess)
+      console.log(data)
+      setUser(data.user)
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('refresh_token', data.refresh_token);
+        console.log("Access token:", data.access_token);
+        console.log("Refresh token:", data.refresh_token);
+        const payload = decodeToken(data.access_token).then(payload => {
+          console.log("Decoded token:", payload);
 
+          // Accessing properties
+          console.log("Email:", payload.email);
+          console.log("Role:", payload.role);
+          console.log("User ID:", payload.userId);
+
+          // Assuming you have functions to handle these values
+          setEmail(payload.email);
+          setRole(payload.role);
+          localStorage.setItem('role', payload.role);
+          setUserId(payload.userId);
+          // redirectBasedOnRole(payload.role);
+        }).catch(error => {
+          console.error("Error decoding token:", error);
+        });
+      }
+    }
     if (isPending) {
       setIsLoading(true);
+      console.log(isPending)
       return;
     }
 
-    if (isSuccess && data && data.access_token) {
-      setUser(data.user)
-      console.log(data.user)
-      const payload = decodeToken(data.access_token);
-      if (payload) {
-        setUserId(payload.userId);
-        setEmail(payload.email);
-        setRole(payload.role);
-        redirectBasedOnRole(payload.role);
-      }
-    }
-  }, [isSuccess, isPending, isError, error, data, router]);
+  }, [error, isError, isPending, isSuccess, router, setIsError, setIsLoading]);
 
   const authenticate = (formData: any) => {
-    mutate(formData);
-  };
+    mutate(formData)
+    // console.log("Form values to be sent: ", formData)  
+  }
 
   function redirectBasedOnRole(role: string) {
     switch (role) {
@@ -62,22 +86,28 @@ export const useAuthenticate = () => {
   return { authenticate, isPending, isError, error };
 };
 
+export const useIsLoggedIn = () => {
+  const token = localStorage.getItem("access_token");
+  if (token) {
+    return true;
+  }
 
-
-interface DecodedToken {
-    sub: string;
-    email: string;
-    role: string;
+  return false;
 }
 
-const decodeToken = (token: string): { userId: string, email: string, role: string } | undefined => {
-    console.log("Token received for decoding:", token);
+interface DecodedToken {
+  sub: string;
+  email: string;
+  role: string;
+}
+
+function isTokenExpired(token: string) {
+  try {
     const decodedToken = jwt.verify(token, "abel5173") as DecodedToken;  // Use the secure or default secret
     console.log("Decoded token:", decodedToken);
-    return {
-        userId: decodedToken.sub,
-        email: decodedToken.email,
-        role: decodedToken.role
-    };
-};
-
+    return false;
+  } catch (error) {
+    console.log("Token validation error:", error);
+    return true; // The token is expired or invalid
+  }
+}
