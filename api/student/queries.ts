@@ -21,21 +21,22 @@ export async function registerStudent(data: studentData) {
 
 export async function fetchStudentsByCompanyId(id: string) {
   const url = `http://localhost:5000/company/${id}/students`;
+  if (typeof window !== "undefined") {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
+    });
 
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-    },
-  });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    const responseData = await response.json();
+    return responseData;
   }
-
-  const responseData = await response.json();
-  return responseData;
 }
 
 export async function fetchStudentsByDepartmentId(id: string) {

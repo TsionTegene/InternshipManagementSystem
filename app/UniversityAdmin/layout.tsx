@@ -28,27 +28,27 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <RiMenu4Line className="size-8" onClick={() => setOpen(!open)} />
           </div>
 
-          <div className="flex-1">
-            <Navbar />
+            <div className="flex-1">
+              <Navbar />
+            </div>
           </div>
-        </div>
-        <div className="absolute -left-3 top-10  ">
-          <Button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="hidden lg:block rounded-full p-1 z-50 border dark:border-gray-600 border-dashed size-6 text-palesky bg-white dark:bg-background"
-          >
-            <FaAngleRight
-              className={`w-full h-full ${
-                isCollapsed ? "" : "rotate-180 transition-all duration-600 "
-              }`}
-            />
-          </Button>
-        </div>
-      </header>
+          <div className="absolute -left-3 top-10  ">
+            <Button
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className="hidden lg:block rounded-full p-1 z-50 border dark:border-gray-600 border-dashed size-6 text-palesky bg-white dark:bg-background"
+            >
+              <FaAngleRight
+                className={`w-full h-full ${
+                  isCollapsed ? "" : "rotate-180 transition-all duration-600 "
+                }`}
+              />
+            </Button>
+          </div>
+        </header>
 
-      <aside className=" hidden lg:block overflow-y-scroll overflow-x-hidden row-custom border-r dark:border-gray-600 border-dashed  ">
-        <Sidebar isCollapsed={isCollapsed} open={open} setOpen={setOpen} />
-      </aside>
+        <aside className=" hidden lg:block overflow-y-scroll overflow-x-hidden row-custom border-r dark:border-gray-600 border-dashed  ">
+          <Sidebar isCollapsed={isCollapsed} open={open} setOpen={setOpen} />
+        </aside>
 
       <main className="pt-10  px-12 overflow-y-scroll ">{children}</main>
     </div>
