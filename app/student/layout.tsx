@@ -16,7 +16,7 @@ const Layout = ({ children, }: {
     const [open, setOpen] = useState(false);
 
     return (
-      <ProtectedRoute roles={['STUDENT']}>
+      // <ProtectedRoute roles={['STUDENT']}>
         <div
           className={`grid  grid-rows-custom  h-screen transition-all duration-300  ${
             isCollapsed
@@ -57,7 +57,7 @@ const Layout = ({ children, }: {
 
           <main className="pt-10  px-12 overflow-y-scroll ">{children}</main>
         </div>
-     </ProtectedRoute>
+    //  </ProtectedRoute>
     );
 };
 
