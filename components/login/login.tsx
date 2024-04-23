@@ -24,7 +24,6 @@ import {
 } from "../ui/card";
 import Link from "next/link";
 import { useAuthenticate } from "@/hooks/useAuthenticate";
-import Footer from "@/components/footer";
 import Image from "next/image";
 import Header from "@/components/page-header";
 
