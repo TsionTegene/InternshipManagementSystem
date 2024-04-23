@@ -6,9 +6,6 @@ import Image from "next/image";
 const Footer = () => {
   return (
     <>
-<footer className=" bg-slate-200 dark:bg-gray-900">
-    <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-        <div className="md:flex md:justify-between">
       <footer className="bg-slate-200 dark:bg-gray-900">
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
           <div className="md:flex md:justify-between">

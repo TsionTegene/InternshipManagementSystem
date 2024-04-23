@@ -20,6 +20,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   // }, [])
 
   return (
+
     // <ProtectedRoute roles={["COMPANY_HR"]}>
       <div
         className={`grid  grid-rows-custom  h-screen transition-all duration-300  ${

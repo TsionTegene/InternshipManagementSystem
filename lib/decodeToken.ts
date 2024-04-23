@@ -1,5 +1,3 @@
-"use client"
-
 import jwt from 'jsonwebtoken';
 
 interface DecodedToken {
