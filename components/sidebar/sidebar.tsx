@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+"use client"
+
 import { FaTasks } from "react-icons/fa";
 import { GrInProgress } from "react-icons/gr";
 import { MdOutlineSupervisorAccount } from "react-icons/md";
