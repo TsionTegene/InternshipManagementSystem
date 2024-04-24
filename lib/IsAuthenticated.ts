@@ -10,53 +10,50 @@ interface DecodedToken {
     role: string;
 }
 
-export const IsAuthenticated = async (role: string): Promise<boolean | undefined> => {
+export async function IsAuthenticated(role: string) {
     console.log("Checking authentication...")
+    // if (typeof window === 'undefined') {
     try {
-        if (typeof window === 'undefined') {
-            console.log("Reload in progress...")
-            const access_token = localStorage.getItem("access_token");
-            const Role = localStorage.getItem("role");
-            if (access_token === null) {
-                return false;
-            }
-            const decodeJwt = jwt.verify(access_token, "abel5173");
-            if (role === Role) {
-                return true;
-            }
+        console.log("Reload in progress...")
+        const access_token = localStorage.getItem("access_token");
+        console.log("Access token null from the first call: ", access_token);
+
+        const Role = localStorage.getItem("role");
+        if (access_token === null) {
             return false;
         }
+        const decodeJwt = jwt.verify(access_token, "abel5173");
+        if (role === Role) {
+            return true;
+        }
+        console.log("User loged in");
+        return true;
     } catch (error: any) {
-        if (typeof window === 'undefined') {
-            console.log("Token verification failed:", error.message);
-            const access_token = localStorage.getItem("access_token");
-            if (access_token === null) {
+        console.log("Token verification failed might be expired:", error.message);
+        const access_token = localStorage.getItem("access_token");
+        console.log("Refersh token null");
+        if (access_token === null) {
+            console.log("Access token null");
+            return false
+        } else {
+            const RefreshToken = localStorage.getItem('refresh_token');
+            if (RefreshToken === null) {
+                console.log("Refersh token null");
                 return false
-            } else {
-                const RefreshToken = localStorage.getItem('refresh_token');
-                if (RefreshToken === null) {
-                    return false
-                }
-                try {
-                    const newToken = await refreshToken(RefreshToken);
-                    const decodeJwt = jwt.verify(newToken, "abel5173") as DecodedToken;
-                    const setUserId = useSessionStore((state) => state.setUserId);
-                    const setToken = useSessionStore((state) => state.setToken)
-                    const setUser = useSessionStore((state) => state.setUser)
-                    const setEmail = useSessionStore((state) => state.setEmail);
-                    const setRole = useSessionStore((state) => state.setRole);
-                    setEmail(decodeJwt.email);
-                    setRole(decodeJwt.role);
-                    localStorage.setItem('role', decodeJwt.role);
-                    setUserId(decodeJwt.sub);
-                    return true
-                } catch (error: any) {
-                    console.log("Token verification failed:", error.message);
-                    return false
-                }
+            }
+            try {
+                const newToken = await refreshToken(RefreshToken);
+                const decodeJwt = jwt.verify(newToken, "abel5173") as DecodedToken;
+                console.log(localStorage.getItem('user'))
+                localStorage.setItem('role', decodeJwt.role);
+                return true
+            } catch (error: any) {
+                console.log("Token verification failed:", error.message);
+                return false
             }
         }
     }
+    // }
 }
 
 export const refreshToken = async (refreshToken: string) => {

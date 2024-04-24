@@ -30,9 +30,11 @@ export const useAuthenticate = () => {
       console.log("isSuccess: ", isSuccess)
       console.log(data)
       setUser(data.user)
+      console.log(data.user)
       if (typeof window !== 'undefined') {
         localStorage.setItem('access_token', data.access_token);
         localStorage.setItem('refresh_token', data.refresh_token);
+        localStorage.setItem('user', JSON.stringify(data.user));
         console.log("Access token:", data.access_token);
         console.log("Refresh token:", data.refresh_token);
         const payload = decodeToken(data.access_token).then(payload => {
@@ -47,6 +49,7 @@ export const useAuthenticate = () => {
           setEmail(payload.email);
           setRole(payload.role);
           localStorage.setItem('role', payload.role);
+
           setUserId(payload.userId);
           redirectBasedOnRole(payload.role);
         }).catch(error => {
