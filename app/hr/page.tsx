@@ -7,14 +7,7 @@ import { IsAuthenticated } from "@/lib/IsAuthenticated";
 import { useRouter } from 'next/navigation'
 
 const page = () => {
-  const router = useRouter()
-  useLayoutEffect(() => {
-    const isAuth = IsAuthenticated("COMPNAY_HR").then((isAuth) => {
-      if(!isAuth){
-        router.push('/login')
-      }
-    });
-  }, [router]);
+  
   return (
     <div>
       <Dashboard />

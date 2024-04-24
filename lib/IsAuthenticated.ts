@@ -9,7 +9,9 @@ interface DecodedToken {
     email: string;
     role: string;
 }
+
 export const IsAuthenticated = async (role: string): Promise<boolean | undefined> => {
+    console.log("Checking authentication...")
     try {
         if (typeof window === 'undefined') {
             console.log("Reload in progress...")
