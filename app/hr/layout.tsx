@@ -21,10 +21,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   useLayoutEffect(() => {
     const isAuth = IsAuthenticated("COMPNAY_HR").then((isAuth) => {
       if (!isAuth) {
+        console.log("isAuth: ", isAuth);
         router.push("/login");
       }
     });
-  }, [router]);
+  }, []);
 
   return (
     // <ProtectedRoute roles={["COMPANY_HR"]}>
