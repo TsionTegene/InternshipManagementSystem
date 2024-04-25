@@ -179,7 +179,7 @@ const cardDetail = ({
         )}
         <div className="flex justify-center items-center p-2 ">
           {btn && (
-            <Button className="w-1/2 dark:bg-blue-950 dark:text-white">
+            <Button className="w-1/2 dark:bg-blue-950 dark:text-white hover:bg-blue-950 dark:hover:bg-blue-700 rounded-xl">
               {btn}
             </Button>
           )}
