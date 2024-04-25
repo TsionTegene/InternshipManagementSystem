@@ -3,18 +3,27 @@ import Navbar from "@/components/navbar/navbar";
 import Sidebar from "@/components/sidebar/sidebar";
 import { Button } from "@/components/ui/button";
 import { FaAngleRight } from "react-icons/fa";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { AlignJustify } from "lucide-react";
 import { IoIosArrowDropleft } from "react-icons/io";
 import { RiMenu4Line } from "react-icons/ri";
-import ProtectedRoute from "@/lib/ProtectedRoute";
+import { IsAuthenticated } from "@/lib/IsAuthenticated";
+import { useRouter } from "next/navigation";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
-
+  const router = useRouter();
+useLayoutEffect(() => {
+  const isAuth = IsAuthenticated("STUDENT").then((isAuth) => {
+    if (!isAuth) {
+      console.log("isAuth: ", isAuth);
+      router.push("/login");
+    }
+  });
+}, []);
   return (
-    <ProtectedRoute roles={["STUDENT"]}>
+    // <ProtectedRoute roles={["STUDENT"]}>
       <div
         className={`grid  grid-rows-custom  h-screen transition-all duration-300  ${
           isCollapsed
@@ -73,7 +82,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
           <main className="pt-10  px-12 overflow-y-scroll ">{children}</main>
         </div>
-     </ProtectedRoute>
+    //  </ProtectedRoute>
     );
 };
 
