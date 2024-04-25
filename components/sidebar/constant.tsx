@@ -17,6 +17,9 @@ import { TbReportAnalytics } from "react-icons/tb";
 import { RiDashboardFill } from "react-icons/ri";
 import { User } from "lucide-react";
 import Router from "next/router";
+import { MdCardMembership } from "react-icons/md";
+
+
 interface ISideBarMenu {
     title: string,
     path: string,
@@ -176,6 +179,11 @@ export const UniversityAdmin = [
         title: 'Dashboard',
         path: '/UniversityAdmin',
         icon: <MdDashboard />,
+    },
+    {
+        title: 'Staff',
+        path: '/UniversityAdmin/staff',
+        icon: <MdCardMembership />,
     },
     {
         title: 'College',

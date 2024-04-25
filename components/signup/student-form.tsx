@@ -43,8 +43,7 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useUniversityActions } from "@/hooks/useUniversityActions";
-import { useDeparmentData } from "@/hooks/useFetchDepartment";
+import { useUniversityActions ,useDepartment} from "@/hooks/useUniversityActions";
 import { Textarea } from "@/components/ui/textarea";
 import { TbSquareRoundedPlus } from "react-icons/tb";
 import { PiDeviceTabletSpeakerFill } from "react-icons/pi";
@@ -108,8 +107,8 @@ export function StudentForm() {
 
   const { signupStudent, isSLoading, isSError, isSSuccess } = useStudentRegister();
   const { universities, error, isLoading } = useUniversityActions();
-  const { departments, isDLoading, isDError } = useDeparmentData();
-
+  // const { departments, isDLoading, isDError } = useDeparmentData();
+  const {departments,isLoading:Dloading,Error,filterDepartment } = useDepartment()
   const skillsInput = () => {
     const input = document.getElementById("skillsArray") as HTMLInputElement;
     input.value = input.value.trim();
@@ -178,6 +177,10 @@ export function StudentForm() {
     }
   };
 
+  useEffect(()=>{
+
+    console.log("departments",departments)
+  }, [filterDepartment,universities,departments])
   return (
     <Card className="mx-auto max-w-4xl my-10 shadow-2xl rounded-lg overflow-hidden">
       <CardHeader>
@@ -330,8 +333,10 @@ export function StudentForm() {
                           {error && <div>Error Occured</div>}
                           {!isLoading && !error && (
                             <Select
-                              onValueChange={(value) => {
+                              onValueChange={async (value) => {
                                 field.onChange(value);
+                                filterDepartment(value)
+                                console.log("main value", value)
                               }}
                               aria-label="Select University"
                             >
@@ -342,7 +347,7 @@ export function StudentForm() {
                                 {universities.map((university: any) => (
                                   <SelectItem
                                     key={university.id}
-                                    value={university.name}
+                                    value={university.id}
                                   >
                                     {university.name}
                                   </SelectItem>
@@ -404,9 +409,9 @@ export function StudentForm() {
                       <FormLabel>Department</FormLabel>
                       <FormControl>
                         <div className="grid gap-3">
-                          {isDLoading && <div>Loading...</div>}
-                          {isDError && <div>Error Occured</div>}
-                          {!isDLoading && !isDError && (
+                          {Dloading && <div>Loading...</div>}
+                          {Error && <div>Error Occured</div>}
+                          {!Dloading && !Error && (
                             <Select
                               onValueChange={(value) => {
                                 field.onChange(value);

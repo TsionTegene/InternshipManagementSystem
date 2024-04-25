@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect } from 'react';
-import { useUniversitySignup, useUniversityData, useUnivesityAddDepartment, useUnivesityAddCollege, usecollegeDatabyUnId, useDepartmentData, useUpdateCollege, useUpdatedepartment } from '@/queries/useUniversityQueries';
+import { useUniversitySignup, useUniversityData, useUnivesityAddDepartment, useUnivesityAddCollege, usecollegeDatabyUnId, useDepartmentData, useUpdateCollege, useUpdatedepartment, useUniversityDataById, useCountUniversityStaff } from '@/queries/useUniversityQueries';
 import useUniversityStore from '@/stores/university.store';
-import { useAllRoll, useUserRollNull, userigisteruser } from '@/queries/useUsersdata';
+import { useAllRoll, useAllUniversityMembers, useUpdatedUser, useUserRollNull, userigisteruser } from '@/queries/useUsersdata';
 import useUserStore from '@/stores/user.store';
 import useDepartmentStore from '@/stores/department.store';
 import { useCollegeStore } from '@/stores/college.store';
@@ -12,14 +12,21 @@ import { useQueryClient } from '@tanstack/react-query';
 import { updateDepartment } from '@/api/university/mutation';
 
 export const useUniversityActions = () => {
+  const queryClient = useQueryClient(); // Access the query client instance
   const setUniversities = useUniversityStore((state: any) => state.setUniversities);
   const setIsLoading = useUniversityStore((state: any) => state.setIsLoading);
   const setError = useUniversityStore((state: any) => state.setError);
   const universities = useUniversityStore((state: any) => state.universities);
+  const selectedUserID = useUserStore((state: any) => state.selectedUserID);
+  const setselectedUserID = useUserStore((state: any) => state.setSelectedUserID);
+  const count = useUniversityStore((state: any) => state.count);
+  const setCount = useUniversityStore((state: any) => state.setCount);
 
+  const UniversityCount = useCountUniversityStaff('661fbd258ccc2c339bc90202')
   const signupUniversity = useUniversitySignup();
   const universityData = useUniversityData();
-
+  const universityById = useUniversityDataById(selectedUserID)
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -37,13 +44,31 @@ export const useUniversityActions = () => {
 
     fetchData();
 
-  }, [universityData.isSuccess, universityData.isLoading, setUniversities, setIsLoading, setError]);
+  }, [universityData.isSuccess, universityData.isLoading, setUniversities, setIsLoading, setError, universityData]);
+  const selectedUniverity = async (id: any) => {
 
+    await setselectedUserID(id)
+    queryClient.invalidateQueries("university");
+  }
+
+  try {
+    if (UniversityCount.isSuccess) {
+      setCount(UniversityCount.data);
+
+    }
+  } catch (error) {
+    console.error('Error fetching university data:', error);
+
+  }
   return {
     universities,
     isLoading: universityData.isLoading,
     error: universityData.error,
     signupUniversity,
+    selectedUniverity,
+    universityById,
+    count
+
   };
 };
 
@@ -52,32 +77,52 @@ export const registerUser = () => {
   const setIsLoading = useUserStore((state: any) => state.setIsLoading);
   const setError = useUserStore((state: any) => state.setError);
   const user = useUserStore((state: any) => state.user);
+  const selectedUserID = useUserStore((state: any) => state.selectedUserID);
+  const setselectedUserID = useUserStore((state: any) => state.setSelectedUserID);
+  const queryClient = useQueryClient(); // Access the query client instance
 
-  const register_user = userigisteruser();
+
+
+  const register_user = userigisteruser("6627a6ff604098b8bc21b16e");
+  const staff = useAllUniversityMembers("6627a6ff604098b8bc21b16e");
+  const updateuserById = useUpdatedUser(selectedUserID)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (register_user.isSuccess) {
-          setUser(register_user.data);
+        if (staff.isSuccess) {
+          setUser(staff.data);
 
         }
-        if (register_user.isPending) {
+        if (staff.isLoading) {
           setIsLoading(true);
         }
       } catch (error) {
-        console.error('Error fetching university data:', error);
+        console.error('Error creating User data:', error);
         setError(error);
       }
     };
 
     fetchData();
 
-  }, [register_user.isSuccess, register_user.isPending, setUser, setIsLoading, setError]);
+  }, [staff.isSuccess, staff.isLoading, setUser, setIsLoading, setError, queryClient, updateuserById]);
+
+  const selecteduser = async (id: any) => {
+
+      await setselectedUserID(id)
+      queryClient.invalidateQueries("universityMemeber"); 
+
+  }
+//@ts-ignore
+  const updateUser =  (updatedData)=>{
+      updateuserById.mutateAsync(updatedData)
+  }
 
   return {
     user,
-    register_user
+    register_user,//[][][][]it must be changed to make it real time update [][][][]
+    selecteduser,
+    updateUser
 
   }
 }
@@ -137,6 +182,24 @@ export const useDepartment = () => {
   const addDepartmentMutation = useUnivesityAddDepartment();
   const deptByUnId = useDepartmentData('661fbd258ccc2c339bc90202');
 
+  const filterDepartment = (id: string) => {
+    console.log("the value is ", id)
+    const data = useDepartmentData(id);
+
+    if (data.isSuccess) {
+
+      setDepartment(data.data)
+    }
+    if (data.isLoading) {
+
+      setIsLoading(true);
+    }
+    if (data.isError) {
+      console.log("Error Fetching Department")
+    }
+
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -160,7 +223,9 @@ export const useDepartment = () => {
 
     fetchData();
 
-  }, [deptByUnId.isSuccess, deptByUnId.isPending, setDepartment, setIsLoading, setError,queryClient,updateDepartmet]);
+  }, [filterDepartment,deptByUnId.isSuccess, deptByUnId.isPending, setDepartment, setIsLoading, setError,queryClient,updateDepartmet]);
+
+
 
 
 const addDepartment = async (collegeData: any) => {
@@ -200,6 +265,7 @@ const  newDepartmentId = async (id:any)=>{
     addDepartment,
     newDepartmentId,
     updateDepartmentById,
+    filterDepartment,
     deptByUnId,
     departmentId,
     isLoading ,
@@ -327,3 +393,41 @@ export const userole = () => {
 
 
 
+// export const useStaff = () => {
+
+//   const setUser = useUserStore((state: any) => state.setUser);
+//   const setIsLoading = useUserStore((state: any) => state.setIsLoading);
+//   const setError = useUserStore((state: any) => state.setError);
+//   const user = useUserStore((state: any) => state.user);
+
+//   const register_user = userigisteruser("6627a6ff604098b8bc21b16e");
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         if (register_user.isSuccess) {
+//           setUser(register_user.data);
+
+//         }
+//         if (register_user.isPending) {
+//           setIsLoading(true);
+//         }
+//       } catch (error) {
+//         console.error('Error creating User data:', error);
+//         setError(error);
+//       }
+//     };
+
+//     fetchData();
+
+//   }, [register_user.isSuccess, register_user.isPending, setUser, setIsLoading, setError]);
+
+//   return {
+//     user,
+//     register_user
+
+//   }
+// }
+
+  
+  

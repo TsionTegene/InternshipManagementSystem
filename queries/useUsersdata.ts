@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { fetchCollegebyUnId, registerUser } from "@/api/user/mutations";
-import { allRole, fetchUserWithRoleNull } from "@/api/user/queries";
+import { fetchCollegebyUnId, registerUser, updateUser } from "@/api/user/mutations";
+import { allRole,allUniversityUser, fetchUserWithRoleNull } from "@/api/user/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 
-export const userigisteruser = ()=> {
+export const userigisteruser = (id:string)=> {
     const mutation = useMutation({
-      mutationFn: (formData: FormData) => registerUser(formData),
+      mutationFn: (formData: FormData) => registerUser(formData,id),
     })
   
     return mutation;
@@ -31,3 +31,23 @@ export const useAllRoll = ()=>{
 return  query;
 }
 
+export const useAllUniversityMembers = (id:string) => {
+
+  const query = useQuery({
+    queryKey: ["universityMemeber"],
+    queryFn: () => allUniversityUser(id)
+  })
+
+  return query;
+}
+
+export const useUpdatedUser = (id: string) => {
+  const mutation = useMutation({
+    mutationKey: ["universityMemeber"],
+    mutationFn: (formData: FormData) => updateUser(formData, id),
+
+  })
+
+
+  return mutation
+}

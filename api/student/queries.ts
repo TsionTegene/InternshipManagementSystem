@@ -133,4 +133,18 @@ export async function updateStudent(id: string, data: studentData) {
 
   const responseData = await response.json();
   return responseData;
+    return responseData; // The response should contain the token
+  }
+
+export async function allStudentsInUniversity(id: string) {
+  const url = ` http://10.194.65.38:5000/student/${id}`
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    }
+  })
+
+  return response.json()
+
 }

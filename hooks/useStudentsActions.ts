@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useStudentSignup, useStudentsFilter } from "@/queries/useStudentQueries";
+//import { useStudentSignup, useStudentsFilter } from "@/queries/useStudentQueries";
+import { useFetchAllStudents, useStudentSignup } from "@/queries/useStudentQueries";
 import { useDepartmentData } from "@/queries/useUniversityQueries";
 import { userigisteruser } from "@/queries/useUsersdata";
 import { useStudentStore } from "@/stores/student.store";
@@ -14,14 +15,14 @@ export const useStudentRegister = () => {
     const user = useUserStore((state: any) => state.user); // here we get the user data from the user store
 
     const signupStudent = useStudentSignup(); 
-
+    const studentData = useFetchAllStudents("661fbd258ccc2c339bc90202")
     useEffect(() => { // here we use the useEffect hook to fetch the user data from 
         const fetchData = async () => {
             try {
-                if (signupStudent.isSuccess) {
-                    setUser(signupStudent.data);
+                if (studentData.isSuccess) {
+                    setUser(studentData.data);
                 }
-                if (signupStudent.isPending) {
+                if (studentData.isLoading) {
                     setIsLoading(true);
                 }
             } catch (error) {
@@ -32,7 +33,7 @@ export const useStudentRegister = () => {
 
         fetchData();
 
-    }, [signupStudent.isSuccess, signupStudent.isPending, setUser, setIsLoading, setError]);
+    }, [studentData.isSuccess, studentData.isPending, setUser, setIsLoading, setError]);
 
     return {
         user,

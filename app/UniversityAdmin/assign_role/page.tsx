@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -28,11 +28,10 @@ const depformSchema = z.object({
 
 });
 const RoleAssignment = () => {
+
   const { user, Loading, Error } = useNullrole();
   const{roleName,role_Loading,role_error} =userole()
-  const form = useForm({
-    resolver: zodResolver(depformSchema),
-  });
+
 
 
 
@@ -47,7 +46,7 @@ const RoleAssignment = () => {
         //@ts-ignore
         console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
       }
-    const url = `http://localhost:5000/users/${formData.get("id")}/assign/${formData.get("name")}`
+    const url = `http://10.194.65.38/users/${formData.get("id")}/assign/${formData.get("name")}`
     const response = await fetch(url, {
         method: "post",
         headers: {
@@ -59,7 +58,17 @@ const RoleAssignment = () => {
 
   };
 
+  useEffect(() => {
 
+
+    console.log("Users", user)
+    console.log("Roles", roleName)
+
+  }, [user])
+
+  const form = useForm({
+    resolver: zodResolver(depformSchema),
+  });
   
   return (
     <Card className="mx-auto max-w-4xl my-10 p-6">
@@ -94,7 +103,7 @@ const RoleAssignment = () => {
                         <SelectValue placeholder="Select User" />{" "}
                       </SelectTrigger>
                       <SelectContent>
-                        {user.map((user:any) => (
+                        {user?.map((user:any) => (
                           <SelectItem key={user.id} value={user.id}>
                             {user.firstName}
                           </SelectItem>

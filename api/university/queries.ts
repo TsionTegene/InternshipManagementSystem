@@ -1,5 +1,21 @@
+import axios from "axios"
+
 export async function fetchUniversity () {
-    const url = "https://web-based-internship-management-system-5.onrender.com/university"
+
+    const url = "http://10.194.65.38:5000/university"
+    // const url = "http://localhost:5000/university"
+
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+    return response.json()
+}
+
+export async function fetchUniversityById(id: string) {
+    const url = `http://10.194.65.38:5000/university/${id}`
     // const url = "http://localhost:5000/university"
 
     const response = await fetch(url, {
@@ -13,8 +29,9 @@ export async function fetchUniversity () {
 
 }
 
-export async function fetchDepartment(id:string) {
-    const url = `http://localhost:5000/department/un/${id}`
+export async function fetchCountUniversityStaffById(id: string) {
+    const url = `http://localhost:5000/university/uncount/${id}`
+    // const url = "http://localhost:5000/university"
 
     const response = await fetch(url, {
         method: "GET",
@@ -22,12 +39,26 @@ export async function fetchDepartment(id:string) {
             "Content-Type": "application/json",
         }
     })
+
     return response.json()
+
+}
+export async function fetchDepartment(id:string) {
+    
+    const url = `http://10.194.65.38:5000/department/un/${id}`
+    console.log("api -----")
+    const response = await axios(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+    return response.data
 }
 
 
 export async function fetchallCollege () {
-    const url = "http://localhost:5000/college"
+    const url = "http://10.194.65.38:5000/college"
 
     const response = await fetch(url, {
         method: "GET",
@@ -41,7 +72,7 @@ export async function fetchallCollege () {
 }
 
 export async function fetchCollegebyUnId (ID:any) {
-    const url = `http://localhost:5000/college/${ID}`
+    const url = `http://10.194.65.38:5000/college/${ID}`
 
     const response = await fetch(url, {
         method: "GET",

@@ -24,10 +24,7 @@ const formSchema = z.object({
   }),
   email : z.string().email({
     message: "Invalid email address for the College.",
-  }),
-  collegeDeanId: z.string().min(2, {
-    message: "Dean Must be Provided.",
-  }),
+  })
 });
 //@ts-ignore
 export default function DepartmentForm({ onSubmit, data}) {
