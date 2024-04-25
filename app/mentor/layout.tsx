@@ -7,7 +7,6 @@ import { useState } from "react";
 import { AlignJustify } from "lucide-react";
 import { IoIosArrowDropleft } from "react-icons/io";
 import { RiMenu4Line } from "react-icons/ri";
-import ProtectedRoute from "@/lib/ProtectedRoute";
 
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
