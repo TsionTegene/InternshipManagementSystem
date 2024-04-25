@@ -27,7 +27,7 @@ export async function allRole() {
 }
 
 export async function allUniversityUser(id:string) {
-    const url = `http://10.194.65.38:5000/users/university/${id}`
+    const url = `http://localhost:5000/users/university/${id}`
 
     const response = await fetch(url, {
         method: "GET",

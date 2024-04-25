@@ -137,7 +137,7 @@ export async function updateStudent(id: string, data: studentData) {
   }
 
 export async function allStudentsInUniversity(id: string) {
-  const url = ` http://10.194.65.38:5000/student/${id}`
+  const url = ` http://localhost:5000/student/${id}`
   const response = await fetch(url, {
     method: "GET",
     headers: {

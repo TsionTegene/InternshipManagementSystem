@@ -13,6 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
 
+<<<<<<< HEAD
   return (
     <ProtectedRoute roles={["STUDENT"]}>
       <div
@@ -26,6 +27,29 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <div className="flex items-center space-x-5">
             <div className="lg:hidden py-3">
               <RiMenu4Line className="size-8" onClick={() => setOpen(!open)} />
+=======
+    return (
+      // <ProtectedRoute roles={['STUDENT']}>
+        <div
+          className={`grid  grid-rows-custom  h-screen transition-all duration-300  ${
+            isCollapsed
+              ? "lg:grid-cols-collapsed "
+              : " lg:grid-cols-notCollapsed   "
+          }`}
+        >
+          <header className=" relative  py-3 px-12  rounded-sm ">
+            <div className="flex items-center space-x-5">
+              <div className="lg:hidden py-3">
+                <RiMenu4Line
+                  className="size-8"
+                  onClick={() => setOpen(!open)}
+                />
+              </div>
+
+              <div className="flex-1">
+                <Navbar />
+              </div>
+>>>>>>> d4d90a0 (some modification on staff)
             </div>
 
             <div className="flex-1">
@@ -52,7 +76,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
           <main className="pt-10  px-12 overflow-y-scroll ">{children}</main>
         </div>
-     </ProtectedRoute>
+    //  </ProtectedRoute>
     );
 };
 

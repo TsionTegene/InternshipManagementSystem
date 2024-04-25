@@ -185,12 +185,12 @@ export default function Dashboard() {
           ))}
         </div>
       </div>
-      <DashboardTable
+      {/* <DashboardTable
         tableName="Internship Table"
         tableDescription="Posted Internship Applications."
         data={internshipData}
         headers={internshipHeaders}
-      />
+      /> */}
     </div>
   
   );
