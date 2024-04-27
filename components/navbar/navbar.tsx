@@ -14,7 +14,8 @@ const Navbar = () => {
             <div className="flex gap-2 items-center">
                 <ModeToggle />
                 <Notification />
-                <UserNav />
+                <UserNav/>
+                
             </div>
         </div>
         </div>

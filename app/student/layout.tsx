@@ -55,6 +55,7 @@ useLayoutEffect(() => {
             <Sidebar isCollapsed={isCollapsed} open={open} setOpen={setOpen} />
           </aside>
 
+<<<<<<< HEAD
           <main className="pt-10  px-12 overflow-y-scroll ">{children}</main>
         </div>
 
@@ -72,6 +73,12 @@ useLayoutEffect(() => {
         </div>
       </div>
     );
+=======
+        <main className="pt-10  px-12 overflow-y-scroll ">{children}</main>
+      </div>
+    </ProtectedRoute>
+  );
+>>>>>>> 6e5061d (profile page)
 };
 
 export default Layout;

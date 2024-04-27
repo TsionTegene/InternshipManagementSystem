@@ -1,11 +1,11 @@
 "use client";
 
-import { Textarea } from '@/components/ui/textarea';
-import React from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { Textarea } from "@/components/ui/textarea";
+import React from "react";
+import { FaPlus } from "react-icons/fa";
 
 export default function createForm() {
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log("Form submitted");
   };
@@ -18,11 +18,11 @@ export default function createForm() {
           <label className="block mb-2 font-bold">1. Title</label>
           <div className="grid grid-cols--1 gap-4">
             <div>
-               <input
-              required
-              type="text"
-              className="border border-gray-500 rounded-md px-2 py-1 w-full"
-            />
+              <input
+                required
+                type="text"
+                className="border border-gray-500 rounded-md px-2 py-1 w-full"
+              />
             </div>
           </div>
         </div>
