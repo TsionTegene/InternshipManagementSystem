@@ -96,6 +96,7 @@ const Page = () => {
               </TableRow>
             ))}
           </TableBody>
+          
         </Table>
       </div>
       {selectedDepartment && (

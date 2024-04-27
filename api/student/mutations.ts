@@ -1,8 +1,9 @@
 import axios from 'axios';
+const api = process.env.NEXT_PUBLIC_API
 
 export async function registerStudent(formData: FormData) {
   // const url = 'https://web-based-internship-management-system-5.onrender.com/auth/register/student';
-  const url = 'http://10.194.65.38:5000/auth/register/student'; 
+  const url = `${api}auth/register/student`; 
 
   console.log('skills', formData.get('skills'))
   await fetch(url, {
@@ -25,7 +26,7 @@ export async function registerStudent(formData: FormData) {
 }
 
 export async function updateStudent(id: string, data: any) {
-  const url = `http://localhost:5000/student/${id}`;
+  const url = `${api}student/${id}`;
 
   if (typeof window !== "undefined") {
     const accessToken = localStorage.getItem("access_token");

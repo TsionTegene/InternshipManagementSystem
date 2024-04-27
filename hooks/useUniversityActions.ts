@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useEffect } from 'react';
-import { useUniversitySignup, useUniversityData, useUnivesityAddDepartment, useUnivesityAddCollege, usecollegeDatabyUnId, useDepartmentData, useUpdateCollege, useUpdatedepartment, useUniversityDataById, useCountUniversityStaff } from '@/queries/useUniversityQueries';
+import { useEffect, useId } from 'react';
+import { useUniversitySignup, useUniversityData, useUnivesityAddDepartment, useUnivesityAddCollege, usecollegeDatabyUnId, useDepartmentData, useUpdateCollege, useUpdatedepartment, useUniversityDataById, useCountUniversityStaff, useUserIDtoUniversity } from '@/queries/useUniversityQueries';
 import useUniversityStore from '@/stores/university.store';
 import { useAllRoll, useAllUniversityMembers, useUpdatedUser, useUserRollNull, userigisteruser } from '@/queries/useUsersdata';
 import useUserStore from '@/stores/user.store';
@@ -10,8 +10,17 @@ import useRoleStore from '@/stores/role.store';
 import useSessionStore from "@/stores/sessionStore"
 import { useQueryClient } from '@tanstack/react-query';
 import { updateDepartment } from '@/api/university/mutation';
+import { json } from 'node:stream/consumers';
+
+
+const universityId = localStorage.getItem("universityId")
+const unID = JSON.parse(universityId as string).universityId
 
 export const useUniversityActions = () => {
+  const userId = useSessionStore((state) => state.userId)
+  
+  // const unId = useUserIDtoUniversity(userId as string).data
+  
   const queryClient = useQueryClient(); // Access the query client instance
   const setUniversities = useUniversityStore((state: any) => state.setUniversities);
   const setIsLoading = useUniversityStore((state: any) => state.setIsLoading);
@@ -21,12 +30,16 @@ export const useUniversityActions = () => {
   const setselectedUserID = useUserStore((state: any) => state.setSelectedUserID);
   const count = useUniversityStore((state: any) => state.count);
   const setCount = useUniversityStore((state: any) => state.setCount);
-
-  const UniversityCount = useCountUniversityStaff('661fbd258ccc2c339bc90202')
   const signupUniversity = useUniversitySignup();
   const universityData = useUniversityData();
+  const univesrityId = useSessionStore((state) => state.universityID)
   const universityById = useUniversityDataById(selectedUserID)
-  
+
+  useEffect(() => {
+ 
+
+  }, [])
+  const UniversityCount = useCountUniversityStaff(unID)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -54,6 +67,7 @@ export const useUniversityActions = () => {
   try {
     if (UniversityCount.isSuccess) {
       setCount(UniversityCount.data);
+      console.log("count at the hook",UniversityCount.data)
 
     }
   } catch (error) {
@@ -61,7 +75,7 @@ export const useUniversityActions = () => {
 
   }
   return {
-    universities,
+    universities:universities,//new 
     isLoading: universityData.isLoading,
     error: universityData.error,
     signupUniversity,
@@ -73,6 +87,8 @@ export const useUniversityActions = () => {
 };
 
 export const registerUser = () => {
+
+
   const setUser = useUserStore((state: any) => state.setUser);
   const setIsLoading = useUserStore((state: any) => state.setIsLoading);
   const setError = useUserStore((state: any) => state.setError);
@@ -81,10 +97,11 @@ export const registerUser = () => {
   const setselectedUserID = useUserStore((state: any) => state.setSelectedUserID);
   const queryClient = useQueryClient(); // Access the query client instance
 
+  const univesrityId = useSessionStore((state) => state.universityID)
 
 
-  const register_user = userigisteruser("6627a6ff604098b8bc21b16e");
-  const staff = useAllUniversityMembers("6627a6ff604098b8bc21b16e");
+  const register_user = userigisteruser(unID);
+  const staff = useAllUniversityMembers(unID);
   const updateuserById = useUpdatedUser(selectedUserID)
 
   useEffect(() => {
@@ -105,28 +122,46 @@ export const registerUser = () => {
 
     fetchData();
 
-  }, [staff.isSuccess, staff.isLoading, setUser, setIsLoading, setError, queryClient, updateuserById]);
+  }, [register_user.isSuccess ,staff.isSuccess, staff.isLoading, setUser, setIsLoading, setError, queryClient, updateuserById]);
+
+
+
+  const addUser = async (userData: any) => {
+    try {
+      const newUser = await register_user.mutateAsync(userData);
+
+      queryClient.invalidateQueries("universityMemeber");
+
+      return newUser;
+    } catch (error) {
+      console.error('Error adding new college:', error);
+      throw error;
+    }
+  };
 
   const selecteduser = async (id: any) => {
 
-      await setselectedUserID(id)
-      queryClient.invalidateQueries("universityMemeber"); 
+    await setselectedUserID(id)
+    queryClient.invalidateQueries("universityMemeber");
 
   }
-//@ts-ignore
-  const updateUser =  (updatedData)=>{
-      updateuserById.mutateAsync(updatedData)
+  //@ts-ignore
+  const updateUser = (updatedData) => {
+    updateuserById.mutateAsync(updatedData)
   }
+  console.log("Univesity ID ", univesrityId)
 
   return {
     user,
-    register_user,//[][][][]it must be changed to make it real time update [][][][]
+    addUser,//[][][][]it must be changed to make it real time update [][][][]
     selecteduser,
     updateUser
 
   }
 }
 export const useNullrole = () => {
+
+
   const setUser = useUserStore((state: any) => state.setUser);
   const setIsLoading = useUserStore((state: any) => state.setIsLoading);
   const setError = useUserStore((state: any) => state.setError);
@@ -134,7 +169,9 @@ export const useNullrole = () => {
   const Loading = useUserStore((state: any) => state.isLoading);
   const Error = useUserStore((state: any) => state.error);
 
-  const userRolenull = useUserRollNull();
+  // const univesrityId = useSessionStore((state) => state.universityID)
+
+  const userRolenull = useUserRollNull(unID);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -166,7 +203,6 @@ export const useNullrole = () => {
 }
 
 export const useDepartment = () => {
-  const universityId = useSessionStore((state: any) => state.userId)
 
   const setDepartment = useDepartmentStore((state: any) => state.setDepartments);
   const setIsLoading = useDepartmentStore((state: any) => state.setIsLoading);
@@ -175,12 +211,14 @@ export const useDepartment = () => {
   const queryClient = useQueryClient(); // Access the query client instance
   const isLoading = useCollegeStore((state: any) => state.isLoading);
   const Error = useCollegeStore((state: any) => state.error);
-  const setDepartmentId =useDepartmentStore((state: any) => state.setDepartmentId)
-  const departmentId =useDepartmentStore((state: any) => state.departmentId)
-  
+  const setDepartmentId = useDepartmentStore((state: any) => state.setDepartmentId)
+  const departmentId = useDepartmentStore((state: any) => state.departmentId)
+
+  const univesrityId = useSessionStore((state) => state.universityID)
+
   const updateDepartmet = useUpdatedepartment(departmentId)
   const addDepartmentMutation = useUnivesityAddDepartment();
-  const deptByUnId = useDepartmentData('661fbd258ccc2c339bc90202');
+  const deptByUnId = useDepartmentData(unID);
 
   const filterDepartment = (id: string) => {
     console.log("the value is ", id)
@@ -212,7 +250,7 @@ export const useDepartment = () => {
 
           setIsLoading(true);
         }
-        if(deptByUnId.isError){
+        if (deptByUnId.isError) {
           console.log("Error Fetching Department")
         }
       } catch (error) {
@@ -223,43 +261,43 @@ export const useDepartment = () => {
 
     fetchData();
 
-  }, [filterDepartment,deptByUnId.isSuccess, deptByUnId.isPending, setDepartment, setIsLoading, setError,queryClient,updateDepartmet]);
+  }, [filterDepartment, deptByUnId.isSuccess, deptByUnId.isPending, setDepartment, setIsLoading, setError, queryClient, updateDepartmet]);
 
 
 
 
-const addDepartment = async (collegeData: any) => {
-  try {
-    const newDepartment = await addDepartmentMutation.mutateAsync(collegeData);
+  const addDepartment = async (collegeData: any) => {
+    try {
+      const newDepartment = await addDepartmentMutation.mutateAsync(collegeData);
 
-    queryClient.invalidateQueries("department"); 
+      queryClient.invalidateQueries("department");
 
-    return newDepartment;
-  } catch (error) {
-    console.error('Error adding new college:', error);
-    throw error;
+      return newDepartment;
+    } catch (error) {
+      console.error('Error adding new college:', error);
+      throw error;
+    }
+  };
+
+  const newDepartmentId = async (id: any) => {
+
+    await setDepartmentId(id)
+
   }
-};
 
-const  newDepartmentId = async (id:any)=>{
+  const updateDepartmentById = async (departmentData: any) => {
+    try {
+      const newdepartment = await updateDepartmet.mutateAsync(departmentData);
 
-  await  setDepartmentId(id)
 
- }
+      queryClient.invalidateQueries("department");
 
- const updateDepartmentById = async (departmentData: any) => {
-  try {
-    const newdepartment = await updateDepartmet.mutateAsync(departmentData);
-
-    
-    queryClient.invalidateQueries("department"); 
-
-    return newdepartment;
-  } catch (error) {
-    console.error('Error Updating new college:', error);
-    throw error;
-  }
-};
+      return newdepartment;
+    } catch (error) {
+      console.error('Error Updating new college:', error);
+      throw error;
+    }
+  };
   return {
     departments,
     addDepartment,
@@ -268,8 +306,8 @@ const  newDepartmentId = async (id:any)=>{
     filterDepartment,
     deptByUnId,
     departmentId,
-    isLoading ,
-    Error 
+    isLoading,
+    Error
 
   }
 
@@ -277,7 +315,7 @@ const  newDepartmentId = async (id:any)=>{
 }
 
 export const useCollege = () => {
-  const universityId = useSessionStore((state: any) => state.userId);
+
   const setColleges = useCollegeStore((state: any) => state.setColleges);
   const setIsLoading = useCollegeStore((state: any) => state.setIsLoading);
   const setError = useCollegeStore((state: any) => state.setError);
@@ -287,9 +325,11 @@ export const useCollege = () => {
   const collegeId = useCollegeStore((state: any) => state.collegeId);
   const setCollegeId = useCollegeStore((state: any) => state.setCollegeId);
 
+  // const univesrityId = useSessionStore((state) => state.universityID)
+
   const addCollegeMutation = useUnivesityAddCollege();
   const updateCollege = useUpdateCollege(collegeId)
-  const collegeData = usecollegeDatabyUnId("661fbd258ccc2c339bc90202");
+  const collegeData = usecollegeDatabyUnId(unID);
   const queryClient = useQueryClient(); // Access the query client instance
 
   useEffect(() => {
@@ -308,7 +348,7 @@ export const useCollege = () => {
     };
 
     fetchData();
-  }, [collegeData.isSuccess, collegeData.isLoading, setColleges, setIsLoading, setError,queryClient,updateCollege,setCollegeId]);
+  }, [collegeData.isSuccess, collegeData.isLoading, setColleges, setIsLoading, setError, queryClient, updateCollege, setCollegeId]);
 
   const addCollege = async (collegeData: any) => {
     try {
@@ -324,8 +364,8 @@ export const useCollege = () => {
 
   const updateCollegeById = async (collegeData: any) => {
     try {
-      const newCollege = await updateCollege.mutateAsync(collegeData);      
-      queryClient.invalidateQueries("college"); 
+      const newCollege = await updateCollege.mutateAsync(collegeData);
+      queryClient.invalidateQueries("college");
       return newCollege;
     } catch (error) {
       console.error('Error Updating new college:', error);
@@ -333,12 +373,12 @@ export const useCollege = () => {
     }
   };
 
- const  newCollegeId = async (id:any)=>{
+  const newCollegeId = async (id: any) => {
 
-  await  setCollegeId(id)
+    await setCollegeId(id)
 
- }
-  
+  }
+
 
   return {
     colleges: colleges || [],

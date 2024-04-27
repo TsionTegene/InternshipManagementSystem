@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { createCollege, registerDepartment, registerUniversity, updateCollege, updateDepartment } from "@/api/university/mutation";
-import { fetchCollegebyUnId, fetchCountUniversityStaffById, fetchDepartment, fetchUniversity, fetchUniversityById, } from "@/api/university/queries";
+import { fetchCollegebyUnId, fetchCountUniversityStaffById, fetchDepartment, fetchUniversity, fetchUniversityById, fetchUniversitybyUserID, } from "@/api/university/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
 // using useQuery hook to fetch data from the server
 export function useUniversityData() {
@@ -32,6 +32,7 @@ export function usecollegeDatabyUnId(id:any) {
 
 export const useUniversitySignup = () => {
     const mutation = useMutation({
+        mutationKey: ["universityMemeber"],//new 
         mutationFn: (formData: FormData) => registerUniversity(formData),
     })
 
@@ -93,8 +94,17 @@ export const useUpdatedepartment = (id:string) => {
 
 export const useCountUniversityStaff = (id: string) => {
     const query = useQuery({
+        queryKey: ["staffcounter"],
+        queryFn: async () => await  fetchCountUniversityStaffById(id)
+    })
+    console.log("counter @ query",query.data)
+    return query;
+}
+
+export const useUserIDtoUniversity = (id: string) => {
+    const query = useQuery({
         queryKey: ["university"],
-        queryFn: () => fetchCountUniversityStaffById(id)
+        queryFn: () => fetchUniversitybyUserID(id)
     })
     return query;
 }

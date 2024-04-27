@@ -1,7 +1,8 @@
 import studentData from "./type";
+const api = process.env.NEXT_PUBLIC_API
 
 export async function registerStudent(data: studentData) {
-  const url = 'http://localhost:5000/auth/register/student'; // Replace with your actual API endpoint
+  const url = `${api}auth/register/student`; // Replace with your actual API endpoint
 
   const response = await fetch(url, {
     method: 'POST',
@@ -20,7 +21,7 @@ export async function registerStudent(data: studentData) {
 }
 
 export async function fetchStudentsByCompanyId(id: string) {
-  const url = `http://localhost:5000/company/${id}/students`;
+  const url = `${api}company/${id}/students`;
   if (typeof window !== "undefined") {
     const response = await fetch(url, {
       method: 'GET',
@@ -40,7 +41,7 @@ export async function fetchStudentsByCompanyId(id: string) {
 }
 
 export async function fetchStudentsByDepartmentId(id: string) {
-  const url = `http://localhost:5000/department/${id}/students`;
+  const url = `${api}department/${id}/students`;
 
   const response = await fetch(url, {
     method: 'GET',
@@ -59,7 +60,7 @@ export async function fetchStudentsByDepartmentId(id: string) {
 }
 
 export async function fetchStudentsByUniversityId(id: string) {
-  const url = `http://localhost:5000/university/${id}/students`;
+  const url = `${api}university/${id}/students`;
 
   const response = await fetch(url, {
     method: 'GET',
@@ -78,7 +79,7 @@ export async function fetchStudentsByUniversityId(id: string) {
 }
 
 export async function fetchStudentById(id: string) {
-  const url = `http://localhost:5000/student/${id}`;
+  const url = `${api}student/${id}`;
 
   const response = await fetch(url, {
     method: 'GET',
@@ -97,7 +98,7 @@ export async function fetchStudentById(id: string) {
 }
 
 export async function fetchStudentsByInternshipId(id: string) {
-  const url = `http://localhost:5000/internship/${id}/students`;
+  const url = `${api}internship/${id}/students`;
 
   const response = await fetch(url, {
     method: 'GET',
@@ -116,7 +117,7 @@ export async function fetchStudentsByInternshipId(id: string) {
 }
 
 export async function updateStudent(id: string, data: studentData) {
-  const url = `http://localhost:5000/student/${id}`;
+  const url = `${api}student/${id}`;
 
   const response = await fetch(url, {
     method: 'PUT',
@@ -137,7 +138,7 @@ export async function updateStudent(id: string, data: studentData) {
   }
 
 export async function allStudentsInUniversity(id: string) {
-  const url = ` http://localhost:5000/student/${id}`
+  const url = `${api}student/${id}`
   const response = await fetch(url, {
     method: "GET",
     headers: {

@@ -1,33 +1,35 @@
-export async function fetchUserWithRoleNull () {
-    const url = "http://10.194.65.38:5000/users/role"
+import axios from "axios";
+const api = process.env.NEXT_PUBLIC_API
 
-    const response = await fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    })
-
-    return response.json()
+export async function fetchUserWithRoleNull (id:string) {
+    const url = `${api}users/role/${id}`
+    // const response = await fetch(url, {
+    //     method: "GET",
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     }
+    // })
+    const response = await axios.get(url, {
+        headers: { 'Content-Type': 'application/json' },
+    });
+ console.log("returned users ",await response.data)
+    return response.data
 
 }
 
 export async function allRole() {
-    const url = "http://10.194.65.38:5000/auth/roles"
+    const url = `${api}auth/roles/admin`
 
-    const response = await fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    })
+    const response = await axios.get(url, {
+        headers: { 'Content-Type': 'application/json' },
+    });
 
-    return response.json()
+    return  response.data
 
 }
 
 export async function allUniversityUser(id:string) {
-    const url = `http://localhost:5000/users/university/${id}`
+    const url = `${api}users/university/${id}`
 
     const response = await fetch(url, {
         method: "GET",

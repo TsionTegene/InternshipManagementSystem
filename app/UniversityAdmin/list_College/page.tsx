@@ -9,15 +9,12 @@ import { Table, TableCaption, TableBody, TableCell, TableHead, TableHeader, Tabl
 import { Button } from '@/components/ui/button';
 import MyModal from '@/modals/loginmodal';
 import CollegeForm from '@/components/Form/page';
-
 const Page = () => {
   const { colleges,updateCollegeById, isLoading,Error,newCollegeId ,collegeId} = useCollege(); // Destructure isLoading from useCollege
-
   const [editMode, setEditMode] = useState(false);
   const [editedCollege, setEditedCollege] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCollege, setSelectedCollege] = useState(null);
-
   const openModal = (college) => {
     setSelectedCollege(college); // Set the selected college
     setIsModalOpen(true); // Open the modal
@@ -82,7 +79,6 @@ const Page = () => {
     
     updateCollegeById(formData)
     setIsModalOpen(false);
-
   };
 
   return (
@@ -90,7 +86,6 @@ const Page = () => {
       <div>
         <h2 className="text-xl font-bold mb-4 text-center">Colleges</h2>
         <div className="flex justify-end mb-4">
-          <Button>Add College</Button>
         </div>
         {!isLoading && <div>Loading...</div>}
                 {Error && <div>Error Occured</div>}
@@ -107,6 +102,8 @@ const Page = () => {
                 <TableHead>Action</TableHead>
               </TableRow>
             </TableHeader>
+            {Array.isArray(colleges) && colleges.length > 0 ? (
+
             <TableBody>
             
               {colleges?.map((college, index) => (
@@ -152,6 +149,13 @@ const Page = () => {
                 </TableRow>
               ))}
             </TableBody>
+            ) : (
+              <TableBody>
+                <TableRow>
+                  <TableCell colSpan={6}>No colleges found</TableCell>
+                </TableRow>
+              </TableBody>
+            )}
           </Table>
         )}
       </div>

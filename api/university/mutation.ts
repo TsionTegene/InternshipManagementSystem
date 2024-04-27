@@ -1,8 +1,9 @@
 import axios from 'axios';
+const api = process.env.NEXT_PUBLIC_API
 
 export async function registerUniversity(formData: FormData) {
   // const url = 'https://web-based-internship-management-system-3.onrender.com/auth/register/university';
-  const url = "http://10.194.65.38:5000/auth/register/university"
+  const url = `${api}auth/register/university`
   const response = await fetch(url, {
     method: 'POST',
     body: formData,
@@ -18,7 +19,7 @@ export async function registerUniversity(formData: FormData) {
 }
 
 export async function registerDepartment(formData: FormData) {
-  const url = "http://10.194.65.38:5000/auth/register/department"
+  const url = `${api}auth/register/department`
   try {
     const response = await axios.post(url, formData, {
       headers: { 'Content-Type': 'application/json' },
@@ -37,7 +38,7 @@ export async function registerDepartment(formData: FormData) {
 
 export async function createCollege(formData: any) {
   //const url = 'https://web-based-internship-management-system-4.onrender.com/auth/create/college';
-  const url = "http://10.194.65.38:5000/college/create"
+  const url = `${api}college/create`
   // Convert FormData to JSON (if backend expects JSON)
   
 
@@ -58,7 +59,7 @@ export async function createCollege(formData: any) {
 }
 
 export async function updateCollege(formData: FormData,id:string) {
-  const url = `http://10.194.65.38:5000/college/update/${id}`
+  const url = `${api}college/update/${id}`
   try {
     const response = await axios.patch(url, formData, {
       headers: { 'Content-Type': 'application/json' },
@@ -76,7 +77,7 @@ export async function updateCollege(formData: FormData,id:string) {
 }
 
 export async function updateDepartment(formData: FormData,id:string) {
-  const url = `http://10.194.65.38:5000/department/update/${id}`
+  const url = `${api}department/update/${id}`
   try {
     const response = await axios.patch(url, formData, {
       headers: { 'Content-Type': 'application/json' },

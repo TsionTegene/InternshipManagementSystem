@@ -1,7 +1,9 @@
 // Login implementation
+const api = process.env.NEXT_PUBLIC_API
+
 export async function login(formData: any) {
     // const url = 'https://web-based-internship-management-system-5.onrender.com/auth/login';
-    const url = 'http://localhost:5000/auth/login';
+    const url = `${api}auth/login`;
     // console.log("Form values at api to be sent: ", formData)
 
     const response = await fetch(url, {
@@ -17,12 +19,12 @@ export async function login(formData: any) {
     }
 
     const responseData = await response.json();
-    // console.log(responseData)
+    console.log(responseData)
     return responseData;
 }
 
 export async function refreshToken(refreshToken: string) {
-    const url = 'https://web-based-internship-management-system-5.onrender.com/auth/refresh';
+    const url = `${api}auth/refresh`;
     // const url = 'http://localhost:5000/auth/refresh';
 
     const response = await fetch(url, {

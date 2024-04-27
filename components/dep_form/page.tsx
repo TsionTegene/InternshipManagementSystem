@@ -181,10 +181,13 @@ export default function DepartmentCreation({ onSubmit, initialData }) {
                             <SelectValue placeholder="Select Dean" />{" "}
                           </SelectTrigger>
                           <SelectContent>
-                            {user.map((user: any) => (
-                              <SelectItem key={user.id} value={user.id}>
-                                {user.firstName}
+                            {user.map((data: any) => (
+
+                              <SelectItem key={data.id} value={data.user.id}>
+                                {data?.user.roleName === null &&
+                                  data.user.firstName}
                               </SelectItem>
+
                             ))}
                           </SelectContent>
                         </Select>

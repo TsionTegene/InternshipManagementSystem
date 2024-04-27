@@ -1,7 +1,7 @@
 "use client";
 import { CreditCard } from "lucide-react";
 import { Users } from "lucide-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,63 +19,10 @@ import DashboardTable from "@/components/dashboard/Tables";
 import {useUniversityActions} from "@/hooks/useUniversityActions"
 export default function Dashboard() {
   const {count} = useUniversityActions()
+  
   useEffect(()=>{
+  },[])
 
-    console.log("count =>",count)
-  })
-  // const headers = [
-  //   { key: "customer", label: "Customer", className: "text-left" },
-  //   { key: "type", label: "Type", className: "hidden sm:table-cell" },
-  //   { key: "status", label: "Status", className: "hidden sm:table-cell" },
-  //   { key: "date", label: "Date", className: "hidden md:table-cell" },
-  //   { key: "amount", label: "Amount", className: "text-right" },
-  // ];
-  // const data = [
-  //   {
-  //     name: "John Doe",
-  //     email: "john@example.com",
-  //     type: "Sale",
-  //     status: "Fulfilled",
-  //     date: "2023-10-01",
-  //     amount: "$300.00",
-  //     className: "bg-accent", // optional, for styling the row
-  //     emailClass: "hidden text-sm text-muted-foreground md:inline", // class for the email
-  //     badgeVariant: "secondary", // variant for the badge
-  //   },
-  //   {
-  //     name: "Jane Smith",
-  //     email: "jane@example.com",
-  //     type: "Refund",
-  //     status: "Pending",
-  //     date: "2023-10-02",
-  //     amount: "$200.00",
-  //     className: "",
-  //     emailClass: "hidden text-sm text-muted-foreground md:inline",
-  //     badgeVariant: "outline",
-  //   },
-  //   {
-  //     name: "Alice Johnson",
-  //     email: "alice@example.com",
-  //     type: "Subscription",
-  //     status: "Renewed",
-  //     date: "2023-10-03",
-  //     amount: "$500.00",
-  //     className: "bg-accent",
-  //     emailClass: "hidden text-sm text-muted-foreground md:inline",
-  //     badgeVariant: "secondary",
-  //   },
-  //   {
-  //     name: "Bob Brown",
-  //     email: "bob@example.com",
-  //     type: "Sale",
-  //     status: "Fulfilled",
-  //     date: "2023-10-04",
-  //     amount: "$450.00",
-  //     className: "",
-  //     emailClass: "hidden text-sm text-muted-foreground md:inline",
-  //     badgeVariant: "secondary",
-  //   },
-  // ];
   const cards = [
     {
       cardName: "Total Student",
@@ -134,8 +81,6 @@ export default function Dashboard() {
       status: "Pending Review",
       applicationDate: "2023-09-15",
       location: "San Francisco, CA",
-      // className: "", // optional, for additional styling
-      // badgeVariant: "outline", // variant for the badge, assuming you use a badge to visualize status
     },
     {
       student: "Michael Lawson",
@@ -143,8 +88,7 @@ export default function Dashboard() {
       status: "Accepted",
       applicationDate: "2023-09-20",
       location: "New York, NY",
-      // className: "bg-accent", // optional, for additional styling
-      // badgeVariant: "secondary",
+
     },
     {
       student: "Laura Jenkins",
@@ -152,8 +96,7 @@ export default function Dashboard() {
       status: "Declined",
       applicationDate: "2023-09-18",
       location: "Chicago, IL",
-      // className: "",
-      // badgeVariant: "outline",
+
     },
     {
       student: "David Clarke",
@@ -161,8 +104,7 @@ export default function Dashboard() {
       status: "Pending Review",
       applicationDate: "2023-09-22",
       location: "Boston, MA",
-      // className: "bg-accent",
-      // badgeVariant: "outline",
+
     },
   ];
 
@@ -185,12 +127,6 @@ export default function Dashboard() {
           ))}
         </div>
       </div>
-      {/* <DashboardTable
-        tableName="Internship Table"
-        tableDescription="Posted Internship Applications."
-        data={internshipData}
-        headers={internshipHeaders}
-      /> */}
     </div>
   
   );

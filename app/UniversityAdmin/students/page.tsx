@@ -29,38 +29,46 @@ const Page = () => {
               {/* <TableHead>Action</TableHead> */}
             </TableRow>
           </TableHeader>
-
-          <TableBody>
-            {user?.map((student, index) => (
-              <TableRow key={student.id}>
-                <TableCell className="font-medium">{index + 1}</TableCell>
-                <TableCell>
-                  <img src={student.user?.profilePic} alt="Profile" className="w-12 h-12 rounded-full" />
-                </TableCell>
-                <TableCell>
-                   { student.user.firstName}
-                </TableCell>
-                <TableCell>
+          {Array.isArray(user) && user.length > 0 ? (
+            <TableBody>
+              {user.map((student, index) => (
+                <TableRow key={student.id}>
+                  <TableCell className="font-medium">{index + 1}</TableCell>
+                  <TableCell>
+                    <img src={student.user?.profilePic} alt="Profile" className="w-12 h-12 rounded-full" />
+                  </TableCell>
+                  <TableCell>
+                    {student.user.firstName}
+                  </TableCell>
+                  <TableCell>
                     {student.user.middleName}
-                </TableCell>
-                <TableCell>
-                  {  student.user.userName}
-                </TableCell>
-                <TableCell>
-                  {  student?.Department?.name || "null"}
-                </TableCell>
-                <TableCell>
-                  {student.year}
-                </TableCell>
-                <TableCell>
-                  {student.gpa}
-                </TableCell>
-                <TableCell>
-                 
-                </TableCell>
+                  </TableCell>
+                  <TableCell>
+                    {student.user.userName}
+                  </TableCell>
+                  <TableCell>
+                    {student?.Department?.name || "null"}
+                  </TableCell>
+                  <TableCell>
+                    {student.year}
+                  </TableCell>
+                  <TableCell>
+                    {student.gpa}
+                  </TableCell>
+                  <TableCell>
+                    {/* Render actions */}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          ) : (
+            <TableBody>
+              <TableRow>
+                <TableCell colSpan={8}>No students found</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
+            </TableBody>
+          )}
+
         </Table>
       </div>
     </CardContent>

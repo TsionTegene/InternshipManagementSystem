@@ -17,15 +17,16 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCollege, useNullrole } from "@/hooks/useUniversityActions";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
   Collegename: z.string().min(2, {
     message: "College name must be at least 2 characters.",
   }),
-  phoneNum : z.string().min(10, {
+  phoneNum: z.string().min(10, {
     message: "Enter phone number.",
   }),
-  email : z.string().email({
+  email: z.string().email({
     message: "Invalid email address for the College.",
   }),
   collegeDeanId: z.string().min(2, {
@@ -33,9 +34,12 @@ const formSchema = z.object({
   }),
 });
 
+const universityId = localStorage.getItem("universityId")
+const unID = JSON.parse(universityId as string).universityId
 export default function CollegeForm() {
-  
-  const { addCollege ,colleges} = useCollege();
+  const router = useRouter()
+
+  const { addCollege, colleges } = useCollege();
   const { user, Loading, Error } = useNullrole();
 
   const form = useForm({
@@ -51,19 +55,21 @@ export default function CollegeForm() {
     for (const field in formValues) {
       formData.append(field, formValues[field]);
     }
-    formData.append("universityId" ,"661fbd258ccc2c339bc90202")
-      //@ts-ignore
+    formData.append("universityId", unID)
+    //@ts-ignore
     for (let pair of formData.entries()) {
       //@ts-ignore
       console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
     }
     console.log(formData.get("Collegename"))
-    
+
     await addCollege(formData);
+    router.push("/UniversityAdmin/list_College")
+
   };
-  
-  console.log("list of colleges",colleges)
-  
+
+  console.log("list of colleges", colleges)
+
   return (
     <Card className="mx-auto max-w-lg my-10">
       <CardHeader>
@@ -115,7 +121,7 @@ export default function CollegeForm() {
               )}
             />
 
-<FormField
+            <FormField
               control={form.control}
               name="collegeDeanId"
               render={({ field }) => (
@@ -123,31 +129,36 @@ export default function CollegeForm() {
                   <FormLabel>Select User</FormLabel>
                   <FormControl>
 
-                <div className="grid gap-3">
-                {!Loading && <div>Loading...</div>}
-                {Error && <div>Error Occured</div>}
-                {Loading && !Error && (
-                    <Select
-                      onValueChange={(value) => {
-                        console.log("Selected Dean:", value);
-                        field.onChange(value); 
-                      }}
-                      aria-label="Select Dean"
-                    >
-                      <SelectTrigger>
-                    
-                        <SelectValue placeholder="Select Dean" />{" "}
-                      </SelectTrigger>
-                      <SelectContent>
-                        {user.map((user:any) => (
-                          <SelectItem key={user.id} value={user.id}>
-                            {user.firstName}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
-                  </div>
+                    <div className="grid gap-3">
+                      {!Loading && <div>Loading...</div>}
+                      {Error && <div>Error Occured</div>}
+                      {Loading && !Error && (
+                        <Select
+                          onValueChange={(value) => {
+                            console.log("Selected Dean:", value);
+                            field.onChange(value);
+                          }}
+                          aria-label="Select Dean"
+                        >
+                          <SelectTrigger>
+
+                            <SelectValue placeholder="Select Dean" />{" "}
+                          </SelectTrigger>
+                          <SelectContent>
+                            {user.map((data: any) => (
+                              
+                              <SelectItem key={data.id} value={data.user.id}>
+                                {data ?.user.roleName === null &&
+                                data.user.firstName}
+                              </SelectItem>
+
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )
+                      }
+
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -156,7 +167,7 @@ export default function CollegeForm() {
             <Button type="submit">Submit</Button>
           </form>
         </Form>
-       
+
       </CardContent>
     </Card>
   );

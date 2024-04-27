@@ -1,8 +1,9 @@
 import axios from "axios"
+const api = process.env.NEXT_PUBLIC_API
 
 export async function fetchUniversity () {
 
-    const url = "http://10.194.65.38:5000/university"
+    const url = `${api}university`
     // const url = "http://localhost:5000/university"
 
     const response = await fetch(url, {
@@ -14,8 +15,23 @@ export async function fetchUniversity () {
     return response.json()
 }
 
+export async function fetchUniversitybyUserID(id:string) {
+
+    const url = `${api}university/user/${id}`
+    // const url = "http://localhost:5000/university"
+
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+
+    return response.json()
+}
+
 export async function fetchUniversityById(id: string) {
-    const url = `http://10.194.65.38:5000/university/${id}`
+    const url = `${api}university/${id}`
     // const url = "http://localhost:5000/university"
 
     const response = await fetch(url, {
@@ -30,22 +46,21 @@ export async function fetchUniversityById(id: string) {
 }
 
 export async function fetchCountUniversityStaffById(id: string) {
-    const url = `http://localhost:5000/university/uncount/${id}`
+    const url = `${api}university/uncount/${id}`
     // const url = "http://localhost:5000/university"
 
-    const response = await fetch(url, {
+    const response = await axios(url, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
         }
     })
-
-    return response.json()
+    return response.data
 
 }
 export async function fetchDepartment(id:string) {
     
-    const url = `http://10.194.65.38:5000/department/un/${id}`
+    const url = `${api}department/un/${id}`
     console.log("api -----")
     const response = await axios(url, {
         method: "GET",
@@ -58,7 +73,7 @@ export async function fetchDepartment(id:string) {
 
 
 export async function fetchallCollege () {
-    const url = "http://10.194.65.38:5000/college"
+    const url = `${api}college`
 
     const response = await fetch(url, {
         method: "GET",
@@ -72,7 +87,7 @@ export async function fetchallCollege () {
 }
 
 export async function fetchCollegebyUnId (ID:any) {
-    const url = `http://10.194.65.38:5000/college/${ID}`
+    const url = `${api}college/${ID}`
 
     const response = await fetch(url, {
         method: "GET",

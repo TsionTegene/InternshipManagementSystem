@@ -15,7 +15,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   useLayoutEffect(() => {
-    const isAuth = IsAuthenticated("COMPNAY_HR").then((isAuth) => {
+    const isAuth = IsAuthenticated("UNIVERSITY_ADMIN").then((isAuth) => {
       if (!isAuth) {
         console.log("isAuth: ", isAuth);
         router.push("/login");

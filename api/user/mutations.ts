@@ -1,11 +1,12 @@
 import axios from "axios";
+const api = process.env.NEXT_PUBLIC_API
 
 export async function registerUser(formData: FormData,id:string) {
     // const url = 'https://web-based-internship-management-system-3.onrender.com/users';
     console.log(formData)
   console.log(id)
 
-  const url = `http://10.194.65.38:5000/users/${id}`
+  const url = `${api}users/${id}`
     const response = await fetch(url, {
       method: 'POST',
       body: formData,
@@ -21,7 +22,7 @@ export async function registerUser(formData: FormData,id:string) {
   }
 
   export async function fetchCollegebyUnId (User_ID:any,Role_Name:any) {
-    const url = `http://10.194.65.38:5000/users/${User_ID}/assign/${Role_Name}`
+    const url = `${api}users/${User_ID}/assign/${Role_Name}`
 
     const response = await fetch(url, {
         method: "GET",
@@ -35,7 +36,7 @@ export async function registerUser(formData: FormData,id:string) {
 }
   
 export async function updateUser(formData: FormData, id: string) {
-  const url = `http://10.194.65.38:5000/users/${id}`
+  const url = `${api}users/${id}`
   try {
     const response = await axios.patch(url, formData, {
       headers: { 'Content-Type': 'application/json' },

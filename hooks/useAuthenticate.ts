@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLogin, useRefreshToken } from '@/queries/useLogin';
 import useSessionStore from '@/stores/sessionStore';
 import jwt from 'jsonwebtoken';
@@ -8,9 +8,11 @@ import { useRouter } from 'next/navigation'; // Import useRouter
 import { isLoggedIn } from '@/lib/isLoggedIn';
 import router from 'next/router';
 import decodeToken from '@/lib/decodeToken';
+import { useUserIDtoUniversity } from '@/queries/useUniversityQueries';
 
 export const useAuthenticate = () => {
   const { data, mutate, isSuccess, isError, isPending, error } = useLogin();
+  const [userId, setUserid] = useState<string>('');
   const setUserId = useSessionStore((state) => state.setUserId);
   const setToken = useSessionStore((state) => state.setToken)
   const setUser = useSessionStore((state) => state.setUser)
@@ -35,6 +37,10 @@ export const useAuthenticate = () => {
         localStorage.setItem('access_token', data.access_token);
         localStorage.setItem('refresh_token', data.refresh_token);
         localStorage.setItem('user', JSON.stringify(data.user));
+        if(data.unId){
+          console.log(data.unId)
+          localStorage.setItem('universityId', JSON.stringify(data.unId[0]))
+        }
         console.log("Access token:", data.access_token);
         console.log("Refresh token:", data.refresh_token);
         const payload = decodeToken(data.access_token).then(payload => {
@@ -44,7 +50,7 @@ export const useAuthenticate = () => {
           console.log("Email:", payload.email);
           console.log("Role:", payload.role);
           console.log("User ID:", payload.userId);
-
+          setUserid(payload.userId);
           // Assuming you have functions to handle these values
           setEmail(payload.email);
           setRole(payload.role);

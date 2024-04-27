@@ -3,19 +3,22 @@
 import { useFetchAllStudents, useStudentSignup } from "@/queries/useStudentQueries";
 import { useDepartmentData } from "@/queries/useUniversityQueries";
 import { userigisteruser } from "@/queries/useUsersdata";
+import useSessionStore from "@/stores/sessionStore";
 import { useStudentStore } from "@/stores/student.store";
 import useUserStore from "@/stores/user.store";
 import { useEffect } from "react";
-
+const universityId = localStorage.getItem("universityId")
+const unID = JSON.parse(universityId as string).universityId
 // here we define the actions that we can perform on the students data
 export const useStudentRegister = () => {
     const setUser = useUserStore((state: any) => state.setUser); // here we get the setUser function from the user store
     const setIsLoading = useUserStore((state: any) => state.setIsLoading); // here we get the setIsLoading function from the user store
     const setError = useUserStore((state: any) => state.setError); // here we get the setError function from the user store
-    const user = useUserStore((state: any) => state.user); // here we get the user data from the user store
+    const userId = useSessionStore((state) => state.userId)
 
+    const user = useUserStore((state: any) => state.user); // here we get the user data from the user store
     const signupStudent = useStudentSignup(); 
-    const studentData = useFetchAllStudents("661fbd258ccc2c339bc90202")
+    const studentData = useFetchAllStudents(unID)
     useEffect(() => { // here we use the useEffect hook to fetch the user data from 
         const fetchData = async () => {
             try {
@@ -36,7 +39,7 @@ export const useStudentRegister = () => {
     }, [studentData.isSuccess, studentData.isPending, setUser, setIsLoading, setError]);
 
     return {
-        user,
+        user ,
         signupStudent,
         isSLoading: signupStudent.isPending,
         isSError: signupStudent.isError,

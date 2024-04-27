@@ -7,14 +7,12 @@ import { useState } from "react";
 import { AlignJustify } from "lucide-react";
 import { IoIosArrowDropleft } from "react-icons/io";
 import { RiMenu4Line } from "react-icons/ri";
-import ProtectedRoute from "@/lib/ProtectedRoute";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
 
   return (
-    <ProtectedRoute roles={["COLLEGE_DEAN"]}>
       <div
         className={`grid  grid-rows-custom  h-screen transition-all duration-300  ${
           isCollapsed
@@ -52,7 +50,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
         <main className="pt-10  px-12 overflow-y-scroll ">{children}</main>
       </div>
-    </ProtectedRoute>
   );
 };
 

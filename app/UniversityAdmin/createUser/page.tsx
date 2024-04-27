@@ -8,6 +8,8 @@ import { Form, FormField, FormControl, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {registerUser, useUniversityActions} from "@/hooks/useUniversityActions"
+import { useRouter } from 'next/navigation';
+
 const formSchema = z.object({
   email: z.string().email({
     message: "Invalid email address.",
@@ -34,8 +36,8 @@ const formSchema = z.object({
 
 export default function RegistrationForm() {
   const [loading, setLoading] = useState(false);
-  const {register_user} = registerUser()
-
+  const {addUser} = registerUser()
+const router = useRouter()
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
@@ -55,6 +57,8 @@ export default function RegistrationForm() {
         // Append other fields as usual
         formData.append(field, formValues[field]);
       }
+      router.push("/UniversityAdmin/staff")
+
     }
   
     //@ts-ignore  
@@ -62,7 +66,7 @@ export default function RegistrationForm() {
           console.log(pair[0], pair[1]);
       }
   
-    return register_user.mutate(formData);
+    return addUser(formData);
   };
   
 

@@ -10,10 +10,9 @@ import StaffMemberForm from '@/components/edit-staff/page';
 
 
 const Page = () => {
+    
     const { user, updateUser,selecteduser } = registerUser()
- 
-
-    const [editedCollege, setEditedCollege] = useState(null);
+     const [editedCollege, setEditedCollege] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedStaff, setselectedStaff] = useState(null);
     const [editMode, setEditMode] = useState(false);
@@ -35,7 +34,9 @@ if(selectedStaff){
     
 }
         console.log("staff Members :",user)
-    },[selectedStaff,closeModal])
+    }, [selectedStaff, closeModal, user])
+
+
     const onSubmit = async (formValues: any) => {
         const formData = new FormData();
 
@@ -71,6 +72,7 @@ if(selectedStaff){
                             <TableHead>Action</TableHead>
                         </TableRow>
                     </TableHeader>
+                    {Array.isArray(user) && user.length > 0 ? (
 
                     <TableBody>
                         {user?.map((student, index) => (
@@ -111,7 +113,14 @@ if(selectedStaff){
                                 </TableCell>
                             </TableRow>
                         ))}
-                    </TableBody>
+                        </TableBody>
+                    ) : (
+                        <TableBody>
+                            <TableRow>
+                                <TableCell colSpan={6}>No staffs found</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    )}
                 </Table>
             </div>
 

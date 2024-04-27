@@ -1,37 +1,37 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { fetchCollegebyUnId, registerUser, updateUser } from "@/api/user/mutations";
-import { allRole,allUniversityUser, fetchUserWithRoleNull } from "@/api/user/queries";
+import { allRole, allUniversityUser, fetchUserWithRoleNull } from "@/api/user/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 
-export const userigisteruser = (id:string)=> {
-    const mutation = useMutation({
-      mutationFn: (formData: FormData) => registerUser(formData,id),
-    })
-  
-    return mutation;
-  };
-export const useUserRollNull = ()=>{
+export const userigisteruser = (id: string) => {
+  const mutation = useMutation({
+    mutationFn: (formData: FormData) => registerUser(formData, id),
+  })
+
+  return mutation;
+};
+export const useUserRollNull = (id: string) => {
 
   const query = useQuery({
-    queryKey: ["user"],
-    queryFn: () =>  fetchUserWithRoleNull()
-})
-
-return  query;
+    queryKey: ["nullrole"],
+    queryFn: () => fetchUserWithRoleNull(id)
+  })
+  console.log("at hook", query)
+  return query;
 }
 
-export const useAllRoll = ()=>{
+export const useAllRoll = () => {
 
   const query = useQuery({
     queryKey: ["Role"],
-    queryFn: () =>  allRole()
-})
+    queryFn: () => allRole()
+  })
 
-return  query;
+  return query;
 }
 
-export const useAllUniversityMembers = (id:string) => {
+export const useAllUniversityMembers = (id: string) => {
 
   const query = useQuery({
     queryKey: ["universityMemeber"],

@@ -17,7 +17,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useDepartment,useCollege, useNullrole } from "@/hooks/useUniversityActions";
 import { useEffect, useState } from "react";
-
+import { useRouter } from "next/navigation";
 const depformSchema = z.object({
   name: z.string().min(2, {
     message: "Department name must be at least 2 characters.",
@@ -35,9 +35,10 @@ const depformSchema = z.object({
     message: "University name must be at least 2 characters.",
   }),
 });
-
 export default function DepartmentCreation() {
-
+  const router = useRouter()
+  const universityId = localStorage.getItem("universityId")
+  const unID = JSON.parse(universityId as string).universityId
   const {addDepartment,isLoading:dep_Loading,Error:Dep_Error} = useDepartment();
   const {colleges,isLoading,Error:college_Error} =useCollege()
   const { user, Loading, Error } = useNullrole();
@@ -52,7 +53,7 @@ export default function DepartmentCreation() {
     for (const field in formValues) {
       formData.append(field, formValues[field]);
     }
-    formData.append("universityId" ,"661fbd258ccc2c339bc90202")
+    formData.append("universityId" ,unID)
 
       //@ts-ignore
       for (let pair of formData.entries()) {
@@ -61,6 +62,7 @@ export default function DepartmentCreation() {
       }
 
     await addDepartment(formData);
+    router.push("/UniversityAdmin/list_department")
   };
 
 
@@ -180,7 +182,7 @@ export default function DepartmentCreation() {
                 {Loading && !Error && (
                     <Select
                       onValueChange={(value) => {
-                        console.log("Selected Dean:", value);
+                        console.log("Selected Head:", value);
                         field.onChange(value); 
                       }}
                       aria-label="Select Dean"
@@ -189,13 +191,16 @@ export default function DepartmentCreation() {
                     
                         <SelectValue placeholder="Select Dean" />{" "}
                       </SelectTrigger>
-                      <SelectContent>
-                        {user.map((user:any) => (
-                          <SelectItem key={user.id} value={user.id}>
-                            {user.firstName}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
+                          <SelectContent>
+                            {user.map((data: any) => (
+
+                              <SelectItem key={data.id} value={data.user.id}>
+                                {data?.user.roleName === null &&
+                                  data.user.firstName}
+                              </SelectItem>
+
+                            ))}
+                          </SelectContent>
                     </Select>
                   )}
                   </div>

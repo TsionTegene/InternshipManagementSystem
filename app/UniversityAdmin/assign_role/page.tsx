@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useNullrole, userole } from "@/hooks/useUniversityActions";
-
+import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -28,7 +28,7 @@ const depformSchema = z.object({
 
 });
 const RoleAssignment = () => {
-
+  const router = useRouter()
   const { user, Loading, Error } = useNullrole();
   const{roleName,role_Loading,role_error} =userole()
 
@@ -46,16 +46,16 @@ const RoleAssignment = () => {
         //@ts-ignore
         console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
       }
-    const url = `http://10.194.65.38/users/${formData.get("id")}/assign/${formData.get("name")}`
+    const url = `http://10.194.65.38:5000/users/${formData.get("id")}/assign/${formData.get("name")}`
     const response = await fetch(url, {
         method: "post",
         headers: {
             "Content-Type": "application/json",
         }
     })
-
+    
+    router.push("/UniversityAdmin/staff")
     return response.json()
-
   };
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const RoleAssignment = () => {
     console.log("Users", user)
     console.log("Roles", roleName)
 
-  }, [user])
+  }, [user,roleName])
 
   const form = useForm({
     resolver: zodResolver(depformSchema),
@@ -102,13 +102,16 @@ const RoleAssignment = () => {
                     
                         <SelectValue placeholder="Select User" />{" "}
                       </SelectTrigger>
-                      <SelectContent>
-                        {user?.map((user:any) => (
-                          <SelectItem key={user.id} value={user.id}>
-                            {user.firstName}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
+                          <SelectContent>
+                            {user.map((data: any) => (
+
+                              <SelectItem key={data.id} value={data.user.id}>
+                                {data?.user.roleName === null &&
+                                  data.user.firstName}
+                              </SelectItem>
+
+                            ))}
+                          </SelectContent>
                     </Select>
                   )}
                   </div>
@@ -140,7 +143,8 @@ const RoleAssignment = () => {
                         <SelectValue placeholder="Select Role" />{" "}
                       </SelectTrigger>
                       <SelectContent>
-                        {roleName?.map((roleName:any) => (
+                        {roleName &&
+                        roleName?.map((roleName:any) => (
                           <SelectItem key={roleName.id} value={roleName.name}>
                             {roleName.name}
                           </SelectItem>
