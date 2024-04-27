@@ -3,29 +3,10 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-<<<<<<< HEAD
     <>
       <footer className="bg-slate-200 dark:bg-gray-900">
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
           <div className="md:flex md:justify-between">
-=======
-    <footer className="bg-sky-100 dark:bg-gray-900">
-      <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-        <div className="md:flex md:justify-between">
-          <div className="mb-6 md:mb-0 flex items-center">
-            <a href="#">
-              <Image
-                priority={true}
-                src={"/images/logo.png"}
-                width={140}
-                height={140}
-                className="size-13 animate-pulse"
-                alt=""
-              />
-            </a>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-6">
->>>>>>> 6e5061d (profile page)
             <div className="mb-6 md:mb-0">
               <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
                 Resources
@@ -103,8 +84,8 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </div>
     </footer>
+    </>
   );
 };
 

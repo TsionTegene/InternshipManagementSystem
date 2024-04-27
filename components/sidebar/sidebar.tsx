@@ -22,19 +22,12 @@ const Sidebar = ({ isCollapsed, open, setOpen }: any) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-<<<<<<< HEAD
       const storedRole = localStorage.getItem("role");
       console.log("Stored role:", storedRole);
       setRole(storedRole ?? ""); // Provide a default value for the role state variable
     }
   }, []);
 
-=======
-      const storedRole = localStorage.getItem('role');
-      setRole(storedRole?? "");
-    }
-  }, []);
->>>>>>> 6e5061d (profile page)
   console.log("Role from sidebar:", role);
   const menuUtems = getMenu(role);
   const isDesktop = useMediaQuery("(min-width: 1280px)");

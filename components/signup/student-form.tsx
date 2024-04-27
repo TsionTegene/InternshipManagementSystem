@@ -344,7 +344,7 @@ export function StudentForm() {
                                 <SelectValue placeholder="Select University" />{" "}
                               </SelectTrigger>
                               <SelectContent>
-                                {universities.map((university: any) => (
+                                {universities?.map((university: any) => (
                                   <SelectItem
                                     key={university.id}
                                     value={university.id}
