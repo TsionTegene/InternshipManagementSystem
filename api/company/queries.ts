@@ -3,3 +3,21 @@ export async function interns(params:any) {
     await fetch
     
 }
+
+export async function findCompanyByUserId(uId: string) {
+    const url = 'http://localhost:5000/company?`userId=${uId}`';
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    return responseData;
+}

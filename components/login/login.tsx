@@ -32,7 +32,7 @@ const formSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 export function Login() {
-  const { authenticate, isPending, isError, error } = useAuthenticate();
+  const { authenticate, isPending, isError, error, isSuccess } = useAuthenticate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,23 +42,6 @@ export function Login() {
   });
 
   const onSubmit = (formValues: z.infer<typeof formSchema>) => {
-    // const url = "http://localhost:5000/auth/refresh";
-    // const refreshToken =
-    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjIyZGNkMzljYWExY2YzMGFlZTE3ZmEiLCJlbWFpbCI6ImViYWdAZ21haWwuY29tIiwicm9sZSI6IkNPTVBBTllfSFIiLCJpYXQiOjE3MTM4NjkzNDYsImV4cCI6MTcxNDQ3NDE0Nn0.YlHc7CpCuUtKVNXvXdg4ux6xjinYZyMOloRfO6Qz0mE";
-    // const response = await fetch(url, {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         Authorization: `Bearer ${refreshToken}`,
-    //     },
-    // });
-
-    // if (!response.ok) {
-    //     throw new Error(`HTTP error! status: ${response.status}`);
-    // }
-
-    // const { access_token, refresh_token } = await response.json();
-    // console.log("New Token: ", access_token, refresh_token)
     const result = authenticate(formValues);
     console.log(result)
     return result;

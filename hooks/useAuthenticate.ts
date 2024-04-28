@@ -37,6 +37,7 @@ export const useAuthenticate = () => {
         localStorage.setItem('access_token', data.access_token);
         localStorage.setItem('refresh_token', data.refresh_token);
         localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('userId', data.user.id);
         if(data.unId){
           console.log(data.unId)
           localStorage.setItem('universityId', JSON.stringify(data.unId[0]))
@@ -92,7 +93,7 @@ export const useAuthenticate = () => {
     }
   }
 
-  return { authenticate, isPending, isError, error };
+  return { authenticate, isPending, isSuccess, isError, error };
 };
 
 export const useIsLoggedIn = () => {

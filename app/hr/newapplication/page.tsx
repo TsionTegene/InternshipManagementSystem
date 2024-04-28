@@ -51,21 +51,19 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { addDays, format } from "date-fns";
+import { Textarea } from "@/components/ui/textarea";
+import { useCreateInternship } from "@/hooks/useInternshipActions";
 
 const formSchema = z.object({
   title: z.string().min(2, {
     message: "title must be at least 2 characters.",
   }),
-  startdate: z.date({
+  startDate: z.date({
     required_error: "A start date is required.",
   }),
 
-  enddate: z.date({
+  endDate: z.date({
     required_error: "A end date is required.",
-  }),
-
-  duration: z.string().min(2, {
-    message: "Duration must be at least 2 characters.",
   }),
 
   schedule: z.string().min(2, {
@@ -76,34 +74,29 @@ const formSchema = z.object({
     message: "Compensations must be at least 2 characters.",
   }),
 
-  responsibilities: z.string().min(2, {
-    message: "Responsibilities must be at least 2 characters.",
-  }),
-
-  qualifications: z.string().min(2, {
-    message: "Qualifications must be at least 2 characters.",
-  }),
-
-  applicationinstructions: z.string().min(2, {
+  applicationInstructions: z.string().min(2, {
     message: "Application Instructions must be at least 2 characters.",
   }),
 
-  deadline: z.string().min(2, {
-    message: "Deadline must be at least 2 characters.",
+  description: z.string().min(2, {
+    message: "Description must be at least 2 characters.",
   }),
+
+  deadline: z
+    .date({
+      required_error: "A start date is required.",
+    })
+    .optional(),
 });
 
 const page = () => {
-  const [profileimg, setprofileimg] = useState("");
-  const [date, setDate] = React.useState<Date | null>(null);
-  const [position, setPosition] = useState("bottom");
+  const { createInternship, isPending, isSuccess, isError } =
+    useCreateInternship();
   const [responsibilities, setResponsibilities] = useState<string[]>([]);
   const [qualifications, setQualifications] = useState<string[]>([]);
-  const [selectedImage, setSelectedImage] = useState("No Image Chosen");
-
   const responsibilitiesInput = () => {
     const input = document.getElementById(
-      "responsibilitiesArray",
+      "responsibilitiesArray"
     ) as HTMLInputElement;
     input.value = input.value.trim();
     if (input.value == "") return;
@@ -120,7 +113,7 @@ const page = () => {
     return () => {
       console.log("index: ", index);
       const newResponsibilities = responsibilities.filter(
-        (_, i) => i !== index,
+        (_, i) => i !== index
       );
       setResponsibilities(newResponsibilities);
     };
@@ -128,7 +121,7 @@ const page = () => {
 
   const qualificationsInput = () => {
     const input = document.getElementById(
-      "qualificationsArray",
+      "qualificationsArray"
     ) as HTMLInputElement;
     input.value = input.value.trim();
     if (input.value == "") return;
@@ -157,14 +150,15 @@ const page = () => {
 
   const onSubmit = async (formValues: any) => {
     console.log("formValues: ", formValues);
-
-    // const tokens = student.mutate(formData);
-    // console.log("tokens: ", tokens);
-    // if (isSSuccess) {
-    //   console.log(tokens)
-    //   console.log("Student Registered Successfully");
-    //   router.push("/login");
-    // }
+    console.log("responsibilities: ", responsibilities);
+    console.log("qualifications: ", qualifications);
+    const data = { 
+      ...formValues,
+      responsibilities: responsibilities,
+      qualifications: qualifications,
+     };
+    // const result = await createInternship(data);
+    console.log(data)
   };
 
   return (
@@ -172,7 +166,7 @@ const page = () => {
       <CardHeader>
         <CardTitle className="text-xl">New Internship</CardTitle>
         <CardDescription>
-          Enter your information to create an account
+          Enter the internship application information.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -181,8 +175,8 @@ const page = () => {
             onSubmit={form.handleSubmit(onSubmit, onInvalid)}
             className="space-y-8"
           >
-            <div className="grid gap-4">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-5">
+              <div className="grid grid-cols-2 gap-7">
                 <FormField
                   control={form.control}
                   name="title"
@@ -198,9 +192,9 @@ const page = () => {
                 />
                 <FormField
                   control={form.control}
-                  name="startdate"
+                  name="startDate"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col">
+                    <FormItem className="flex flex-col w-full">
                       <FormLabel>Start Date</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
@@ -208,8 +202,8 @@ const page = () => {
                             <Button
                               variant={"outline"}
                               className={cn(
-                                "w-[240px] pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground",
+                                "w-[350px] pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
                               )}
                             >
                               {field.value ? (
@@ -236,7 +230,7 @@ const page = () => {
                 />
                 <FormField
                   control={form.control}
-                  name="enddate"
+                  name="endDate"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
                       <FormLabel>End Date</FormLabel>
@@ -246,14 +240,14 @@ const page = () => {
                             <Button
                               variant={"outline"}
                               className={cn(
-                                "w-[240px] pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground",
+                                "w-[350px] pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
                               )}
                             >
                               {field.value ? (
                                 format(field.value, "PPP")
                               ) : (
-                                <span>Pick a end date</span>
+                                <span>Pick an end date</span>
                               )}
                               <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                             </Button>
@@ -277,7 +271,7 @@ const page = () => {
                   name="schedule"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Schedule</FormLabel>
+                      <FormLabel>Internship Type</FormLabel>
                       <FormControl>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -351,26 +345,22 @@ const page = () => {
                           Responsibilities
                         </FormLabel>
                         <div className="flex flex-wrap">
-                          {responsibilities.map(
-                            (responsibilitiy, index) => (
-                              console.log("responsibility: ", responsibilitiy),
-                              (
-                                <div
-                                  key={index}
-                                  className="flex m-2 p-2 gap-1.5 rounded-md bg-slate-800 hover:bg-slate-600"
-                                >
-                                  <FormLabel className="font-bold text-white">
-                                    {responsibilitiy}
-                                  </FormLabel>
-                                  <X
-                                    size={14}
-                                    className="mt-0.5 hover:cursor-pointer text-white"
-                                    onClick={deleteResponsibilities(index)}
-                                  />
-                                </div>
-                              )
-                            ),
-                          )}
+                          {responsibilities.map((responsibilitiy, index) => (
+                            // console.log("responsibility: ", responsibilitiy),
+                            <div
+                              key={index}
+                              className="flex m-2 p-2 gap-1.5 rounded-md bg-slate-800 hover:bg-slate-600"
+                            >
+                              <FormLabel className="font-bold text-white">
+                                {responsibilitiy}
+                              </FormLabel>
+                              <X
+                                size={14}
+                                className="mt-0.5 hover:cursor-pointer text-white"
+                                onClick={deleteResponsibilities(index)}
+                              />
+                            </div>
+                          ))}
                         </div>
                       </div>
                       <FormControl>
@@ -394,26 +384,21 @@ const page = () => {
                           Qualifications
                         </FormLabel>
                         <div className="flex flex-wrap">
-                          {qualifications.map(
-                            (qualification, index) => (
-                              console.log("responsibility: ", qualification),
-                              (
-                                <div
-                                  key={index}
-                                  className="flex m-2 p-2 gap-1.5 rounded-md bg-slate-800 hover:bg-slate-600 "
-                                >
-                                  <FormLabel className="font-bold text-white">
-                                    {qualification}
-                                  </FormLabel>
-                                  <X
-                                    size={14}
-                                    className="mt-0.5 hover:cursor-pointer text-white"
-                                    onClick={deleteQualifications(index)}
-                                  />
-                                </div>
-                              )
-                            ),
-                          )}
+                          {qualifications.map((qualification, index) => (
+                            <div
+                              key={index}
+                              className="flex m-2 p-2 gap-1.5 rounded-md bg-slate-800 hover:bg-slate-600 "
+                            >
+                              <FormLabel className="font-bold text-white">
+                                {qualification}
+                              </FormLabel>
+                              <X
+                                size={14}
+                                className="mt-0.5 hover:cursor-pointer text-white"
+                                onClick={deleteQualifications(index)}
+                              />
+                            </div>
+                          ))}
                         </div>
                       </div>
                       <FormControl>
@@ -429,26 +414,74 @@ const page = () => {
                 />
                 <FormField
                   control={form.control}
-                  name="applicationinstructions"
+                  name="applicationInstructions"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Application Instructions</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Textarea
+                          placeholder="Please describe the application steps in detail."
+                          className="resize-none"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Internship Description</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Describe the internship opportunity in detail here."
+                          className="resize-none"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 <FormField
                   control={form.control}
                   name="deadline"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex flex-col w-full">
                       <FormLabel>Deadline</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-[350px] pl-4 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a dealine for the application.</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
                       <FormMessage />
                     </FormItem>
                   )}

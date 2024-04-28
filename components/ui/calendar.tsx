@@ -15,8 +15,15 @@ function Calendar({
   showOutsideDays = true,
   ...props
 }: CalendarProps) {
+  const isBeforeToday = (day: { getTime: () => number }) => {
+    const today = new Date();
+    return day.getTime() < today.getTime();
+  };
   return (
     <DayPicker
+    ISOWeek
+      modifiers={{ beforeToday: isBeforeToday }}
+      disabled={{ before: new Date() }}
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       classNames={{
@@ -59,7 +66,7 @@ function Calendar({
       }}
       {...props}
     />
-  )
+  );
 }
 Calendar.displayName = "Calendar"
 

@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOffIcon, MoveUpRight, UploadIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCompanyActions } from "@/hooks/useCompanyActions";
 import { useRouter } from "next/navigation";
 
@@ -90,12 +90,18 @@ export function CompanyForm() {
   const toggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
+  
+  const {signUpCompany, isLoading, isSuccess} = useCompanyActions();
+  useEffect(() => {
+    if (isSuccess) {
+      router.push("/login");
+    }
+  }, [isSuccess, router]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
 
-  const {signUpCompany, isLoading, isSuccess} = useCompanyActions();
   const company = signUpCompany
     const onSubmit = async (formValues: any) => {
       const formData = new FormData();

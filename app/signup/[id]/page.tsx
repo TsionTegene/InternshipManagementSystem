@@ -20,7 +20,6 @@ const SignupForm: React.FC<{ params: Params }> = ({ params }) => {
       {params.id === "student" && <StudentForm />}
       {params.id === "university" && <UniversityForm />}
     </div>
-    <Footer />
     </>
   );
 };

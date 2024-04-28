@@ -1,7 +1,6 @@
-import { registerCompany } from "@/api/company/mutations";
 import { useCompanySignup } from "@/queries/useCompanyQueries";
 import { useCompanyStore } from "@/stores/company.store";
-import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 
 export function useCompanyActions() {
     const setCompany = useCompanyStore((state: any) => state.setCompany);
@@ -20,3 +19,11 @@ export function useCompanyActions() {
         isSuccess: signUpCompany.isSuccess
     }
 }
+
+// export function useFindCompanyByUserId() {
+//     const { data, error, isPending, isSuccess, isError, mutate } = useFindCompanyByUserId();
+//     const [companyId, setCompanyId] = useState<string | null>(null);
+//     useEffect(()=> {
+        
+//     })
+// }
