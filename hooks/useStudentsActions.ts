@@ -8,7 +8,7 @@ import { useStudentStore } from "@/stores/student.store";
 import useUserStore from "@/stores/user.store";
 import { useEffect } from "react";
 const universityId = localStorage.getItem("universityId")
-const unID = JSON.parse(universityId as string).universityId
+const unID = universityId ?JSON.parse(universityId as string).universityId :null
 // here we define the actions that we can perform on the students data
 export const useStudentRegister = () => {
     const setUser = useUserStore((state: any) => state.setUser); // here we get the setUser function from the user store

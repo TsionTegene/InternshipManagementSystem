@@ -1,37 +1,20 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useEffect, useId } from "react";
-import {
-  useUniversitySignup,
-  useUniversityData,
-  useUnivesityAddDepartment,
-  useUnivesityAddCollege,
-  usecollegeDatabyUnId,
-  useDepartmentData,
-  useUpdateCollege,
-  useUpdatedepartment,
-  useUniversityDataById,
-  useCountUniversityStaff,
-  useUserIDtoUniversity,
-} from "@/queries/useUniversityQueries";
-import useUniversityStore from "@/stores/university.store";
-import {
-  useAllRoll,
-  useAllUniversityMembers,
-  useUpdatedUser,
-  useUserRollNull,
-  userigisteruser,
-} from "@/queries/useUsersdata";
-import useUserStore from "@/stores/user.store";
-import useDepartmentStore from "@/stores/department.store";
-import { useCollegeStore } from "@/stores/college.store";
-import useRoleStore from "@/stores/role.store";
-import useSessionStore from "@/stores/sessionStore";
-import { useQueryClient } from "@tanstack/react-query";
-import { updateDepartment } from "@/api/university/mutation";
-import { json } from "node:stream/consumers";
+import { useEffect, useId } from 'react';
+import { useUniversitySignup, useUniversityData, useUnivesityAddDepartment, useUnivesityAddCollege, usecollegeDatabyUnId, useDepartmentData, useUpdateCollege, useUpdatedepartment, useUniversityDataById, useCountUniversityStaff, useUserIDtoUniversity } from '@/queries/useUniversityQueries';
+import useUniversityStore from '@/stores/university.store';
+import { useAllRoll, useAllUniversityMembers, useUpdatedUser, useUserRollNull, userigisteruser } from '@/queries/useUsersdata';
+import useUserStore from '@/stores/user.store';
+import useDepartmentStore from '@/stores/department.store';
+import { useCollegeStore } from '@/stores/college.store';
+import useRoleStore from '@/stores/role.store';
+import useSessionStore from "@/stores/sessionStore"
+import { useQueryClient } from '@tanstack/react-query';
+import { updateDepartment } from '@/api/university/mutation';
+import { json } from 'node:stream/consumers';
 
-const universityId = localStorage.getItem("universityId");
-const unID = JSON.parse(universityId as string).universityId;
+
+const universityId = localStorage.getItem("universityId")
+const unID = universityId ? JSON.parse(universityId as string).universityId :null
 
 export const useUniversityActions = () => {
   const userId = useSessionStore((state) => state.userId);
