@@ -183,7 +183,7 @@ export function StudentForm() {
       router.push("/login");
     }
   };
-  useEffect(()=>{},[universities])
+  useEffect(() => { }, [universities, departments])
   return (
     <Card className="mx-auto max-w-4xl my-10 shadow-2xl rounded-lg overflow-hidden">
       <CardHeader>

@@ -10,6 +10,7 @@ import useRoleStore from '@/stores/role.store';
 import useSessionStore from "@/stores/sessionStore"
 import { useQueryClient } from '@tanstack/react-query';
 import useItemStore from '@/stores/selectedItem';
+import { error } from 'console';
 
 
 const universityId = localStorage.getItem("universityId")
@@ -253,7 +254,7 @@ export const useFilterDepartment = () => {
   const setIsLoading = useDepartmentStore((state: any) => state.setIsLoading);
   const departments = useDepartmentStore((state: any) => state.departments);
   const setError = useDepartmentStore((state: any) => state.setError);
-  const Error = useCollegeStore((state: any) => state.error);
+  const Error = useDepartmentStore((state: any) => state.error);
   const queryClient = useQueryClient(); // Access the query client instance
   const selectedItemID = useItemStore((state: any) => state.selectedItemID);
   const setselectedItemID = useItemStore(
@@ -271,15 +272,20 @@ export const useFilterDepartment = () => {
         if (departmentData.isSuccess) {
           setDepartment(departmentData.data);
           console.log("this is deps in UnId", departmentData.data);
+          setError(false)
+
         queryClient.invalidateQueries("departmentfilter");
     
-        } else if(departmentData.isLoading){
+        }if(departmentData.isLoading){
            setIsLoading(true)
+          queryClient.invalidateQueries("departmentfilter");
+
         }
-    
-        else if (departmentData.isError) {
+      if (departmentData.isError) {
           console.log("Error Fetching Department:",  departmentData.error);
           setError(true)
+        queryClient.invalidateQueries("departmentfilter");
+
         }
       } catch (error) {
         console.log(error)
@@ -288,7 +294,14 @@ export const useFilterDepartment = () => {
   };
 
   fetchData();
-  }, [departmentData,queryClient, departmentData.isSuccess, departmentData.isLoading, departmentData.isError])
+  }, [
+    departmentData,
+    queryClient,
+    setError,
+    departmentData.isSuccess,
+    departmentData.isLoading,
+    Error
+  ])
 
   return {
     departmentData,
