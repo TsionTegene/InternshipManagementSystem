@@ -8,7 +8,10 @@ const useUserStore = create((set) => ({
     setUser: (user: any) => set(() => ({ user })),
     setIsLoading: (isLoading: boolean) => set(() => ({ isLoading })),
     setError: (error: any) => set(() => ({ error })),
-    setSelectedUserID: (selectedUserID: any) => set(() => ({ selectedUserID })),
+    setSelectedUserID: (selectedUserID: any) => {
+        console.log('Setting uid:', selectedUserID);
+
+        set(() => ({ selectedUserID }))},
 
 }))
 

@@ -43,11 +43,13 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useUniversityActions ,useDepartment} from "@/hooks/useUniversityActions";
+import { useUniversityActions, useDepartment, useFilterDepartment, useUniversityFetch } from "@/hooks/useUniversityActions";
 import { Textarea } from "@/components/ui/textarea";
 import { TbSquareRoundedPlus } from "react-icons/tb";
 import { PiDeviceTabletSpeakerFill } from "react-icons/pi";
 import { useRouter } from "next/navigation";
+import useUserStore from "@/stores/user.store";
+import useItemStore from "@/stores/selectedItem";
 
 const initialValue = "Bereket";
 
@@ -104,15 +106,20 @@ export function StudentForm() {
   const [selectedFile, setSelectedFile] = useState("No File Chosen");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const setselectedItemID = useItemStore(
+    (state: any) => state.setSelectedItemID
+  );
   const { signupStudent, isSLoading, isSError, isSSuccess } = useStudentRegister();
-  const { universities, error, isLoading } = useUniversityActions();
+  const { universities, error, isLoading } = useUniversityFetch();
   // const { departments, isDLoading, isDError } = useDeparmentData();
-  const {departments,isLoading:Dloading,Error,filterDepartment } = useDepartment()
+  const {departments, isLoading: Dloading, departmentData,Error} = useFilterDepartment()
   const skillsInput = () => {
+
+    
     const input = document.getElementById("skillsArray") as HTMLInputElement;
     input.value = input.value.trim();
     if (input.value == "") return;
+
 
     if (skills.includes(input.value)) {
       input.value = "";
@@ -176,11 +183,7 @@ export function StudentForm() {
       router.push("/login");
     }
   };
-
-  useEffect(()=>{
-
-    console.log("departments",departments)
-  }, [filterDepartment,universities,departments])
+  useEffect(()=>{},[universities])
   return (
     <Card className="mx-auto max-w-4xl my-10 shadow-2xl rounded-lg overflow-hidden">
       <CardHeader>
@@ -335,24 +338,33 @@ export function StudentForm() {
                             <Select
                               onValueChange={async (value) => {
                                 field.onChange(value);
-                                filterDepartment(value)
+                                setselectedItemID(value)
                                 console.log("main value", value)
+                               departmentData
                               }}
                               aria-label="Select University"
                             >
                               <SelectTrigger>
                                 <SelectValue placeholder="Select University" />{" "}
                               </SelectTrigger>
+                              {Array.isArray(universities) && universities.length > 0 ? (
+
                               <SelectContent>
-                                {universities?.map((university: any) => (
+                                {universities &&
+                                universities?.map((university: any) => (
                                   <SelectItem
                                     key={university.id}
                                     value={university.id}
-                                  >
+                                    >
                                     {university.name}
                                   </SelectItem>
-                                ))}
+                                )) }
                               </SelectContent>
+                              ) : (
+                            
+                                  <div>No University found</div>
+                            
+                              )}
                             </Select>
                           )}
                         </div>
@@ -422,7 +434,7 @@ export function StudentForm() {
                                 <SelectValue placeholder="Select Department" />{" "}
                               </SelectTrigger>
                               <SelectContent>
-                                {departments.map((department: any) => (
+                              {departments?.map((department: any) => (
                                   <SelectItem
                                     key={department.id}
                                     value={department.name}
@@ -432,7 +444,7 @@ export function StudentForm() {
                                 ))}
                               </SelectContent>
                             </Select>
-                          )}
+  )}
                         </div>
                       </FormControl>
                       <FormMessage />

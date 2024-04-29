@@ -6,13 +6,14 @@ export async function fetchUniversity () {
     const url = `${api}university`
     // const url = "http://localhost:5000/university"
 
-    const response = await fetch(url, {
+    const response = await axios(url, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
         }
     })
-    return response.json()
+    console.log("university ",response.data)
+    return response.data
 }
 
 export async function fetchUniversitybyUserID(id:string) {
@@ -61,14 +62,16 @@ export async function fetchCountUniversityStaffById(id: string) {
 export async function fetchDepartment(id:string) {
     
     const url = `${api}department/un/${id}`
-    console.log("api -----")
+    console.log("api -----",id)
+    
     const response = await axios(url, {
-        method: "GET",
+        method:"GET",
         headers: {
             "Content-Type": "application/json",
         }
     })
-    return response.data
+    console.log("returned data ",await response.data)
+    return  response.data
 }
 
 

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useEffect, useId } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { useUniversitySignup, useUniversityData, useUnivesityAddDepartment, useUnivesityAddCollege, usecollegeDatabyUnId, useDepartmentData, useUpdateCollege, useUpdatedepartment, useUniversityDataById, useCountUniversityStaff, useUserIDtoUniversity } from '@/queries/useUniversityQueries';
 import useUniversityStore from '@/stores/university.store';
 import { useAllRoll, useAllUniversityMembers, useUpdatedUser, useUserRollNull, userigisteruser } from '@/queries/useUsersdata';
@@ -9,14 +9,55 @@ import { useCollegeStore } from '@/stores/college.store';
 import useRoleStore from '@/stores/role.store';
 import useSessionStore from "@/stores/sessionStore"
 import { useQueryClient } from '@tanstack/react-query';
-import { updateDepartment } from '@/api/university/mutation';
-import { json } from 'node:stream/consumers';
+import useItemStore from '@/stores/selectedItem';
 
 
 const universityId = localStorage.getItem("universityId")
 const unID = universityId ? JSON.parse(universityId as string).universityId :null
 
+export const  useUniversityFetch =()=>{
+  const setUniversities = useUniversityStore(
+    (state: any) => state.setUniversities
+  );
+  const setIsLoading = useUniversityStore((state: any) => state.setIsLoading);
+  const setError = useUniversityStore((state: any) => state.setError);
+  const universities = useUniversityStore((state: any) => state.universities);
+  const universityData = useUniversityData();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (universityData.isSuccess) {
+          setUniversities(universityData.data);
+        }
+        if (universityData.isLoading) {
+          setIsLoading(universityData.isLoading);
+        }
+      } catch (error) {
+        console.error("Error fetching university data:", error);
+        setError(error);
+      }
+    };
+
+    fetchData();
+  }, [
+    universityData.isSuccess,
+    universityData.isLoading,
+    universities,
+    setUniversities,
+    setIsLoading,
+    setError,
+    universityData,
+  ]);
+  return {
+    universities,
+    isLoading: universityData.isLoading,
+    error: universityData.error,
+  };
+}
+
 export const useUniversityActions = () => {
+
   const userId = useSessionStore((state) => state.userId);
 
   // const unId = useUserIDtoUniversity(userId as string).data
@@ -39,7 +80,6 @@ export const useUniversityActions = () => {
   const univesrityId = useSessionStore((state) => state.universityID);
   const universityById = useUniversityDataById(selectedUserID);
 
-  useEffect(() => {}, []);
   const UniversityCount = useCountUniversityStaff(unID);
   useEffect(() => {
     const fetchData = async () => {
@@ -60,6 +100,7 @@ export const useUniversityActions = () => {
   }, [
     universityData.isSuccess,
     universityData.isLoading,
+    universities,
     setUniversities,
     setIsLoading,
     setError,
@@ -79,7 +120,7 @@ export const useUniversityActions = () => {
     console.error("Error fetching university data:", error);
   }
   return {
-    universities: universities, //new
+    universities,
     isLoading: universityData.isLoading,
     error: universityData.error,
     signupUniversity,
@@ -206,6 +247,59 @@ export const useNullrole = () => {
   };
 };
 
+export const useFilterDepartment = () => {
+  const setDepartment = useDepartmentStore((state: any) => state.setDepartments);
+  const isLoading = useCollegeStore((state: any) => state.isLoading);
+  const setIsLoading = useDepartmentStore((state: any) => state.setIsLoading);
+  const departments = useDepartmentStore((state: any) => state.departments);
+  const setError = useDepartmentStore((state: any) => state.setError);
+  const Error = useCollegeStore((state: any) => state.error);
+  const queryClient = useQueryClient(); // Access the query client instance
+  const selectedItemID = useItemStore((state: any) => state.selectedItemID);
+  const setselectedItemID = useItemStore(
+    (state: any) => state.setSelectedItemID
+  );
+
+  
+  const departmentData = useDepartmentData(selectedItemID);
+  console.log("un dep",departmentData.data)
+  useEffect(() => {
+    const fetchData = async () => {
+
+      try {
+        
+        if (departmentData.isSuccess) {
+          setDepartment(departmentData.data);
+          console.log("this is deps in UnId", departmentData.data);
+        queryClient.invalidateQueries("departmentfilter");
+    
+        } else if(departmentData.isLoading){
+           setIsLoading(true)
+        }
+    
+        else if (departmentData.isError) {
+          console.log("Error Fetching Department:",  departmentData.error);
+          setError(true)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+
+  };
+
+  fetchData();
+  }, [departmentData,queryClient, departmentData.isSuccess, departmentData.isLoading, departmentData.isError])
+
+  return {
+    departmentData,
+    departments,
+    isLoading,
+    Error,
+  };
+};
+
+
+
 export const useDepartment = () => {
   const setDepartment = useDepartmentStore(
     (state: any) => state.setDepartments
@@ -227,20 +321,21 @@ export const useDepartment = () => {
   const addDepartmentMutation = useUnivesityAddDepartment();
   const deptByUnId = useDepartmentData(unID);
 
-  const filterDepartment = (id: string) => {
-    console.log("the value is ", id);
-    const data = useDepartmentData(id);
+  // const filterDepartment = (id: string) => {
+  //   console.log("the value is ", id);
+  //   const data = useDepartmentData(id);
 
-    if (data.isSuccess) {
-      setDepartment(data.data);
-    }
-    if (data.isLoading) {
-      setIsLoading(true);
-    }
-    if (data.isError) {
-      console.log("Error Fetching Department");
-    }
-  };
+  //   if (data.isSuccess) {
+  //     setDepartment(data.data);
+  //     console.log("this is deps in UnId",data.data)
+  //   }
+  //   if (data.isLoading) {
+  //     setIsLoading(true);
+  //   }
+  //   if (data.isError) {
+  //     console.log("Error Fetching Department");
+  //   }
+  // };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -263,8 +358,7 @@ export const useDepartment = () => {
 
     fetchData();
   }, [
-    filterDepartment,
-    deptByUnId.isSuccess,
+       deptByUnId.isSuccess,
     deptByUnId.isPending,
     setDepartment,
     setIsLoading,
@@ -309,7 +403,7 @@ export const useDepartment = () => {
     addDepartment,
     newDepartmentId,
     updateDepartmentById,
-    filterDepartment,
+    // filterDepartment,
     deptByUnId,
     departmentId,
     isLoading,

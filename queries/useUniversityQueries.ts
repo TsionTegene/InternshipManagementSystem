@@ -64,9 +64,10 @@ export const useUnivesityAddCollege = () => {
 
 export const useDepartmentData = (id:string) => {
     const query = useQuery({
-        queryKey: ["department"],
-        queryFn: () => fetchDepartment(id)
+        queryKey: ["departmentfilter"],
+        queryFn: async () => await fetchDepartment(id)
     })
+    console.log("form the useDepartment query",query.data)
     return query;
 }
 
