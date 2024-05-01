@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-"use client"
+"use client";
 
 import { FaTasks } from "react-icons/fa";
 import { GrInProgress } from "react-icons/gr";

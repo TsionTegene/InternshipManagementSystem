@@ -1,100 +1,73 @@
-"use client";
-
-import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import Image from "next/image";
 import React from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 
-export default function createForm() {
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    console.log("Form submitted");
-  };
+const Page = () => {
+  const about = [
+    {
+      name: "Emma Smith",
+      email: "smith@gmail.com",
+      pno: "+2519874563",
+      currentRole: "Advisor at Wolkite University",
+      imageUrl: "/images/avatar.svg",
+    },
+  ];
 
   return (
-    <div className="w-1/2 mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Report Of The Internship</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-6">
-          <label className="block mb-2 font-bold">1. Title</label>
-          <div className="grid grid-cols--1 gap-4">
-            <div>
-              <input
-                required
-                type="text"
-                className="border border-gray-500 rounded-md px-2 py-1 w-full"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="mb-6">
-          <label className="block mb-2 font-bold">2. Description</label>
-          <div className="grid grid-cols--2 gap-6">
-            <div>
-              <textarea
-                required
-                className="border border-gray-500 rounded-md px-2 py-1 w-full"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="mb-6">
-          <label className="block mb-2 font-bold">3. Challenges Faced</label>
-          <div className="relative">
-            <input
-              required
-              type="text"
-              className="border border-gray-500 rounded-md px-2 py-1 w-full"
-            />
-            <div className="absolute bottom-10 right-0 top-10  mt-2 mr-2">
-              <FaPlus className="text-blue-500 cursor-pointer" />
-            </div>
-          </div>
-        </div>
-        <div className="mb-6">
-          <label className="block mb-2 font-bold">4. Lessons Learned</label>
-          <div className="relative">
-            <input
-              required
-              type="text"
-              className="border border-gray-500 rounded-md px-2 py-1 w-full"
-            />
-            <div className="absolute bottom-10 right-0 top-10  mt-2 mr-2">
-              <FaPlus className="text-blue-500 cursor-pointer" />
-            </div>
-          </div>
-        </div>
-        <div className="mb-6">
-          <label className="block mb-2 font-bold">5. Tasks Accomplished</label>
-          <div className="relative">
-            <input
-              required
-              type="text"
-              className="border border-gray-500 rounded-md px-2 py-1 w-full"
-            />
-            <div className="absolute bottom-10 right-0 top-10  mt-2 mr-2">
-              <FaPlus className="text-blue-500 cursor-pointer" />
-            </div>
-          </div>
-        </div>
-        <div className="mb-6">
-          <input
-            type="file"
-            accept=".pdf,.doc,.docx"
-            className="border border-gray-500 rounded-md px-2 py-1"
-          />
-          <div className="absolute bottom-10 right-0 top-10  mt-2 mr-2">
-            <FaPlus className="text-blue-500 cursor-pointer" />
-          </div>
-        </div>
-        <div className="text-center">
-          <button
-            type="submit"
-            className="btn-primary px-6 py-2 rounded-lg text-white font-semibold hover:bg-blue-700"
+    <div className="container mx-auto px-4 py-8">
+      {about.map((person, index) => (
+        <div key={index}>
+          <Card
+            className={`bg-blue-100 shadow-md rounded-md p-9 mb-4 flex items-center relative dark:bg-slate-900 md:flex-wrap md:justify-between`}
           >
-            Submit
-          </button>
+            <div className="absolute top-16 left-6 rounded-full">
+              <Image
+                src={person.imageUrl}
+                width={"75"}
+                height={"75"}
+                alt=""
+                className="rounded-full"
+              />
+            </div>
+            <div className="flex-grow md:w-1/2">
+              <h3 className="text-lg font-semibold">Overall</h3>
+            </div>
+          </Card>
+          <div
+            className={`rounded-md p-6 mb-4 grid grid-cols-1 md:grid-cols-2 gap-4`}
+          >
+            <div>
+              <div className="mb-4">
+                <p className="font-semibold">Name:</p>
+                <p>{person.name}</p>
+              </div>
+              <div className="mb-4">
+                <p className="font-semibold">Email:</p>
+                <p>{person.email}</p>
+              </div>
+              <div className="mb-4">
+                <p className="font-semibold">Phone Number:</p>
+                <p>{person.pno}</p>
+              </div>
+            </div>
+            <div>
+              <p className="font-semibold ">Current Role:</p>
+              <Card className="bg-blue-100 shadow-md rounded-md p-4 max-w-fit dark:bg-slate-900">
+                <p>{person.currentRole}</p>
+              </Card>
+            </div>
+          </div>
+          <div>
+            <Button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-full">
+              Chat With Advisor
+            </Button>
+          </div>
         </div>
-      </form>
+      ))}
     </div>
   );
-}
+};
+
+export default Page;

@@ -14,14 +14,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  useLayoutEffect(() => {
-    const isAuth = IsAuthenticated("STUDENT").then((isAuth) => {
-      if (!isAuth) {
-        console.log("isAuth: ", isAuth);
-        router.push("/login");
-      }
-    });
-  }, []);
+  // useLayoutEffect(() => {
+  //   const isAuth = IsAuthenticated("STUDENT").then((isAuth) => {
+  //     if (!isAuth) {
+  //       console.log("isAuth: ", isAuth);
+  //       router.push("/login");
+  //     }
+  //   });
+  // }, []);
 
   return (
     <div>
@@ -42,6 +42,18 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <Navbar />
             </div>
           </div>
+          <div className="absolute -left-3 top-8  ">
+            <Button
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className="hidden lg:block rounded-full p-1 z-50 border dark:border-gray-600 border-dashed size-6 text-palesky bg-white dark:bg-background"
+            >
+              <FaAngleRight
+                className={`w-full h-full ${
+                  isCollapsed ? "" : "rotate-180 transition-all duration-600 "
+                }`}
+              />
+            </Button>
+          </div>
         </header>
 
         <aside className=" hidden lg:block overflow-y-scroll overflow-x-hidden row-custom border-r dark:border-gray-600 border-dashed  ">
@@ -49,19 +61,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </aside>
 
         <main className="pt-10  px-12 overflow-y-scroll ">{children}</main>
-      </div>
-
-      <div className="absolute -left-3 top-10  ">
-        <Button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="hidden lg:block rounded-full p-1 z-50 border dark:border-gray-600 border-dashed size-6 text-palesky bg-white dark:bg-background"
-        >
-          <FaAngleRight
-            className={`w-full h-full ${
-              isCollapsed ? "" : "rotate-180 transition-all duration-600 "
-            }`}
-          />
-        </Button>
       </div>
     </div>
   );
