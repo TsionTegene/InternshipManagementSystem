@@ -10,10 +10,10 @@ export const useCompanySignup = () => {
     return mutation;
 }
 
-export const useFindCompanyByUserId = (userId) => {
+export const FindCompanyByUserId = (userId: string | null) => {
     const query = useQuery({
         queryKey: ['findCompany'],
-        queryFn: () => findCompanyByUserId(userId),
+        queryFn: () => findCompanyByUserId(userId as string),
     })
 
     return query;

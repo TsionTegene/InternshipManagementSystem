@@ -9,23 +9,22 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-export default function WelcomeCard(props: any) {
+export default function WelcomeCard({name, children}: {name: string, children: React.ReactNode}) {
+
   return (
     <Card className="transition duration-700 hover:bg-blue-200 dark:hover:bg-blue-400 hover:shadow-sm bg-blue-100 pt-8 px-3 grid gap-3 grid-cols-2 sm:col-span-3 dark:bg-blue-300">
       <CardHeader className="grid grid-rows-2">
         <div>
           <CardTitle className="font-bold my-4 text-blue-950">
             Welcome back To IMS{"  "}
-            <span className="text-blue-500">{props.name}</span>
+            <span className="text-blue-500">{name}</span>
           </CardTitle>
           <CardDescription className="dark:text-blue-800 max-w-lg text-balance leading-7">
             Streamline Your Internship Management Seamlessly with Our Web-Based
             System.
           </CardDescription>
         </div>
-        <Button className="dark:text-slate-900 max-w-48 font-semibold ">
-          Create New Internship
-        </Button>
+        { children }
       </CardHeader>
       <CardContent className="py-3">
         <span className="MuiStack-root css-1d0id76">

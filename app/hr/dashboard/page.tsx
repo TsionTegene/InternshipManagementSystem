@@ -1,6 +1,13 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import WelcomeCard from "@/components/dashboard/WelcomeCard";
+import Cards from "@/components/dashboard/cards";
+import DashboardTable from "@/components/dashboard/Tables";
 import { CreditCard } from "lucide-react";
 import { Users } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,8 +18,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import TableList from "@/components/Table/table";
+import { useFetchInternshipByCompanyId } from "@/hooks/useInternshipActions";
 
 export default function Dashboard() {
+  const internship = useFetchInternshipByCompanyId();
+  const internships = internship.data;
+  console.log(internships)
   const headers = [
     { key: "customer", label: "Customer", className: "text-left" },
     { key: "type", label: "Type", className: "hidden sm:table-cell" },
@@ -20,6 +31,7 @@ export default function Dashboard() {
     { key: "date", label: "Date", className: "hidden md:table-cell" },
     { key: "amount", label: "Amount", className: "text-right" },
   ];
+
   const data = [
     {
       name: "John Doe",
@@ -66,6 +78,7 @@ export default function Dashboard() {
       badgeVariant: "secondary",
     },
   ];
+
   const cards = [
     {
       cardName: "Total Interns",
@@ -75,8 +88,8 @@ export default function Dashboard() {
     },
     {
       cardName: "Total Internships",
-      cardDescription: "3 from last year",
-      cardValue: 5,
+      cardDescription: "Total internships posted by the company.",
+      cardValue: internships?.length,
       icon: <CreditCard className="h-4 w-4 text-muted-foreground" />,
     },
     {
@@ -93,74 +106,84 @@ export default function Dashboard() {
     },
   ];
 
-const internshipHeaders = [
-  { key: "student",
-  label: "Student Name",
-  className: "text-left"
-  },
-  {
-    key: "internship",
-    label: "Internship Position",
-    className: "hidden sm:table-cell",
-  },
-  {
-    key: "status",
-    label: "Application Status",
-    className: "hidden sm:table-cell",
-  },
-  {
-    key: "applicationDate",
-    label: "Application Date",
-    className: "hidden md:table-cell",
-  },
-  { key: "location", label: "Location", className: "text-right" },
-];
+  const internshipHeaders = [
+    { key: "student", label: "Student Name", className: "text-left" },
+    {
+      key: "internship",
+      label: "Internship Position",
+      className: "hidden sm:table-cell",
+    },
+    {
+      key: "status",
+      label: "Application Status",
+      className: "hidden sm:table-cell",
+    },
+    {
+      key: "applicationDate",
+      label: "Application Date",
+      className: "hidden md:table-cell",
+    },
+    { key: "location", label: "Location", className: "text-right" },
+  ];
 
-const internshipData = [
-  {
-    student: "Emily Carter",
-    internship: "Software Engineering Intern",
-    status: "Pending Review",
-    applicationDate: "2023-09-15",
-    location: "San Francisco, CA",
-    // className: "", // optional, for additional styling
-    // badgeVariant: "outline", // variant for the badge, assuming you use a badge to visualize status
-  },
-  {
-    student: "Michael Lawson",
-    internship: "Marketing Analyst Intern",
-    status: "Accepted",
-    applicationDate: "2023-09-20",
-    location: "New York, NY",
-    // className: "bg-accent", // optional, for additional styling
-    // badgeVariant: "secondary",
-  },
-  {
-    student: "Laura Jenkins",
-    internship: "Human Resources Intern",
-    status: "Declined",
-    applicationDate: "2023-09-18",
-    location: "Chicago, IL",
-    // className: "",
-    // badgeVariant: "outline",
-  },
-  {
-    student: "David Clarke",
-    internship: "Data Science Intern",
-    status: "Pending Review",
-    applicationDate: "2023-09-22",
-    location: "Boston, MA",
-    // className: "bg-accent",
-    // badgeVariant: "outline",
-  },
-];
-
-
+  const internshipData = [
+    {
+      student: "Emily Carter",
+      internship: "Software Engineering Intern",
+      status: "Pending Review",
+      applicationDate: "2023-09-15",
+      location: "San Francisco, CA",
+      // className: "", // optional, for additional styling
+      // badgeVariant: "outline", // variant for the badge, assuming you use a badge to visualize status
+    },
+    {
+      student: "Michael Lawson",
+      internship: "Marketing Analyst Intern",
+      status: "Accepted",
+      applicationDate: "2023-09-20",
+      location: "New York, NY",
+      // className: "bg-accent", // optional, for additional styling
+      // badgeVariant: "secondary",
+    },
+    {
+      student: "Laura Jenkins",
+      internship: "Human Resources Intern",
+      status: "Declined",
+      applicationDate: "2023-09-18",
+      location: "Chicago, IL",
+      // className: "",
+      // badgeVariant: "outline",
+    },
+    {
+      student: "David Clarke",
+      internship: "Data Science Intern",
+      status: "Pending Review",
+      applicationDate: "2023-09-22",
+      location: "Boston, MA",
+      // className: "bg-accent",
+      // badgeVariant: "outline",
+    },
+  ];
+  const [posted_internships, setInternships] = useState([]);
+  // useEffect(() => {
+  //   // setInternships(internships);
+  //   console.log("Internships: ", internships);
+  // }, [internships])
+  console.log("Internships: ", internships?.length);
+  const user = JSON.parse(localStorage.getItem("user") || "");
+  console.log("This is from useEffect: ", user);
+  const name = `${user?.firstName} ${user?.middleName}`;
+  console.log(name);
+  console.log(user);
   return (
     <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2 mb-2">
       <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
         <div className="xl:col-span-2">
-          <WelcomeCard name="Abel" />
+          {user && (
+            <WelcomeCard name={name}>
+              <CardButton />
+            </WelcomeCard>
+          )}
         </div>
         <div className="grid gap-2 grid-cols-2">
           {cards.map((card, index) => (
@@ -182,93 +205,27 @@ const internshipData = [
           data={data}
           headers={headers}
         /> */}
-        <DashboardTable
-          tableName="Internship Table"
-          tableDescription="Posted Internship Applications."
-          data={internshipData}
-          headers={internshipHeaders}
-        />
-      </div>
+      <DashboardTable
+        tableName="Internship Table"
+        tableDescription="Posted Internship Applications."
+        data={internshipData}
+        headers={internshipHeaders}
+      />
+    </div>
     // </div>
   );
 }
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import WelcomeCard from "@/components/dashboard/WelcomeCard";
-import Cards from "@/components/dashboard/cards";
-import DashboardTable from "@/components/dashboard/Tables";
-
-export function Component() {
+function CardButton() {
+  const router = useRouter();
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Recent Sales</CardTitle>
-      </CardHeader>
-      <CardContent className="grid gap-8">
-        <div className="flex items-center gap-4">
-          <Avatar className="hidden h-9 w-9 sm:flex">
-            <AvatarImage src="/avatars/01.png" alt="Avatar" />
-            <AvatarFallback>OM</AvatarFallback>
-          </Avatar>
-          <div className="grid gap-1">
-            <p className="text-sm font-medium leading-none">Olivia Martin</p>
-            <p className="text-sm text-muted-foreground">
-              olivia.martin@email.com
-            </p>
-          </div>
-          <div className="ml-auto font-medium">+$1,999.00</div>
-        </div>
-        <div className="flex items-center gap-4">
-          <Avatar className="hidden h-9 w-9 sm:flex">
-            <AvatarImage src="/avatars/02.png" alt="Avatar" />
-            <AvatarFallback>JL</AvatarFallback>
-          </Avatar>
-          <div className="grid gap-1">
-            <p className="text-sm font-medium leading-none">Jackson Lee</p>
-            <p className="text-sm text-muted-foreground">
-              jackson.lee@email.com
-            </p>
-          </div>
-          <div className="ml-auto font-medium">+$39.00</div>
-        </div>
-        <div className="flex items-center gap-4">
-          <Avatar className="hidden h-9 w-9 sm:flex">
-            <AvatarImage src="/avatars/03.png" alt="Avatar" />
-            <AvatarFallback>IN</AvatarFallback>
-          </Avatar>
-          <div className="grid gap-1">
-            <p className="text-sm font-medium leading-none">Isabella Nguyen</p>
-            <p className="text-sm text-muted-foreground">
-              isabella.nguyen@email.com
-            </p>
-          </div>
-          <div className="ml-auto font-medium">+$299.00</div>
-        </div>
-        <div className="flex items-center gap-4">
-          <Avatar className="hidden h-9 w-9 sm:flex">
-            <AvatarImage src="/avatars/04.png" alt="Avatar" />
-            <AvatarFallback>WK</AvatarFallback>
-          </Avatar>
-          <div className="grid gap-1">
-            <p className="text-sm font-medium leading-none">William Kim</p>
-            <p className="text-sm text-muted-foreground">will@email.com</p>
-          </div>
-          <div className="ml-auto font-medium">+$99.00</div>
-        </div>
-        <div className="flex items-center gap-4">
-          <Avatar className="hidden h-9 w-9 sm:flex">
-            <AvatarImage src="/avatars/05.png" alt="Avatar" />
-            <AvatarFallback>SD</AvatarFallback>
-          </Avatar>
-          <div className="grid gap-1">
-            <p className="text-sm font-medium leading-none">Sofia Davis</p>
-            <p className="text-sm text-muted-foreground">
-              sofia.davis@email.com
-            </p>
-          </div>
-          <div className="ml-auto font-medium">+$39.00</div>
-        </div>
-      </CardContent>
-    </Card>
+    <Button
+      className="dark:text-slate-900 max-w-48 font-semibold "
+      onClick={() => {
+        router.push("/hr/newapplication");
+      }}
+    >
+      Create New Internship
+    </Button>
   );
 }

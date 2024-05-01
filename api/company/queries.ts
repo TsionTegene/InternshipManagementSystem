@@ -5,7 +5,8 @@ export async function interns(params:any) {
 }
 
 export async function findCompanyByUserId(uId: string) {
-    const url = 'http://localhost:5000/company?`userId=${uId}`';
+    console.log(uId)
+    const url = 'http://localhost:5000/company?userId=${uId}';
     const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -19,5 +20,6 @@ export async function findCompanyByUserId(uId: string) {
     }
 
     const responseData = await response.json();
-    return responseData;
+    console.log("responseData: ", responseData[0]?.id)
+    return responseData[0]?.id;
 }

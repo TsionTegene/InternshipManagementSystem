@@ -1,27 +1,42 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useFindCompanyByUserId } from "@/queries/useCompanyQueries";
-import { useCreateInternshipMutation } from "@/queries/useInternshipQueries";
-import { useEffect, useState } from "react";
+import { FindCompanyByUserId } from "@/queries/useCompanyQueries";
+import { useCreateInternshipMutation, useFilterInternships } from "@/queries/useInternshipQueries";
+import { useInternshipStore } from "@/stores/internship.store";
 
 export const useCreateInternship = () => {
-    const [companyId, setCompanyId] = useState<string | null>(null);
-
-    // Assuming `useFindCompanyByUserId` needs a userId to function correctly:
-    const userId = localStorage.getItem('userId'); // This is generally not recommended to be directly used in render phases, consider passing it as a prop or using a context.
-    const { data: companyData } = useFindCompanyByUserId(userId); // Adjust the hook to take `userId` as an argument.
-
-    useEffect(() => {
-        if (companyData) {
-            setCompanyId(companyData.id); // Assuming the fetched data has an 'id' field representing the companyId.
-        }
-    }, [companyData]); // Depend on companyData so that whenever it updates, the effect runs.
-
     const { data, error, isPending, isSuccess, isError, mutate } = useCreateInternshipMutation();
 
+    const userId = localStorage.getItem('userId'); // Consider using context or props for better practices
+    const { data: companyId } = FindCompanyByUserId(userId);
+
+    console.log("companyId: ", companyId);
+    console.log("userId: ", userId);
+
     const createInternship = async (formData: FormData) => {
-        const data = { companyId: companyId, ...formData };
+        const data = { companyId, ...formData };
+        console.log("data: ", data)
         await mutate(data);
     };
 
     return { data, error, isPending, isSuccess, isError, createInternship };
 };
+
+export const useFetchInternshipByCompanyId = () => {
+    const userId = localStorage.getItem('userId'); // Consider using context or props for better practices
+    const { data: companyId } = FindCompanyByUserId(userId);
+    console.log("company Id: ", companyId);
+    
+    const setInternships = useInternshipStore((state: any) => state.setInternships);
+    const setIsLoading = useInternshipStore((state: any) => state.setIsLoading);
+    const setError = useInternshipStore((state: any) => state.setError);
+    const internships = useInternshipStore((state: any) => state.internships);
+    const posted_internships = useFilterInternships({ companyId });
+    console.log(posted_internships.data)
+
+    if (posted_internships.isSuccess) {
+        console.log("data from hooks: ", posted_internships.data)
+        setInternships(posted_internships.data);
+    }
+
+    return posted_internships;
+}
