@@ -109,6 +109,9 @@ export function StudentForm() {
   const setselectedItemID = useItemStore(
     (state: any) => state.setSelectedItemID
   );
+    const selectedItemID = useItemStore(
+      (state: any) => state.selectedItemID
+  );
   const { signupStudent, isSLoading, isSError, isSSuccess } = useStudentRegister();
   const { universities, error, isLoading } = useUniversityFetch();
   // const { departments, isDLoading, isDError } = useDeparmentData();
@@ -155,7 +158,7 @@ export function StudentForm() {
     const formData = new FormData();
     for (const field in formValues) {
       if (field == "confirm_password") continue;
-      // console.log(field, formValues[field]);
+      console.log(field, formValues[field]);
       formData.append(field, formValues[field]);
     }
 
@@ -172,10 +175,11 @@ export function StudentForm() {
       // console.log("Resume", resume);
       formData.append("resume", resume);
     }
+    // formData.append("universityName", selectedItemID)
 
     const student = signupStudent;
 
-    const tokens = student.mutate(formData);
+    const tokens = student.mutateAsync(formData);
     console.log("tokens: ", tokens);
     if (isSSuccess) {
       console.log(tokens)
@@ -437,7 +441,7 @@ export function StudentForm() {
                               {departments?.map((department: any) => (
                                   <SelectItem
                                     key={department.id}
-                                    value={department.name}
+                                    value={department.id}
                                   >
                                     {department.name}
                                   </SelectItem>
