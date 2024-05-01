@@ -1,141 +1,96 @@
-import React from 'react';
+import React from "react";
 import {
   Table,
-  TableCaption,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Card } from "@/components/ui/card";
+import {
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 const page = () => {
-  // Options for the dropdown
-  const lecturerOptions = ["Mr. Abebe", "Mr. John", "Ms. Emily", "Dr. Smith"];
-
+  const studentList = [
+    {
+      id: "1",
+      name: "Bereket Tadele",
+      advisor: "To be assigned",
+      department: "Software Engineering",
+      organization: "App Div",
+    },
+    {
+      id: "2",
+      name: "Tsion Tegene",
+      advisor: "To be assigned",
+      department: "Software Engineering",
+      organization: "App Div",
+    },
+    {
+      id: "3",
+      name: "Abel Zeleke",
+      advisor: "To be assigned",
+      department: "Software Engineering",
+      organization: "App Div",
+    },
+    {
+      id: "4",
+      name: "Rebecca Asrat",
+      advisor: "To be assigned",
+      department: "Software Engineering",
+      organization: "App Div",
+    },
+  ];
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4 text-center">Students</h2>
-      <Table>
-        <TableCaption></TableCaption>
-
-        {/* Table Header */}
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">No.</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Department</TableHead>
-            <TableHead>Advisor</TableHead>
-            <TableHead>Organization</TableHead>
-          </TableRow>
-        </TableHeader>
-
-        {/* Table Body */}
-        <TableBody>
-          {/* First Row */}
-          <TableRow>
-            <TableCell className="font-medium">1</TableCell>
-            <TableCell>Bereket</TableCell>
-            <TableCell>Software Eng.</TableCell>
-            <TableCell>
-              <select>
-                {lecturerOptions.map((lecturer, index) => (
-                  <option key={index}>{lecturer}</option>
-                ))}
-              </select>
-            </TableCell>
-            <TableCell>App Div</TableCell>
-          </TableRow>
-
-          {/* Second Row */}
-          <TableRow>
-            <TableCell className="font-medium">2</TableCell>
-            <TableCell>John</TableCell>
-            <TableCell>Marketing</TableCell>
-            <TableCell>
-              <select>
-                {lecturerOptions.map((lecturer, index) => (
-                  <option key={index}>{lecturer}</option>
-                ))}
-              </select>
-            </TableCell>
-            <TableCell>ABC Inc.</TableCell>
-          </TableRow>
-
-          {/* Additional Rows */}
-          <TableRow>
-            <TableCell className="font-medium">3</TableCell>
-            <TableCell>Jane</TableCell>
-            <TableCell>Finance</TableCell>
-            <TableCell>
-              <select>
-                {lecturerOptions.map((lecturer, index) => (
-                  <option key={index}>{lecturer}</option>
-                ))}
-              </select>
-            </TableCell>
-            <TableCell>XYZ Corp</TableCell>
-          </TableRow>
-
-          <TableRow>
-            <TableCell className="font-medium">4</TableCell>
-            <TableCell>Michael</TableCell>
-            <TableCell>Computer Science</TableCell>
-            <TableCell>
-              <select>
-                {lecturerOptions.map((lecturer, index) => (
-                  <option key={index}>{lecturer}</option>
-                ))}
-              </select>
-            </TableCell>
-            <TableCell>Tech Solutions</TableCell>
-          </TableRow>
-
-          <TableRow>
-            <TableCell className="font-medium">5</TableCell>
-            <TableCell>Sarah</TableCell>
-            <TableCell>Electrical Engineering</TableCell>
-            <TableCell>
-              <select>
-                {lecturerOptions.map((lecturer, index) => (
-                  <option key={index}>{lecturer}</option>
-                ))}
-              </select>
-            </TableCell>
-            <TableCell>Power Co.</TableCell>
-          </TableRow>
-
-          <TableRow>
-            <TableCell className="font-medium">6</TableCell>
-            <TableCell>David</TableCell>
-            <TableCell>Chemistry</TableCell>
-            <TableCell>
-              <select>
-                {lecturerOptions.map((lecturer, index) => (
-                  <option key={index}>{lecturer}</option>
-                ))}
-              </select>
-            </TableCell>
-            <TableCell>ChemLab Ltd.</TableCell>
-          </TableRow>
-
-          <TableRow>
-            <TableCell className="font-medium">7</TableCell>
-            <TableCell>Emily</TableCell>
-            <TableCell>Biology</TableCell>
-            <TableCell>
-              <select>
-                {lecturerOptions.map((lecturer, index) => (
-                  <option key={index}>{lecturer}</option>
-                ))}
-              </select>
-            </TableCell>
-            <TableCell>BioTech Inc.</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+    <div className="mb-2">
+      <Card className="transition duration-700 bg-blue-100 dark:bg-gray-950 hover:bg-blue-200 hover:shadow-sm dark:hover:bg-gray-900">
+        <CardHeader>
+          <CardTitle>Students</CardTitle>
+          <CardDescription>Click on the student's name to assign advisor to the student.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Department</TableHead>
+                <TableHead>Advisor</TableHead>
+                <TableHead>Organization</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {studentList.map((student, index) => (
+                <TableRow key={index}>
+                  <TableCell style={{ listStyleType: "decimal" }}>
+                    {" "}
+                    <Link
+                      key={student.id}
+                      href={`/departmenthead/students/${student.id}`}
+                    >
+                      {student.name}
+                    </Link>{" "}
+                  </TableCell>
+                  <TableCell>
+                    {student.department}
+                  </TableCell>
+                  <TableCell>{student.advisor}</TableCell>
+                  <TableCell>
+                    {student.organization}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
     </div>
   );
 };

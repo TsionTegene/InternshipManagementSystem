@@ -102,7 +102,6 @@ const Signup = () => {
             </div>
           </div>
         </div>
-        <Footer />
       </div>
     );
 };

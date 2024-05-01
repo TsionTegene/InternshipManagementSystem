@@ -43,6 +43,8 @@ export async function IsAuthenticated(role: string) {
             }
             try {
                 const newToken = await refreshToken(RefreshToken);
+                localStorage.setItem("access_token", newToken.access_token)
+                localStorage.setItem("refresh_token", newToken.refresh_token);
                 const decodeJwt = jwt.verify(newToken, "abel5173") as DecodedToken;
                 console.log(localStorage.getItem('user'))
                 localStorage.setItem('role', decodeJwt.role);

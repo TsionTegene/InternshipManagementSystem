@@ -1,10 +1,10 @@
 import axios from 'axios';
 const api = process.env.NEXT_PUBLIC_API
 
+console.log(api)
 export async function registerStudent(formData: FormData) {
   // const url = 'https://web-based-internship-management-system-5.onrender.com/auth/register/student';
   const url = `${api}auth/register/student`; 
-
   console.log('skills', formData.get('skills'))
   await fetch(url, {
     method: 'POST',

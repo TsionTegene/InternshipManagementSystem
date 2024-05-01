@@ -16,6 +16,7 @@ import { getMenu } from "./getmenu";
 import useSessionStore from "@/stores/sessionStore";
 import decodeToken from "@/lib/decodeToken";
 import { Separator } from "@radix-ui/react-select";
+import { departmenthead } from "./constant";
 
 const Sidebar = ({ isCollapsed, open, setOpen }: any) => {
   const [role, setRole] = useState<string>("");
@@ -29,7 +30,7 @@ const Sidebar = ({ isCollapsed, open, setOpen }: any) => {
   }, []);
 
   console.log("Role from sidebar:", role);
-  const menuUtems = getMenu(role);
+  const menuUtems = getMenu("departmenthead");
   const isDesktop = useMediaQuery("(min-width: 1280px)");
 
   if (isDesktop) {
@@ -51,7 +52,10 @@ const Sidebar = ({ isCollapsed, open, setOpen }: any) => {
         </div>
         {/* <Separator/> */}
         {menuUtems?.map((list) => (
-          <li key={list.title}>
+          <li
+            key={list.title}
+            className="focus-within:bg-blue-100 hover:bg-blue-100 rounded-lg dark:hover:bg-slate-900 dark:focus-within:bg-slate-950"
+          >
             <SidebarLink
               isCollapsed={isCollapsed}
               list={list}
@@ -76,7 +80,10 @@ const Sidebar = ({ isCollapsed, open, setOpen }: any) => {
                 />
               </div>
               {menuUtems?.map((list) => (
-                <li key={list.title}>
+                <li
+                  key={list.title}
+                  className="focus-within:bg-blue-100 hover:bg-blue-100 rounded-lg dark:hover:bg-slate-900 dark:focus-within:bg-slate-950"
+                >
                   <SidebarLink
                     isCollapsed={isCollapsed}
                     list={list}
