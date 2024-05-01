@@ -175,17 +175,17 @@ export default function DepartmentCreation({ onSubmit, initialData }) {
                           onValueChange={(value) => {
                             field.onChange(value);
                           }}
-                          aria-label="Select Dean"
+                          aria-label="Select Dep't Head"
                         >
                           <SelectTrigger>
-                            <SelectValue placeholder="Select Dean" />{" "}
+                            <SelectValue placeholder="Select Dep't Head" />{" "}
                           </SelectTrigger>
                           <SelectContent>
                             {user.map((data: any) => (
 
                               <SelectItem key={data.id} value={data.user.id}>
-                                {data?.user.roleName === null &&
-                                  data.user.firstName}
+                                {data?.user.roleName === 'DEPARTMENT_HEAD' &&
+                                  data.user.firstName+" " + data.user.middleName}
                               </SelectItem>
 
                             ))}

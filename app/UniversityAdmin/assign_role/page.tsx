@@ -46,7 +46,7 @@ const RoleAssignment = () => {
         //@ts-ignore
         console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
       }
-    const url = `http://10.194.65.38:5000/users/${formData.get("id")}/assign/${formData.get("name")}`
+    const url = `http://localhost:5000/users/${formData.get("id")}/assign/${formData.get("name")}`
     const response = await fetch(url, {
         method: "post",
         headers: {

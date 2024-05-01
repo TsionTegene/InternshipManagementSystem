@@ -30,7 +30,7 @@ const Sidebar = ({ isCollapsed, open, setOpen }: any) => {
   }, []);
 
   console.log("Role from sidebar:", role);
-  const menuUtems = getMenu("departmenthead");
+  const menuUtems = getMenu(role);
   const isDesktop = useMediaQuery("(min-width: 1280px)");
 
   if (isDesktop) {

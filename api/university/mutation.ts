@@ -18,6 +18,24 @@ export async function registerUniversity(formData: FormData) {
   return responseData;
 }
 
+export async function registerAdvisor(formData: FormData) {
+  const url = `${api}auth/register/department`
+  try {
+    const response = await axios.post(url, formData, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.data) { // Assuming successful response has data
+      throw new Error('Empty response from server');
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error('Error creating college:', error);
+    throw error; // Re-throw for potential handling in calling code
+  }
+}
+
 export async function registerDepartment(formData: FormData) {
   const url = `${api}auth/register/department`
   try {
