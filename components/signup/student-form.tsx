@@ -154,7 +154,7 @@ export function StudentForm() {
   const onInvalid = (errors: any) => console.error(errors);
 
   const onSubmit = async (formValues: any) => {
-    // console.log("formValues: ", formValues);
+    console.log("formValues: ", formValues);
     const formData = new FormData();
     for (const field in formValues) {
       if (field == "confirm_password") continue;
@@ -177,7 +177,7 @@ export function StudentForm() {
     }
     // formData.append("universityName", selectedItemID)
 
-    const student = signupStudent;
+    // const student = signupStudent;
 
     const tokens = student.mutateAsync(formData);
     console.log("tokens: ", tokens);

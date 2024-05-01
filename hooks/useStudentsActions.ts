@@ -8,7 +8,7 @@ import { useStudentStore } from "@/stores/student.store";
 import useUserStore from "@/stores/user.store";
 import { useEffect } from "react";
 const universityId = localStorage.getItem("universityId")
-const unID = universityId ?JSON.parse(universityId as string).universityId :null
+const unID = universityId ? JSON.parse(universityId as string).universityId : null
 // here we define the actions that we can perform on the students data
 export const useStudentRegister = () => {
     const setUser = useUserStore((state: any) => state.setUser); // here we get the setUser function from the user store
@@ -17,7 +17,7 @@ export const useStudentRegister = () => {
     const userId = useSessionStore((state) => state.userId)
 
     const user = useUserStore((state: any) => state.user); // here we get the user data from the user store
-    const signupStudent = useStudentSignup(); 
+    const signupStudent = useStudentSignup();
     const studentData = useFetchAllStudents(unID)
     useEffect(() => { // here we use the useEffect hook to fetch the user data from 
         const fetchData = async () => {
@@ -39,7 +39,7 @@ export const useStudentRegister = () => {
     }, [studentData.isSuccess, studentData.isPending, setUser, setIsLoading, setError]);
 
     return {
-        user ,
+        user,
         signupStudent,
         isSLoading: signupStudent.isPending,
         isSError: signupStudent.isError,
@@ -55,8 +55,8 @@ export const useStudentsFetch = (id: string) => {
 
     // const { user } = useUserStore.getState(); // here we get the user data from the user store
     // const { company, department, university } = user; // here we get the company, department and university data from the user data
-    
+
     // const fetchStudentsByCompanyId = useStudentsFilter({ company: company.id }); // here we get the students data by company id
-    
+
 
 }

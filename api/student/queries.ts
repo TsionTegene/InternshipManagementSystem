@@ -1,3 +1,4 @@
+import axios from "axios";
 import studentData from "./type";
 const api = process.env.NEXT_PUBLIC_API
 
@@ -138,14 +139,17 @@ export async function updateStudent(id: string, data: studentData) {
   }
 
 export async function allStudentsInUniversity(id: string) {
+  // to make it wait if the id is null, we can use the if statement
+  if (!id) {
+    return
+  }
   const url = `${api}student/${id}`
-  const response = await fetch(url, {
-    method: "GET",
+  const response = await axios.get(url, {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     }
   })
 
-  return response.json()
+  return response
 
 }

@@ -64,8 +64,7 @@ export async function fetchDepartment(id:string) {
     const url = `${api}department/un/${id}`
     console.log("api -----",id)
     
-    const response = await axios(url, {
-        method:"GET",
+    const response = await axios.get(url, {
         headers: {
             "Content-Type": "application/json",
         }

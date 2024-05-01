@@ -14,9 +14,9 @@ import { error } from 'console';
 
 
 const universityId = localStorage.getItem("universityId")
-const unID = universityId ? JSON.parse(universityId as string).universityId :null
+const unID = universityId ? JSON.parse(universityId as string).universityId : null
 
-export const  useUniversityFetch =()=>{
+export const useUniversityFetch = () => {
   const setUniversities = useUniversityStore(
     (state: any) => state.setUniversities
   );
@@ -261,39 +261,39 @@ export const useFilterDepartment = () => {
     (state: any) => state.setSelectedItemID
   );
 
-  
+
   const departmentData = useDepartmentData(selectedItemID);
-  console.log("un dep",departmentData.data)
+  console.log("un dep", departmentData.data)
   useEffect(() => {
     const fetchData = async () => {
 
       try {
-        
+
         if (departmentData.isSuccess) {
           setDepartment(departmentData.data);
           console.log("this is deps in UnId", departmentData.data);
           setError(false)
 
-        queryClient.invalidateQueries("departmentfilter");
-    
-        }if(departmentData.isLoading){
-           setIsLoading(true)
+          queryClient.invalidateQueries("departmentfilter");
+
+        } if (departmentData.isLoading) {
+          setIsLoading(true)
           queryClient.invalidateQueries("departmentfilter");
 
         }
-      if (departmentData.isError) {
-          console.log("Error Fetching Department:",  departmentData.error);
+        if (departmentData.isError) {
+          console.log("Error Fetching Department:", departmentData.error);
           setError(true)
-        queryClient.invalidateQueries("departmentfilter");
+          queryClient.invalidateQueries("departmentfilter");
 
         }
       } catch (error) {
         console.log(error)
       }
 
-  };
+    };
 
-  fetchData();
+    fetchData();
   }, [
     departmentData,
     queryClient,
@@ -371,7 +371,7 @@ export const useDepartment = () => {
 
     fetchData();
   }, [
-       deptByUnId.isSuccess,
+    deptByUnId.isSuccess,
     deptByUnId.isPending,
     setDepartment,
     setIsLoading,
