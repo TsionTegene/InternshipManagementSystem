@@ -22,11 +22,9 @@ const Sidebar = ({ isCollapsed, open, setOpen }: any) => {
   const [role, setRole] = useState<string>("");
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
       const storedRole = localStorage.getItem("role");
       console.log("Stored role:", storedRole);
       setRole(storedRole ?? ""); // Provide a default value for the role state variable
-    }
   }, []);
 
   console.log("Role from sidebar:", role);

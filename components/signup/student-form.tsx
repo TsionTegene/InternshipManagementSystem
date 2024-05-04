@@ -163,7 +163,7 @@ export function StudentForm() {
     }
 
     skills.forEach((skill: string) => {
-      // console.log("skill: ", skill);
+      console.log("skill: ", skill);
       formData.append("skills", skill);
     });
 
@@ -175,17 +175,18 @@ export function StudentForm() {
       // console.log("Resume", resume);
       formData.append("resume", resume);
     }
-    // formData.append("universityName", selectedItemID)
+    formData.append("universityName", selectedItemID)
+    console.log("Form Data: ", formData)
 
     // const student = signupStudent;
 
-    const tokens = student.mutateAsync(formData);
-    console.log("tokens: ", tokens);
-    if (isSSuccess) {
-      console.log(tokens)
-      console.log("Student Registered Successfully");
-      router.push("/login");
-    }
+    // const tokens = student.mutateAsync(formData);
+    // console.log("tokens: ", tokens);
+    // if (isSSuccess) {
+    //   console.log(tokens)
+    //   console.log("Student Registered Successfully");
+    //   router.push("/login");
+    // }
   };
   useEffect(() => { }, [universities, departments])
   return (
