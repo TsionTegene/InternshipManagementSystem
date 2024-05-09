@@ -4,8 +4,6 @@ import Sidebar from "@/components/sidebar/sidebar";
 import { Button } from "@/components/ui/button";
 import { FaAngleRight } from "react-icons/fa";
 import { useLayoutEffect, useState } from "react";
-import { AlignJustify } from "lucide-react";
-import { IoIosArrowDropleft } from "react-icons/io";
 import { RiMenu4Line } from "react-icons/ri";
 import { IsAuthenticated } from "@/lib/IsAuthenticated";
 import { useRouter } from "next/navigation";
@@ -13,9 +11,10 @@ import { useRouter } from "next/navigation";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
+  
   const router = useRouter();
   useLayoutEffect(() => {
-    const isAuth = IsAuthenticated("departmenthead").then((isAuth) => {
+    const isAuth = IsAuthenticated("DEPARTMENT_HEAD").then((isAuth) => {
       if (!isAuth) {
         console.log("isAuth: ", isAuth);
         router.push("/login");

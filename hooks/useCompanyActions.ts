@@ -1,6 +1,8 @@
-import { useCompanySignup } from "@/queries/useCompanyQueries";
+import { registerCompany } from "@/api/company/mutations";
+import { useCompanyData, useCompanySignup } from "@/queries/useCompanyQueries";
 import { useCompanyStore } from "@/stores/company.store";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 export function useCompanyActions() {
     const setCompany = useCompanyStore((state: any) => state.setCompany);
@@ -9,8 +11,32 @@ export function useCompanyActions() {
     const company = useCompanyStore((state: any) => state.company);
 
     const signUpCompany = useCompanySignup();
+    const companyData = useCompanyData();
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (companyData.isSuccess) {
+                    setCompany(companyData.data);
+                }
+                if (companyData.isLoading) {
+                    setIsLoading(companyData.isLoading);
+                }
+            } catch (error) {
+                console.error("Error fetching College data:", error);
+                setError(error);
+            }
+        };
 
+        fetchData();
+    }, [
+        companyData.isSuccess,
+        companyData.isLoading,
+        setCompany,
+        setIsLoading,
+        setError,
+
+    ]);
     return {
         company,
         isLoading: signUpCompany.isPending,

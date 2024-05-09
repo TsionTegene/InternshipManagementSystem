@@ -42,7 +42,7 @@ export async function fetchStudentsByCompanyId(id: string) {
 }
 
 export async function fetchStudentsByDepartmentId(id: string) {
-  const url = `${api}department/${id}/students`;
+  const url = `${api}student/dep/${id}`;
 
   const response = await fetch(url, {
     method: 'GET',

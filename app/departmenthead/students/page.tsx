@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -17,8 +19,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useStudentsFetchByDep } from "@/hooks/useStudentsActions";
 
 const page = () => {
+const {students} = useStudentsFetchByDep()
+
+useEffect(()=>{
+  console.log("Students data",students)
+}, [students])
   const studentList = [
     {
       id: "1",
@@ -61,13 +69,12 @@ const page = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
-                <TableHead>Department</TableHead>
                 <TableHead>Advisor</TableHead>
                 <TableHead>Organization</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {studentList.map((student, index) => (
+              {students.map((student, index) => (
                 <TableRow key={index}>
                   <TableCell style={{ listStyleType: "decimal" }}>
                     {" "}
@@ -75,11 +82,8 @@ const page = () => {
                       key={student.id}
                       href={`/departmenthead/students/${student.id}`}
                     >
-                      {student.name}
+                      {student.user.firstName}
                     </Link>{" "}
-                  </TableCell>
-                  <TableCell>
-                    {student.department}
                   </TableCell>
                   <TableCell>{student.advisor}</TableCell>
                   <TableCell>

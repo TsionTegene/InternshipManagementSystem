@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useEffect, useId, useState } from 'react';
-import { useUniversitySignup, useUniversityData, useUnivesityAddDepartment, useUnivesityAddCollege, usecollegeDatabyUnId, useDepartmentData, useUpdateCollege, useUpdatedepartment, useUniversityDataById, useCountUniversityStaff, useUserIDtoUniversity } from '@/queries/useUniversityQueries';
+import { useEffect} from 'react';
+import { useUniversitySignup, useUniversityData, useUnivesityAddDepartment, useUnivesityAddCollege, usecollegeDatabyUnId, useDepartmentData, useUpdateCollege, useUpdatedepartment, useUniversityDataById, useCountUniversityStaff, useUserIDtoUniversity, useAddAdvisor } from '@/queries/useUniversityQueries';
 import useUniversityStore from '@/stores/university.store';
 import { useAllRoll, useAllUniversityMembers, useUpdatedUser, useUserRollNull, userigisteruser } from '@/queries/useUsersdata';
 import useUserStore from '@/stores/user.store';
@@ -10,11 +10,11 @@ import useRoleStore from '@/stores/role.store';
 import useSessionStore from "@/stores/sessionStore"
 import { useQueryClient } from '@tanstack/react-query';
 import useItemStore from '@/stores/selectedItem';
-import { error } from 'console';
 
 
 const universityId = localStorage.getItem("universityId")
-const unID = universityId ? JSON.parse(universityId as string).universityId : null
+const unID = universityId ? JSON.parse(universityId as string).universityId :null
+const dpID = localStorage.getItem("depId")
 
 export const useUniversityFetch = () => {
   const setUniversities = useUniversityStore(
@@ -540,38 +540,41 @@ export const userole = () => {
   };
 };
 
-// export const useStaff = () => {
+export const useAdvisorData = () => {
+  const setUser = useUserStore((state: any) => state.setUser);
+  const setIsLoading = useUserStore((state: any) => state.setIsLoading);
+  const setError = useUserStore((state: any) => state.setError);
+  const user = useUserStore((state: any) => state.user);
+  const selectedUserID = useUserStore((state: any) => state.selectedUserID);
+  const setselectedUserID = useUserStore(
+    (state: any) => state.setSelectedUserID
+  );
+  const queryClient = useQueryClient(); // Access the query client instance
 
-//   const setUser = useUserStore((state: any) => state.setUser);
-//   const setIsLoading = useUserStore((state: any) => state.setIsLoading);
-//   const setError = useUserStore((state: any) => state.setError);
-//   const user = useUserStore((state: any) => state.user);
+  const univesrityId = useSessionStore((state) => state.universityID);
 
-//   const register_user = userigisteruser("6627a6ff604098b8bc21b16e");
+  const register_user = useAddAdvisor(dpID as string);
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         if (register_user.isSuccess) {
-//           setUser(register_user.data);
 
-//         }
-//         if (register_user.isPending) {
-//           setIsLoading(true);
-//         }
-//       } catch (error) {
-//         console.error('Error creating User data:', error);
-//         setError(error);
-//       }
-//     };
+  
+  const addUser = async (userData: any) => {
+    try {
+      const newUser = await register_user.mutateAsync(userData);
 
-//     fetchData();
+      queryClient.invalidateQueries("head");
 
-//   }, [register_user.isSuccess, register_user.isPending, setUser, setIsLoading, setError]);
+      return newUser;
+    } catch (error) {
+      console.error("Error adding new Advisor:", error);
+      throw error;
+    }
+  };
 
-//   return {
-//     user,
-//     register_user
+  
 
-//   }
-// }
+  return {
+    user,
+    addUser, //[][][][]it must be changed to make it real time update [][][][]
+
+  };
+};

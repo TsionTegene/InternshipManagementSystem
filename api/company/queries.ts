@@ -1,3 +1,6 @@
+import axios from "axios"
+const api = process.env.NEXT_PUBLIC_API
+
 export async function interns(params:any) {
     const url = 'https://web-based-internship-management-system-5.onrender.com'
     await fetch

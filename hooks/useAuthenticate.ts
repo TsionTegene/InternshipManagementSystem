@@ -9,6 +9,7 @@ import { isLoggedIn } from '@/lib/isLoggedIn';
 import router from 'next/router';
 import decodeToken from '@/lib/decodeToken';
 import { useUserIDtoUniversity } from '@/queries/useUniversityQueries';
+import useDepartmentStore from '@/stores/department.store';
 
 export const useAuthenticate = () => {
   const { data, mutate, isSuccess, isError, isPending, error } = useLogin();
@@ -21,7 +22,7 @@ export const useAuthenticate = () => {
   const setIsError = useSessionStore((state) => state.setIsError);
   const setIsLoading = useSessionStore((state) => state.setIsLoading);
   const router = useRouter(); // Get router instance
-
+  const setDepId = useDepartmentStore((state:any) => state.setDepartmentId)
   useEffect(() => {
     if (isError && error) {
       setIsError(error);
@@ -42,6 +43,10 @@ export const useAuthenticate = () => {
           console.log(data.unId)
           localStorage.setItem('universityId', JSON.stringify(data.unId[0]))
         }
+        if(data.dpId){
+          console.log(data.dpId)
+          localStorage.setItem('depId', data.dpId)
+        }
         console.log("Access token:", data.access_token);
         console.log("Refresh token:", data.refresh_token);
         const payload = decodeToken(data.access_token).then(payload => {
@@ -56,7 +61,6 @@ export const useAuthenticate = () => {
           setEmail(payload.email);
           setRole(payload.role);
           localStorage.setItem('role', payload.role);
-
           setUserId(payload.userId);
           redirectBasedOnRole(payload.role);
         }).catch(error => {
@@ -87,6 +91,9 @@ export const useAuthenticate = () => {
         break;
       case 'COMPANY_HR':
         router.push('/hr');
+        break;
+      case 'DEPARTMENT_HEAD':
+        router.push('/departmenthead');
         break;
       default:
         router.push('/login');

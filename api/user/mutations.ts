@@ -7,17 +7,14 @@ export async function registerUser(formData: FormData,id:string) {
   console.log(id)
 
   const url = `${api}users/${id}`
-    const response = await fetch(url, {
-      method: 'POST',
-      body: formData,
-    });
-  
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+  const response = await axios.post(url, formData, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+
     
   
-    const responseData = await response.json();
+    const responseData = await response.data;
     return responseData;
   }
 

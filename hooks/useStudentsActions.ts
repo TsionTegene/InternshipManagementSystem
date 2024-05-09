@@ -1,25 +1,16 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 //import { useStudentSignup, useStudentsFilter } from "@/queries/useStudentQueries";
-import { useFetchAllStudents, useStudentSignup } from "@/queries/useStudentQueries";
-import { useDepartmentData } from "@/queries/useUniversityQueries";
-import { userigisteruser } from "@/queries/useUsersdata";
+import { useEffect } from "react";
+import { useDepartmentStudents, useFetchAllStudents, useStudentSignup } from "@/queries/useStudentQueries";
 import useSessionStore from "@/stores/sessionStore";
 import { useStudentStore } from "@/stores/student.store";
 import useUserStore from "@/stores/user.store";
-import { useEffect } from "react";
 
-const universityId = localStorage.getItem("universityId");
-let unID = null;
+const universityId = localStorage.getItem("universityId")
+const unID = universityId ?JSON.parse(universityId as string).universityId :null
 
-if (universityId) {
-    try {
-        const parsedId = JSON.parse(universityId);
-        unID = parsedId.universityId; // Make sure the JSON structure has 'universityId' key
-    } catch (e) {
-        console.error("Error parsing universityId from localStorage:", e);
-        // Handle error or fallback here
-    }
-}
+const dpID = localStorage.getItem("depId")
+// const dpID = depId ? :null
 // here we define the actions that we can perform on the students data
 export const useStudentRegister = () => {
     const setUser = useUserStore((state: any) => state.setUser); // here we get the setUser function from the user store
@@ -69,5 +60,43 @@ export const useStudentsFetch = (id: string) => {
 
     // const fetchStudentsByCompanyId = useStudentsFilter({ company: company.id }); // here we get the students data by company id
 
+
+}
+export const useStudentsFetchByDep = () => {
+    const setStudents = useStudentStore((state: any) => state.setStudents);
+    const setIsLoading = useStudentStore((state: any) => state.setIsLoading);
+    const setError = useStudentStore((state: any) => state.setError);
+    const students = useStudentStore((state: any) => state.students);
+
+    const stdData = useDepartmentStudents(dpID as string)
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (stdData.isSuccess) {
+                    await setStudents(stdData.data);
+                }
+                if (stdData.isLoading) {
+                    setIsLoading(stdData.isLoading);
+                }
+            } catch (error) {
+                console.error("Error fetching university data:", error);
+                setError(error);
+            }
+        };
+
+        fetchData();
+    }, [
+        stdData.isSuccess,
+        setStudents,
+        setIsLoading,
+        setError,
+        students,
+    ]);
+
+    return{
+        students,
+
+    }
 
 }

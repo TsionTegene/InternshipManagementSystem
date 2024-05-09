@@ -102,16 +102,18 @@ const RoleAssignment = () => {
                     
                         <SelectValue placeholder="Select User" />{" "}
                       </SelectTrigger>
+                            {
+                            user.map((data: any) => (
                           <SelectContent>
-                            {user.map((data: any) => (
+                                {data?.user.roleName === null && (
+                                  <SelectItem key={data.id} value={data.user.id}>
+                                    {data.user.firstName}
+                                  </SelectItem>
+                                )}
 
-                              <SelectItem key={data.id} value={data.user.id}>
-                                {data?.user.roleName === null &&
-                                  data.user.firstName}
-                              </SelectItem>
 
-                            ))}
                           </SelectContent>
+                            ))}
                     </Select>
                   )}
                   </div>

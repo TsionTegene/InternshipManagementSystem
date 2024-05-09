@@ -10,8 +10,9 @@ import {
 } from "@/components/ui/table";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Button } from '@/components/ui/button';
 
-const page = () => {
+const Page = () => {
   // Options for the dropdown
   const lecturerOptions = ["Mr. Abebe", "Mr. John", "Ms. Emily", "Dr. Smith"];
 
@@ -40,7 +41,7 @@ const page = () => {
             <TableHead>Name</TableHead>
             <TableHead>Department</TableHead>
             <TableHead>ID</TableHead>
-            <TableHead>Approval Status</TableHead>
+            <TableHead>Actions</TableHead> {/* Changed from "Approval Status" */}
           </TableRow>
         </TableHeader>
 
@@ -54,8 +55,10 @@ const page = () => {
               <TableCell>Software Eng.</TableCell>
               <TableCell>NSR/0055/12</TableCell>
               <TableCell>
-                <div className={`rounded-md px-5 py-2 text-sm ${getStatusColor(index % 2 === 0 ? 'approved' : 'pending')}`} style={{color: 'black'}}>
-                  {index % 2 === 0 ? 'Approved' : 'Pending'}
+                {/* Actions column */}
+                <div className="flex justify-center space-x-2">
+                  <Button className="bg-green-500 text-white rounded-md px-3 py-1">Approve</Button>
+                  <Button className="bg-red-500 text-white rounded-md px-3 py-1">Reject</Button>
                 </div>
               </TableCell>
             </TableRow>
@@ -66,4 +69,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

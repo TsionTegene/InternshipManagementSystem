@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Form, FormField, FormControl, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {registerUser, useUniversityActions} from "@/hooks/useUniversityActions"
+import { useAdvisorData } from "@/hooks/useUniversityActions"
 import { useRouter } from 'next/navigation';
-
+import useDepartmentStore from "@/stores/department.store";
 const formSchema = z.object({
   email: z.string().email({
     message: "Invalid email address.",
@@ -36,7 +36,10 @@ const formSchema = z.object({
 
 export default function RegistrationForm() {
   const [loading, setLoading] = useState(false);
-  const {addUser} = registerUser()
+  const dpID = localStorage.getItem("depId")
+
+  const depid = useDepartmentStore((state:any) => state.departmentId)
+  const { addUser } = useAdvisorData()
 const router = useRouter()
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -57,10 +60,11 @@ const router = useRouter()
         // Append other fields as usual
         formData.append(field, formValues[field]);
       }
-      router.push("/UniversityAdmin/staff")
+      //router.push("")
 
     }
-  
+    // formData.append("depid", dpID as string);
+
     //@ts-ignore  
      for (let pair of formData.entries()) {
           console.log(pair[0], pair[1]);
@@ -73,7 +77,7 @@ const router = useRouter()
   return (
     <Card className="mx-auto max-w-lg my-10">
       <CardHeader>
-        <CardTitle className="text-xl">Advisor Registration</CardTitle>
+        <CardTitle className="text-xl">User Registration</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>

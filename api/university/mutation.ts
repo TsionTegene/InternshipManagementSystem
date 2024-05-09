@@ -111,3 +111,19 @@ export async function updateDepartment(formData: FormData,id:string) {
     throw error; // Re-throw for potential handling in calling code
   }
 }
+
+export async function createAdvisor(formData: any,id:string) {
+  const url = `${api}head/addAdvisor/${id}`
+
+  try {
+    const response = await axios.post(url, formData, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+
+    return response.data;
+  } catch (error) {
+    console.error('Error creating Advisor:', error);
+    throw error; // Re-throw for potential handling in calling code
+  }
+}

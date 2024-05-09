@@ -1,5 +1,5 @@
 import { registerStudent } from "@/api/student/mutations";
-import { fetchStudentsByCompanyId } from "@/api/student/queries";
+import { fetchStudentsByCompanyId, fetchStudentsByDepartmentId } from "@/api/student/queries";
 import { allStudentsInUniversity } from "@/api/student/queries";
 import { Query, useMutation, useQueries, useQuery } from "@tanstack/react-query";
 
@@ -24,6 +24,13 @@ export const useFetchAllStudents = (id: string) => {
     const query = useQuery({
         queryKey: ["student"],
         queryFn: () => allStudentsInUniversity(id),
+    })
+    return query;
+}
+export const useDepartmentStudents = (id: string) => {
+    const query = useQuery({
+        queryKey: ["student"],
+        queryFn: async () => await fetchStudentsByDepartmentId(id),
     })
     return query;
 }

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { createCollege, registerDepartment, registerUniversity, updateCollege, updateDepartment } from "@/api/university/mutation";
+import { createAdvisor, createCollege, registerDepartment, registerUniversity, updateCollege, updateDepartment } from "@/api/university/mutation";
 import { fetchCollegebyUnId, fetchCountUniversityStaffById, fetchDepartment, fetchUniversity, fetchUniversityById, fetchUniversitybyUserID, } from "@/api/university/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
 // using useQuery hook to fetch data from the server
@@ -108,4 +108,15 @@ export const useUserIDtoUniversity = (id: string) => {
         queryFn: () => fetchUniversitybyUserID(id)
     })
     return query;
+}
+
+export const useAddAdvisor = (id:string) => {
+    const mutation = useMutation({
+        mutationKey: ["head"],
+        mutationFn: (formData: FormData) => createAdvisor(formData,id),
+
+    })
+
+
+    return mutation
 }
