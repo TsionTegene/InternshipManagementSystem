@@ -2,6 +2,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { ICompanyRegistrationForm } from "./type";
 import Router from 'next/router';
+const api = process.env.NEXT_PUBLIC_API
 
 export async function registerCompany(formData: FormData) {
     // const url = 'https://web-based-internship-management-system-5.onrender.com/auth/register/company';
@@ -22,4 +23,15 @@ export async function registerCompany(formData: FormData) {
       .then((data) => console.log(data))
       .catch((error) => console.error("Error:", error));
 
+}
+
+export async function addMentor(formValues: any) {
+  const url = `${api}users/mentor`
+
+  try {
+    const response = await axios.post(url, formValues)
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
 }

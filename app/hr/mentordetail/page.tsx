@@ -1,75 +1,391 @@
-import React from 'react';
-import { FaUser } from 'react-icons/fa';
-import { FiMessageCircle } from 'react-icons/fi';
+"use client";
+
+import { Button } from "@/components/ui/button";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
+  DialogTrigger,
+  DialogTitle,
+  DialogDescription,
+  DialogHeader,
+  DialogFooter,
+  DialogContent,
+  Dialog,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
   TableHead,
   TableRow,
-  Paper
-} from '@mui/material';
+  TableHeader,
+  TableCell,
+  TableBody,
+  Table,
+} from "@/components/ui/table";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { EyeIcon, EyeOffIcon, Phone } from "lucide-react";
+import { useState } from "react";
+import { useAddMentor, useFindMentorsByCompanyId } from "@/hooks/useCompanyActions";
 
-const Page = () => {
+const phoneValidation = new RegExp(
+  /^(?:(?:\+251|00?251)?\s?)?(?:(9\d{8})|([1-9]\d\s?\d{6}))$/
+);
+
+const formSchema = z
+  .object({
+    firstName: z.string().min(2, {
+      message: "First name must be at least 2 characters.",
+    }),
+    middleName: z.string().min(2, {
+      message: "Middle name must be at least 2 characters.",
+    }),
+    userName: z.string().min(2, {
+      message: "First name must be at least 2 characters.",
+    }),
+    email: z.string().min(2, {
+      message: "First name must be at least 2 characters.",
+    }),
+    password: z.string().min(6, {
+      message: "Password must be at least 6 characters.",
+    }),
+    confirm_password: z.string().min(6, {
+      message: "Rewrite the password.",
+    }),
+    phoneNum: z
+      .string()
+      .min(8, { message: "Must have at least 1 character" })
+      .max(15, { message: "Must have at most 15 characters" })
+      .regex(phoneValidation, { message: "invalid phone" }),
+  })
+  .refine((data) => data.password == data.confirm_password, {
+    message: "Passwords do not match",
+    path: ["confirm_password"],
+  });
+
+export default function Component() {
+  const {mentors, isMLoading, error, isMSuccess} =  useFindMentorsByCompanyId();
+  console.log(mentors)
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { addMentor, isLoading, isSuccess } = useAddMentor();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstName: "",
+      middleName: "",
+      userName: "",
+      email: "",
+      password: "",
+      confirm_password: "",
+      phoneNum: "",
+    },
+  });
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  const onInvalid = (errors: any) => console.error(errors);
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    const result = addMentor(values);
+    console.log(values);
+    form.reset();
+  }
   return (
-    <div>
-      <div className="bg-white shadow-md rounded-md p-3 mb-2 relative flex items-center">
-        <FiMessageCircle className="text-gray-500 text-3xl absolute top-2 right-2" />
+    <div className="w-full max-w-full mx-auto py-8 px-4 md:px-6">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">Mentor List</h1>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline">Add New Mentor</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-4xl">
+            <DialogHeader>
+              <DialogTitle>Add New Mentor</DialogTitle>
+              <DialogDescription>
+                Fill out the form to add a new mentor to the list.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit, onInvalid)}
+                  className="space-y-8"
+                >
+                  <div className="grid gap-5">
+                    <div className="grid grid-cols-2 gap-5">
+                      {/* First Name */}
+                      <FormField
+                        control={form.control}
+                        name="firstName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              First Name <span className="text-red-700">*</span>
+                            </FormLabel>
+                            <FormControl>
+                              <Input placeholder="First Name" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-        <FaUser className="text-gray-700 text-3xl mr-2" />
+                      {/* Phone Number */}
+                      <FormField
+                        control={form.control}
+                        name="phoneNum"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                              Phone Number{" "}
+                              <span className="text-red-700">*</span>
+                            </FormLabel>
+                            <FormControl>
+                              <div className="flex items-center gap-4">
+                                <Phone />
+                                <Input
+                                  {...field}
+                                  placeholder="(09)-123-45-678"
+                                />
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-        <div>
-          
-          <h3 className="text-lg font-semibold">Overall</h3>
+                      {/* Middle Name */}
+                      <FormField
+                        control={form.control}
+                        name="middleName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              Middle Name{" "}
+                              <span className="text-red-700">*</span>
+                            </FormLabel>
+                            <FormControl>
+                              <Input placeholder="Middle Name" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-          <p className="text-gray-600">Mr. Abebe K</p>
-        </div>
+                      {/* Email */}
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              Email <span className="text-red-700">*</span>
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                type="email"
+                                placeholder="Email"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Username */}
+                      <FormField
+                        control={form.control}
+                        name="userName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              User Name <span className="text-red-700">*</span>
+                            </FormLabel>
+                            <FormControl>
+                              <Input placeholder="Username" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      {/* Password field with toggle button */}
+                      <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              Password <span className="text-red-700">*</span>
+                            </FormLabel>
+                            <FormControl className="relative">
+                              <div className="flex items-center w-full">
+                                <Input
+                                  placeholder="Password"
+                                  type={showPassword ? "text" : "password"}
+                                  {...field}
+                                />
+                                <span
+                                  className={`absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer ${
+                                    showPassword
+                                      ? "text-blue-500"
+                                      : "text-gray-400"
+                                  }`}
+                                  onClick={togglePasswordVisibility}
+                                >
+                                  {showPassword ? (
+                                    <EyeIcon
+                                      className="h4 w-4"
+                                      aria-hidden="true"
+                                    />
+                                  ) : (
+                                    <EyeOffIcon
+                                      className="h4 w-4"
+                                      aria-hidden="true"
+                                    />
+                                  )}
+                                </span>
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      {/* Confirm Password field with toggle button */}
+                      <FormField
+                        control={form.control}
+                        name="confirm_password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Confirm Password</FormLabel>
+                            <FormControl className="relative">
+                              <div className="flex items-center w-full">
+                                <Input
+                                  placeholder="Confirm Password"
+                                  type={
+                                    showConfirmPassword ? "text" : "password"
+                                  }
+                                  {...field}
+                                />
+                                <span
+                                  className={`absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer ${
+                                    showConfirmPassword
+                                      ? "text-blue-500"
+                                      : "text-gray-400"
+                                  }`}
+                                  onClick={toggleConfirmPasswordVisibility}
+                                >
+                                  {/* Use pseudo-element for the icon */}
+                                  {showConfirmPassword ? (
+                                    <EyeIcon
+                                      className="h4 w-4"
+                                      aria-hidden="true"
+                                    />
+                                  ) : (
+                                    <EyeOffIcon
+                                      className="h4 w-4"
+                                      aria-hidden="true"
+                                    />
+                                  )}
+                                </span>
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <Button
+                      type="submit"
+                      className="w-full"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? (
+                        <>
+                          <svg
+                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              stroke-width="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                          Creating Account...
+                        </>
+                      ) : (
+                        "Create an account"
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
-
-      <div className="mt-4">
-        <div className="flex justify-between mb-2">
-          <div className="bg-white shadow-md rounded-md p-6 w-2/5 h-32 flex justify-center items-center">
-            <div className="text-center text-gray-700"> 
-              <h3 className="text-lg font-semibold">Students</h3>
-              <p className="text-gray-600">3</p>
-            </div>
-          </div>
-          <div className="bg-white shadow-md rounded-md p-6 w-2/5 h-32 flex justify-center items-center">
-            <div className="text-center text-gray-700">
-              <h3 className="text-lg font-semibold">Students</h3>
-              <p className="text-gray-600">3</p>
-            </div>
-          </div>
-        </div>
-
-        <TableContainer component={Paper} style={{ background: 'black' }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell style={{ color: 'white' }}>No.</TableCell>
-                <TableCell style={{ color: 'white' }}>Student</TableCell>
-                <TableCell style={{ color: 'white' }}>Advisor</TableCell>
-                <TableCell style={{ color: 'white' }}>Evaluation</TableCell>
-                <TableCell style={{ color: 'white' }}>Status</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {[...Array(7)].map((_, index) => (
-                <TableRow key={index} style={{ background: 'black' }}>
-                  <TableCell style={{ color: 'white' }}>{index + 1}</TableCell>
-                  <TableCell style={{ color: 'white' }}>Bereket</TableCell>
-                  <TableCell style={{ color: 'white' }}>Mr. Alazar</TableCell>
-                  <TableCell style={{ color: 'white' }}>20</TableCell>
-                  <TableCell style={{ color: 'white' }}>Completed</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+      <div className="border rounded-lg overflow-hidden">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Bio</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="font-medium">John Doe</TableCell>
+              <TableCell>john@example.com</TableCell>
+              <TableCell>
+                John is an experienced software engineer with a passion for
+                mentoring junior developers.
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium">Jane Smith</TableCell>
+              <TableCell>jane@example.com</TableCell>
+              <TableCell>
+                Jane is a UI/UX designer who loves helping others improve their
+                design skills.
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium">Bob Johnson</TableCell>
+              <TableCell>bob@example.com</TableCell>
+              <TableCell>
+                Bob is a seasoned project manager who can help you navigate the
+                complexities of software development.
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </div>
     </div>
   );
 }
-
-export default Page;

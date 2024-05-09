@@ -13,8 +13,17 @@ import useItemStore from '@/stores/selectedItem';
 
 
 const universityId = localStorage.getItem("universityId")
-const unID = universityId ? JSON.parse(universityId as string).universityId :null
-const dpID = localStorage.getItem("depId")
+let unID = null;
+
+if (universityId) {
+  try {
+    const parsedId = JSON.parse(universityId);
+    unID = parsedId.universityId; // Make sure the JSON structure has 'universityId' key
+  } catch (e) {
+    console.error("Error parsing universityId from localStorage:", e);
+    // Handle error or fallback here
+  }
+}
 
 export const useUniversityFetch = () => {
   const setUniversities = useUniversityStore(

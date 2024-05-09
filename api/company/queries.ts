@@ -24,8 +24,8 @@ export async function findCompanyByUserId(uId: string) {
 
     const responseData = await response.json();
     console.log("responseData: ", responseData[0]?.id)
-    return responseData[0]?.id;
-} 
+    return responseData[0]?.id;} 
+
 
 export async function fetchCompany() {
     
@@ -46,3 +46,22 @@ export async function fetchCompany() {
     console.log("responseData: ", responseData[0]?.id)
     return responseData[0]?.id;
 } 
+
+export async function findMentorsByCompanyId(cId: string) {
+    const url = `http://localhost:5000/mentor?companyId=${cId}`;
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    console.log("responseData: ", responseData)
+    return responseData;
+}

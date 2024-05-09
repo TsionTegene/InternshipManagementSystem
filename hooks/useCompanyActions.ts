@@ -1,5 +1,5 @@
 import { registerCompany } from "@/api/company/mutations";
-import { useCompanyData, useCompanySignup } from "@/queries/useCompanyQueries";
+import { useCompanyData, FindCompanyByUserId, useCompanySignup, useFindMentorByCId, useMentorSignup } from "@/queries/useCompanyQueries";
 import { useCompanyStore } from "@/stores/company.store";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -53,3 +53,40 @@ export function useCompanyActions() {
         
 //     })
 // }
+
+export function useAddMentor() {
+    const { data, error, isPending, isSuccess, isError, mutate } = useMentorSignup();
+    const [mentor, setMentor] = useState<any | null>(null);
+    const userId = localStorage.getItem('userId'); // Consider using context or props for better practices
+    const { data: companyId } = FindCompanyByUserId(userId);
+    console.log("company Id: ", companyId);
+
+    const addMentor = async (formValues: any) => {
+        const data = {companyId: companyId, ...formValues};
+        setMentor(data);
+        const result = await mutate(data);
+        console.log("mentor: ", result);    
+    }
+    return {
+        addMentor,
+        isLoading: isPending,
+        error,
+        isSuccess,
+    }
+}
+
+export function useFindMentorsByCompanyId() {
+    const [mentors, setMentors] = useState<any | null>(null);
+    const userId = localStorage.getItem('userId'); // Consider using context or props for better practices
+    const { data: companyId } = FindCompanyByUserId(userId);
+    console.log("company Id: ", companyId);
+    const data = useFindMentorByCId(companyId);
+
+    
+    return {
+        mentors: data.data,
+        isMLoading: data.isLoading,
+        error: data.error,
+        isMSuccess: data.isSuccess,
+    }
+}

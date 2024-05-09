@@ -9,3 +9,12 @@ export const useCompanyStore = create((set) => ({ // here we are creating a stor
   setIsError: (isError: boolean) => set({ isError }), // here we are updating the isError store with the isError boolean and isError is the parameter that is passed to this function from the component or react hook
   clearCompany: () => set({ company: {} }), // here we are clearing the company store by setting it to an empty object
 }));
+
+export const useMentor = create((set) => ({
+  mentor: {} as any,
+  setMentor: (mentor: any) => set({ mentor }),
+  isLoading: false,
+  setIsLoading: (isLoading: boolean) => set({ isLoading }),
+  isError: false,
+  setIsError: (isError: boolean) => set({ isError }),
+}))

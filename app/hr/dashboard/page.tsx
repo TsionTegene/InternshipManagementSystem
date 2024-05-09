@@ -9,27 +9,36 @@ import { CreditCard } from "lucide-react";
 import { Users } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import TableList from "@/components/Table/table";
 import { useFetchInternshipByCompanyId } from "@/hooks/useInternshipActions";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Dashboard() {
   const internship = useFetchInternshipByCompanyId();
   const internships = internship.data;
-  console.log(internships)
+  console.log(internships);
   const headers = [
-    { key: "customer", label: "Customer", className: "text-left" },
-    { key: "type", label: "Type", className: "hidden sm:table-cell" },
-    { key: "status", label: "Status", className: "hidden sm:table-cell" },
-    { key: "date", label: "Date", className: "hidden md:table-cell" },
-    { key: "amount", label: "Amount", className: "text-right" },
+    { key: "title", label: "Title", className: "text-left" },
+    {
+      key: "intenship_positions",
+      label: "Intenship Positions",
+      className: "hidden sm:table-cell",
+    },
+    {
+      key: "startDate",
+      label: "Start Date",
+      className: "hidden sm:table-cell",
+    },
+    { key: "endDate", label: "End Date", className: "hidden md:table-cell" },
+    { key: "compensations", label: "Compensations", className: "text-right" },
+    { key: "schedule", label: "Schedule", className: "text-right" },
   ];
 
   const data = [
@@ -123,7 +132,6 @@ export default function Dashboard() {
       label: "Application Date",
       className: "hidden md:table-cell",
     },
-    { key: "location", label: "Location", className: "text-right" },
   ];
 
   const internshipData = [
@@ -170,7 +178,18 @@ export default function Dashboard() {
   //   console.log("Internships: ", internships);
   // }, [internships])
   console.log("Internships: ", internships?.length);
-  const user = JSON.parse(localStorage.getItem("user") || "");
+  let user = null; // Default to null if no user data is available
+  const userString = localStorage.getItem("user");
+
+  if (userString) {
+    try {
+      user = JSON.parse(userString);
+    } catch (error) {
+      console.error("Error parsing user data:", error);
+      // Handle the error, perhaps reset/clear the localStorage item if it's corrupt
+    }
+  }
+
   console.log("This is from useEffect: ", user);
   const name = `${user?.firstName} ${user?.middleName}`;
   console.log(name);
@@ -197,22 +216,80 @@ export default function Dashboard() {
           ))}
         </div>
       </div>
-
-      {/* <div className="grid gap-4 md:gap-8 lg:grid-cols-2">
-        <DashboardTable
-          tableName="Orders Table"
-          tableDescription="Recent orders from your store."
-          data={data}
-          headers={headers}
-        /> */}
       <DashboardTable
         tableName="Internship Table"
         tableDescription="Posted Internship Applications."
         data={internshipData}
         headers={internshipHeaders}
       />
+
+      <div className="grid gap-4 md:gap-8">
+        <div className="border rounded-lg w-full">
+          <div className="relative w-full overflow-auto">
+            <Card className="transition duration-700 hover:bg-blue-100 hover:shadow-sm dark:hover:bg-gray-900">
+              <CardHeader>
+                <CardTitle>Opportunities Posted</CardTitle>
+                <CardDescription>Internship opportunities posted by your company.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Title</TableHead>
+                      <TableHead>Start Date</TableHead>
+                      <TableHead>End Date</TableHead>
+                      <TableHead>Compensation</TableHead>
+                      <TableHead>Schedule</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {internships?.map((internship: any, index: any) => (
+                      <TableRow key={index}>
+                        <TableCell>{internship.title}</TableCell>
+                        <TableCell>
+                          {new Date(internship.startDate).toLocaleDateString(
+                            "en-US",
+                            {
+                              weekday: "long",
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            }
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {new Date(internship.endDate).toLocaleDateString(
+                            "en-US",
+                            {
+                              weekday: "long",
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            }
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {internship.compensations
+                            .replace(/_/g, " ")
+                            .toLowerCase()
+                            .replace(/\b\w/g, (s: string) => s.toUpperCase())}
+                        </TableCell>
+                        <TableCell>
+                          {internship.schedule
+                            .replace(/_/g, " ")
+                            .toLowerCase()
+                            .replace(/\b\w/g, (s: string) => s.toUpperCase())}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
     </div>
-    // </div>
   );
 }
 

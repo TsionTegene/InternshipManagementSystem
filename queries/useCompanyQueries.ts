@@ -1,5 +1,5 @@
-import { registerCompany } from "@/api/company/mutations";
-import { fetchCompany } from "@/api/company/queries";
+import { addMentor, registerCompany } from "@/api/company/mutations";
+import { fetchCompany, findMentorsByCompanyId } from "@/api/company/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useCompanySignup = () => {
@@ -10,10 +10,27 @@ export const useCompanySignup = () => {
     return mutation;
 }
 
-export const useCompanyData = () => {
+export const FindCompanyByUserId = (userId: string | null) => {
     const query = useQuery({
-        queryKey: ["company"],
-        queryFn: async () => await fetchCompany(),
+        queryKey: ['findCompany'],
+        queryFn: () => findCompanyByUserId(userId as string),
     })
+    return query;
+}
+
+export const useMentorSignup = () => {
+    const mutation = useMutation({
+        mutationFn: (formData: any) => addMentor(formData),
+    })
+
+    return mutation;
+}
+
+export const useFindMentorByCId = (cId: string) => {
+    const query = useQuery({
+        queryKey: ['findMentorByCompanyId'],
+        queryFn: () => findMentorsByCompanyId(cId),
+    })
+
     return query;
 }
