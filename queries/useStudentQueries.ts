@@ -16,7 +16,7 @@ export const useStudentSignup = () => {
 
 export const useStudentsFilter = (id: string) => {
     const query = useQuery({
-        queryKey: ["students"], // this is the key that will be used to cache the data
+        queryKey: ["student"], // this is the key that will be used to cache the data
         queryFn: () => fetchStudentsByCompanyId(id)
     })
 }

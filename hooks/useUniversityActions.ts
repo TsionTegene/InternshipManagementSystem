@@ -2,7 +2,7 @@
 import { useEffect} from 'react';
 import { useUniversitySignup, useUniversityData, useUnivesityAddDepartment, useUnivesityAddCollege, usecollegeDatabyUnId, useDepartmentData, useUpdateCollege, useUpdatedepartment, useUniversityDataById, useCountUniversityStaff, useUserIDtoUniversity, useAddAdvisor } from '@/queries/useUniversityQueries';
 import useUniversityStore from '@/stores/university.store';
-import { useAllRoll, useAllUniversityMembers, useUpdatedUser, useUserRollNull, userigisteruser } from '@/queries/useUsersdata';
+import { useAllRoll, useAllUniversityMembers, useDeptAdvisorData, useUpdatedUser, useUserRollNull, userigisteruser } from '@/queries/useUsersdata';
 import useUserStore from '@/stores/user.store';
 import useDepartmentStore from '@/stores/department.store';
 import { useCollegeStore } from '@/stores/college.store';
@@ -295,12 +295,12 @@ export const useFilterDepartment = () => {
 
     fetchData();
   }, [
-    departmentData,
+    // departmentData,
     queryClient,
-    setError,
+    // setError,
     departmentData.isSuccess,
     departmentData.isLoading,
-    Error
+    // Error
   ])
 
   return {
@@ -554,9 +554,26 @@ export const useAdvisorData = () => {
   const univesrityId = useSessionStore((state) => state.universityID);
 
   const register_user = useAddAdvisor(dpID as string);
+  const advisor = useDeptAdvisorData(dpID as string)
 
 
-  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (advisor.isSuccess) {
+          setUser(advisor.data);
+        }
+        if (advisor.isLoading) {
+          setIsLoading(advisor.isLoading);
+        }
+      } catch (error) {
+        console.error("Error fetching College data:", error);
+        setError(error);
+      }
+    };
+
+    fetchData();
+  }, [advisor.isSuccess, advisor.isLoading])
   const addUser = async (userData: any) => {
     try {
       const newUser = await register_user.mutateAsync(userData);

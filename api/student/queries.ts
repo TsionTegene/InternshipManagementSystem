@@ -150,6 +150,6 @@ export async function allStudentsInUniversity(id: string) {
     }
   })
 
-  return response
+  return response.data
 
 }

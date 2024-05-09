@@ -7,8 +7,8 @@ import { CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {useStudentRegister} from '@/hooks/useStudentsActions'
 const Page = () => {
-  const {user,isSLoading,isSError } = useStudentRegister()
-
+  const {students,isSLoading,isSError } = useStudentRegister()
+  console.log(students)
   return (
     <CardContent>
       <div>
@@ -29,9 +29,9 @@ const Page = () => {
               {/* <TableHead>Action</TableHead> */}
             </TableRow>
           </TableHeader>
-          {Array.isArray(user) && user.length > 0 ? (
+          {Array.isArray(students) && students.length > 0 ? (
             <TableBody>
-              {user.map((student, index) => (
+              {students.map((student, index) => (
                 <TableRow key={student.id}>
                   <TableCell className="font-medium">{index + 1}</TableCell>
                   <TableCell>

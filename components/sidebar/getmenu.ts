@@ -11,7 +11,7 @@ export const getMenu = (role?: string | null) => {
                     ? mentor
                     : role === 'SYSTME_ADMIN'
                         ? systemadmin
-                        : role === 'DEPATMENT_HEAD'
+                        : role === 'DEPARTMENT_HEAD'
                             ? departmenthead
                             : role === 'UNIVERSITY_ADMIN'
                                 ? UniversityAdmin

@@ -42,3 +42,17 @@ export async function allUniversityUser(id:string) {
 
 }
 
+export async function fetchAdvisor(id: string) {
+    const url = `${api}head/advisor/${id}`
+
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+
+    return response.json()
+
+}
+

@@ -13,19 +13,19 @@ const dpID = localStorage.getItem("depId")
 // const dpID = depId ? :null
 // here we define the actions that we can perform on the students data
 export const useStudentRegister = () => {
-    const setUser = useUserStore((state: any) => state.setUser); // here we get the setUser function from the user store
-    const setIsLoading = useUserStore((state: any) => state.setIsLoading); // here we get the setIsLoading function from the user store
+    const setStudents = useStudentStore((state: any) => state.setStudents); // here we get the setUser function from the user store
+    const setIsLoading = useStudentStore((state: any) => state.setIsLoading); // here we get the setIsLoading function from the user store
     const setError = useUserStore((state: any) => state.setError); // here we get the setError function from the user store
-    const userId = useSessionStore((state) => state.userId)
-
-    const user = useUserStore((state: any) => state.user); // here we get the user data from the user store
+    // const userId = useSessionStore((state) => state.userId)
+    const students = useStudentStore((state: any) => state.students);
+    // const user = useUserStore((state: any) => state.user); // here we get the user data from the user store
     const signupStudent = useStudentSignup();
     const studentData = useFetchAllStudents(unID)
     useEffect(() => { // here we use the useEffect hook to fetch the user data from 
         const fetchData = async () => {
             try {
                 if (studentData.isSuccess) {
-                    setUser(studentData.data);
+                    setStudents(studentData.data);
                 }
                 if (studentData.isLoading) {
                     setIsLoading(true);
@@ -38,10 +38,10 @@ export const useStudentRegister = () => {
 
         fetchData();
 
-    }, [studentData.isSuccess, studentData.isPending, setUser, setIsLoading, setError]);
+    }, [studentData.isSuccess, studentData.isPending, setStudents, setIsLoading, setError]);
 
     return {
-        user,
+        students,
         signupStudent,
         isSLoading: signupStudent.isPending,
         isSError: signupStudent.isError,

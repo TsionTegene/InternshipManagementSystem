@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { fetchCollegebyUnId, registerUser, updateUser } from "@/api/user/mutations";
-import { allRole, allUniversityUser, fetchUserWithRoleNull } from "@/api/user/queries";
+import { allRole, allUniversityUser, fetchAdvisor, fetchUserWithRoleNull } from "@/api/user/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 
@@ -50,4 +50,14 @@ export const useUpdatedUser = (id: string) => {
 
 
   return mutation
+}
+
+export const useDeptAdvisorData = (id: string) => {
+
+  const query = useQuery({
+    queryKey: ["advisor"],
+    queryFn: () => fetchAdvisor(id)
+  })
+
+  return query;
 }
