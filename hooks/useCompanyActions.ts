@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { registerCompany } from "@/api/company/mutations";
-import { useCompanyData, FindCompanyByUserId, useCompanySignup, useFindMentorByCId, useMentorSignup } from "@/queries/useCompanyQueries";
+import { useCompanyData, FindCompanyByUserId, useCompanySignup, useMentorSignup, useFindMentorByCId } from "@/queries/useCompanyQueries";
 import { useCompanyStore } from "@/stores/company.store";
+import useMentorStore from "@/stores/mentors.store";
 import { useMutation } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function useCompanyActions() {
     const setCompany = useCompanyStore((state: any) => state.setCompany);
@@ -50,7 +52,7 @@ export function useCompanyActions() {
 //     const { data, error, isPending, isSuccess, isError, mutate } = useFindCompanyByUserId();
 //     const [companyId, setCompanyId] = useState<string | null>(null);
 //     useEffect(()=> {
-        
+
 //     })
 // }
 
@@ -62,10 +64,10 @@ export function useAddMentor() {
     console.log("company Id: ", companyId);
 
     const addMentor = async (formValues: any) => {
-        const data = {companyId: companyId, ...formValues};
+        const data = { companyId: companyId, ...formValues };
         setMentor(data);
         const result = await mutate(data);
-        console.log("mentor: ", result);    
+        console.log("mentor: ", result);
     }
     return {
         addMentor,
@@ -76,17 +78,21 @@ export function useAddMentor() {
 }
 
 export function useFindMentorsByCompanyId() {
-    const [mentors, setMentors] = useState<any | null>(null);
+    const setMentors = useMentorStore((state: any) => state.setMentors);
+    const setError = useMentorStore((state: any) => state.setError);
+    const setIsLoading = useMentorStore((state: any) => state.setIsLoading);
+    const mentors = useMentorStore((state: any) => state.mentors);
+
     const userId = localStorage.getItem('userId'); // Consider using context or props for better practices
     const { data: companyId } = FindCompanyByUserId(userId);
-    console.log("company Id: ", companyId);
+    console.log("company Id from findMentors: ", companyId);
     const data = useFindMentorByCId(companyId);
-
-    
-    return {
-        mentors: data.data,
-        isMLoading: data.isLoading,
-        error: data.error,
-        isMSuccess: data.isSuccess,
+    if (data.isSuccess) {
+        setMentors(data.data);
     }
+    if (data.isLoading) {
+        setIsLoading(data.isLoading);
+    }
+
+    return { mentors, isMLoading: data.isLoading, error: data.error}
 }

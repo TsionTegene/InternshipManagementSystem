@@ -49,7 +49,7 @@ export const hr = [
     icon: <FaWpforms />,
   },
   {
-    title: "New Application",
+    title: "Post New Opportunity",
     path: "/hr/newapplication",
     icon: <MdFiberNew />,
   },

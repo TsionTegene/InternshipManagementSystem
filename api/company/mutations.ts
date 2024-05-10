@@ -1,7 +1,6 @@
 // Implementing the mutations for the company entity using axios
 import axios, { AxiosResponse } from 'axios';
 import { ICompanyRegistrationForm } from "./type";
-import Router from 'next/router';
 const api = process.env.NEXT_PUBLIC_API
 
 export async function registerCompany(formData: FormData) {
@@ -14,7 +13,7 @@ export async function registerCompany(formData: FormData) {
     })
       .then((response) => {
         if (response.status === 403) {
-          Router.push("/403"); // Assuming you have a route set up for this page
+          // Assuming you have a route set up for this page
         } else if (!response.ok) {
           throw new Error("Failed to fetch");
         }

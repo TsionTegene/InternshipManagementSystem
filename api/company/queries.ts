@@ -48,7 +48,7 @@ export async function fetchCompany() {
 } 
 
 export async function findMentorsByCompanyId(cId: string) {
-    const url = `http://localhost:5000/mentor?companyId=${cId}`;
+    const url = `http://localhost:5000/company/mentors?companyId=${cId}`;
     const response = await fetch(url, {
         method: 'GET',
         headers: {

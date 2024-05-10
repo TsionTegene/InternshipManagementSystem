@@ -1,5 +1,13 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   DialogTrigger,
@@ -34,8 +42,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { EyeIcon, EyeOffIcon, Phone } from "lucide-react";
-import { useState } from "react";
-import { useAddMentor, useFindMentorsByCompanyId } from "@/hooks/useCompanyActions";
+import { useState, useEffect } from "react";
+import {
+  useAddMentor,
+  useFindMentorsByCompanyId,
+} from "@/hooks/useCompanyActions";
 
 const phoneValidation = new RegExp(
   /^(?:(?:\+251|00?251)?\s?)?(?:(9\d{8})|([1-9]\d\s?\d{6}))$/
@@ -73,8 +84,10 @@ const formSchema = z
   });
 
 export default function Component() {
-  const {mentors, isMLoading, error, isMSuccess} =  useFindMentorsByCompanyId();
-  console.log(mentors)
+  const { mentors, isMLoading } = useFindMentorsByCompanyId();
+  const mentor = mentors;
+
+  console.log("mentors:", mentor);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { addMentor, isLoading, isSuccess } = useAddMentor();
@@ -107,7 +120,6 @@ export default function Component() {
   return (
     <div className="w-full max-w-full mx-auto py-8 px-4 md:px-6">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Mentor List</h1>
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="outline">Add New Mentor</Button>
@@ -350,41 +362,64 @@ export default function Component() {
         </Dialog>
       </div>
       <div className="border rounded-lg overflow-hidden">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Bio</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell className="font-medium">John Doe</TableCell>
-              <TableCell>john@example.com</TableCell>
-              <TableCell>
-                John is an experienced software engineer with a passion for
-                mentoring junior developers.
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">Jane Smith</TableCell>
-              <TableCell>jane@example.com</TableCell>
-              <TableCell>
-                Jane is a UI/UX designer who loves helping others improve their
-                design skills.
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">Bob Johnson</TableCell>
-              <TableCell>bob@example.com</TableCell>
-              <TableCell>
-                Bob is a seasoned project manager who can help you navigate the
-                complexities of software development.
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+        <Card className="transition duration-700 hover:bg-blue-100 hover:shadow-sm dark:hover:bg-gray-900">
+          <CardHeader>
+            <CardTitle>Mentor List</CardTitle>
+            <CardDescription>
+              Emloyers added to mentor interns by your company.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Username</TableHead>
+                  <TableHead>Phone Number</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {isMLoading ? (
+                  <div className="flex min-w-full p-10 justify-center items-center">
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    <p>Loading...</p>
+                  </div>
+                ) : (
+                  mentors?.map((mentor: any, index: any) => (
+                    <TableRow key={index}>
+                      <TableCell>
+                        {mentor.user.firstName} {mentor.user.middleName}
+                      </TableCell>
+                      <TableCell>{mentor.user.email}</TableCell>
+                      <TableCell>{mentor.user.userName}</TableCell>
+                      <TableCell>{mentor.user.phoneNum}</TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

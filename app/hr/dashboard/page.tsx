@@ -19,8 +19,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useFindMentorsByCompanyId } from "@/hooks/useCompanyActions";
 
 export default function Dashboard() {
+  const { mentors } = useFindMentorsByCompanyId();
   const internship = useFetchInternshipByCompanyId();
   const internships = internship.data;
   console.log(internships);
@@ -102,9 +104,9 @@ export default function Dashboard() {
       icon: <CreditCard className="h-4 w-4 text-muted-foreground" />,
     },
     {
-      cardName: "Enrolled Interns",
-      cardDescription: "4 from last year",
-      cardValue: 10,
+      cardName: "Total Mentors",
+      cardDescription: "Number of Emloyees assigned as mentors",
+      cardValue: mentors?.length,
       icon: <Users className="h-4 w-4 text-muted-foreground" />,
     },
     {
