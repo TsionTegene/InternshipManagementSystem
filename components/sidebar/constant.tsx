@@ -178,6 +178,24 @@ export const departmenthead = [
   },
 ];
 
+export const advisor = [
+  {
+    title: "Evaluate",
+    path: "/advisor/evaluate",
+    icon: <FaLightbulb />,
+  },
+  {
+    title: "Reports",
+    path: "/advisor/report",
+    icon: <FaTasks />,
+  },
+  {
+    title: "Students",
+    path: "/advisor/students",
+    icon: <PiStudentFill />,
+  },
+];
+
 export const UniversityAdmin = [
   {
     title: "Dashboard",

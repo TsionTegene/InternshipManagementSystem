@@ -9,7 +9,7 @@ import Footer from "@/components/footer";
 // import Navbar from "@/components/home/Navbar";
 // import Footer from "@/components/home/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], weight: "400" });
 const roboto = Roboto({ subsets: ["latin"], weight: "400" });
 
 const queryClient = new QueryClient();

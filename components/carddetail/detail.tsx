@@ -11,6 +11,18 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useRouter } from "next/navigation";
 
 interface isDetail {
   imageUrl: string;
@@ -48,6 +60,8 @@ const cardDetail = ({
   btn,
   field,
 }: isDetail) => {
+    const router = useRouter();
+
   return (
     <Card className="bg-blue-50 dark:bg-gray-900 m-3">
       <CardHeader className="pb-2">
@@ -179,9 +193,23 @@ const cardDetail = ({
         )}
         <div className="flex justify-center items-center p-2 ">
           {btn && (
-            <Button className="w-1/2 dark:bg-blue-950 dark:text-white hover:bg-blue-950 dark:hover:bg-blue-700 rounded-xl">
-              {btn}
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger className="w-1/2 p-2 rounded-md dark:bg-blue-950 dark:text-white hover:bg-blue-950 dark:hover:bg-blue-700">
+                {btn}
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    You are about to apply for this specific internship.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={()=>router.push('/student/internshipopportunities')}>Continue</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           )}
         </div>
       </CardContent>
