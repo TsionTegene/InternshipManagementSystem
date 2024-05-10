@@ -11,6 +11,7 @@ import Footer from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({ subsets: ["latin"], weight: "400" });
+
 const queryClient = new QueryClient();
 
 export const metadata = {
@@ -25,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className}`}>
+      <body className={`${roboto.className}`}>
         <ReactQueryProvider>
           <ThemeProvider
             attribute="class"

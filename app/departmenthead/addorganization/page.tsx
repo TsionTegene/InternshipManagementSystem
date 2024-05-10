@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -12,10 +13,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
-import {useCompanyActions} from "@/hooks/useCompanyActions";
+import { useCompanyActions } from "@/hooks/useCompanyActions";
 export default function Component() {
   const [searchQuery, setSearchQuery] = useState("");
-  const {company} = useCompanyActions()
+  const { company } = useCompanyActions();
 
   // Sample company data
   const companies = [
@@ -83,18 +84,16 @@ export default function Component() {
       <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-3 lg:grid-cols-1 gap-6">
         {company?.map((company) => (
           <div
-         
             key={company.name}
             className="bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden"
           >
             <div className="flex items-center justify-between px-4 py-3 bg-gray-100 dark:bg-gray-800">
-              Company  Name :
+              Company Name :
               <h3 className="text-lg font-semibold">{company.name}</h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <Button >Add</Button>
+                <Button>Add</Button>
                 <Button>Remove</Button>
-             </div>
-
+              </div>
             </div>
             <div className="p-4">
               <div className="flex items-center space-x-4 mb-4">
@@ -112,16 +111,16 @@ export default function Component() {
                 />
               </div>
               <p className="text-gray-500 dark:text-gray-400 mb-2">
-                  {"Address: "+company.address.city}
-                </p>
-              <p className="text-gray-700 dark:text-gray-300 mb-2">
-                {"Area: "+company.industry}
+                {"Address: " + company.address.city}
               </p>
               <p className="text-gray-700 dark:text-gray-300 mb-2">
-                {"Email: "+company.email}
+                {"Area: " + company.industry}
               </p>
               <p className="text-gray-700 dark:text-gray-300 mb-2">
-                {"Website: "+company.website}
+                {"Email: " + company.email}
+              </p>
+              <p className="text-gray-700 dark:text-gray-300 mb-2">
+                {"Website: " + company.website}
               </p>
             </div>
           </div>
