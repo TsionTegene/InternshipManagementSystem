@@ -47,7 +47,7 @@ const Page = () => {
                     {student.user.userName}
                   </TableCell>
                   <TableCell>
-                    {student?.Department?.name || "null"}
+                    {student?.department?.name || "null"}
                   </TableCell>
                   <TableCell>
                     {student.year}

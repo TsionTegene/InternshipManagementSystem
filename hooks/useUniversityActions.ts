@@ -304,7 +304,7 @@ export const useFilterDepartment = () => {
 
     fetchData();
   }, [
-    // departmentData,
+    departmentData,
     queryClient,
     // setError,
     departmentData.isSuccess,
@@ -319,8 +319,6 @@ export const useFilterDepartment = () => {
     Error,
   };
 };
-
-
 
 export const useDepartment = () => {
   const setDepartment = useDepartmentStore(

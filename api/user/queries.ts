@@ -56,3 +56,33 @@ export async function fetchAdvisor(id: string) {
 
 }
 
+export async function countAdvisor(id: string) {
+    const url = `${api}head/countadvisor/${id}`
+
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+
+    return response.json()
+
+}
+
+//get the list of students assigned to the advisor with there report.
+export async function advisorStudents(id: string) {
+    const url = `${api}student/advisorstd/${id}`
+
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+
+    return response.json()
+
+}
+
+

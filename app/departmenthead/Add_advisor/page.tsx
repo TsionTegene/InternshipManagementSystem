@@ -60,7 +60,7 @@ const router = useRouter()
         // Append other fields as usual
         formData.append(field, formValues[field]);
       }
-      //router.push("")
+      router.push("/departmenthead")
 
     }
     // formData.append("depid", dpID as string);

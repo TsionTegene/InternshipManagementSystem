@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -20,49 +20,35 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useStudentsFetchByDep } from "@/hooks/useStudentsActions";
+import { Input } from "@/components/ui/input";
 
 const page = () => {
-const {students} = useStudentsFetchByDep()
+const {students,isLoading} = useStudentsFetchByDep()
+  const [searchQuery, setSearchQuery] = useState("");
 
 useEffect(()=>{
   console.log("Students data",students)
-}, [students])
-  const studentList = [
-    {
-      id: "1",
-      name: "Bereket Tadele",
-      advisor: "To be assigned",
-      department: "Software Engineering",
-      organization: "App Div",
-    },
-    {
-      id: "2",
-      name: "Tsion Tegene",
-      advisor: "To be assigned",
-      department: "Software Engineering",
-      organization: "App Div",
-    },
-    {
-      id: "3",
-      name: "Abel Zeleke",
-      advisor: "To be assigned",
-      department: "Software Engineering",
-      organization: "App Div",
-    },
-    {
-      id: "4",
-      name: "Rebecca Asrat",
-      advisor: "To be assigned",
-      department: "Software Engineering",
-      organization: "App Div",
-    },
-  ];
+}, [students, isLoading])
+  const filteredCompanies = students?.filter(
+    (value) =>
+      value.user?.firstName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      value.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   return (
-    <div className="mb-2">
+    <div className="grid">
+      <div className="relative w-full max-w-md  mb-8 justify-end">
+        <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 dark:text-gray-400" />
+        <Input
+          className=" mb-3 pl-10 pr-4 py-2 rounded-md border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-900 dark:text-white"
+          placeholder="Search Students..."
+          type="search"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
       <Card className="transition duration-700 bg-blue-100 dark:bg-gray-950 hover:bg-blue-200 hover:shadow-sm dark:hover:bg-gray-900">
         <CardHeader>
           <CardTitle>Students</CardTitle>
-          <CardDescription>Click on the student's name to assign advisor to the student.</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -74,20 +60,20 @@ useEffect(()=>{
               </TableRow>
             </TableHeader>
             <TableBody>
-              {students.map((student, index) => (
+              {filteredCompanies.map((student, index) => (
                 <TableRow key={index}>
                   <TableCell style={{ listStyleType: "decimal" }}>
                     {" "}
                     <Link
-                      key={student.id}
-                      href={`/departmenthead/students/${student.id}`}
+                      key={student.user.id}
+                      href={`/departmenthead/students/${student?.user?.firstName}`}
                     >
-                      {student.user.firstName}
+                      {student.user.firstName}{" "+student.user.middleName}
                     </Link>{" "}
                   </TableCell>
-                  <TableCell>{student.advisor}</TableCell>
+                  <TableCell>{student.advisor?.user?.firstName}</TableCell>
                   <TableCell>
-                    {student.organization}
+                    {student.user.organization}
                   </TableCell>
                 </TableRow>
               ))}
@@ -98,5 +84,24 @@ useEffect(()=>{
     </div>
   );
 };
+function SearchIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  );
+}
 
 export default page;

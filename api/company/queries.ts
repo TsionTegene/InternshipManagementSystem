@@ -29,7 +29,7 @@ export async function findCompanyByUserId(uId: string) {
 
 export async function fetchCompany() {
     
-    const url = 'http://localhost:5000/company';
+    const url = `${api}company/data`;
     const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -41,7 +41,6 @@ export async function fetchCompany() {
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
-
     const responseData = await response.json();
     console.log("responseData: ", responseData[0]?.id)
     return responseData[0]?.id;
@@ -64,4 +63,35 @@ export async function findMentorsByCompanyId(cId: string) {
     const responseData = await response.json();
     console.log("responseData: ", responseData)
     return responseData;
+}
+
+
+
+export async function fetchDepCompany(id: string) {
+    const url = `${api}head/company/${id}`
+
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+
+    return response.json()
+
+}
+
+export async function countDepCompany(id: string) {
+    if (!id) {
+        return
+    }
+    const url = `${api}company/count/${id}`
+    const response = await axios.get(url, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+
+    return response.data
+
 }

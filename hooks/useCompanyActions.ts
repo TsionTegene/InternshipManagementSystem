@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { registerCompany } from "@/api/company/mutations";
-import { useCompanyData, FindCompanyByUserId, useCompanySignup, useMentorSignup, useFindMentorByCId } from "@/queries/useCompanyQueries";
+import { useCompanyData, FindCompanyByUserId, useCompanySignup, useDepCompany,useMentorSignup, useFindMentorByCId } from "@/queries/useCompanyQueries";
 import { useCompanyStore } from "@/stores/company.store";
 import useMentorStore from "@/stores/mentors.store";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+const dpID = localStorage.getItem("depId")
 
 export function useCompanyActions() {
     const setCompany = useCompanyStore((state: any) => state.setCompany);
@@ -47,6 +48,46 @@ export function useCompanyActions() {
         isSuccess: signUpCompany.isSuccess
     }
 }
+
+export function useDepCompanyActions() {
+    const setCompany = useCompanyStore((state: any) => state.setCompany);
+    const setIsLoading = useCompanyStore((state: any) => state.setIsLoading);
+    const setError = useCompanyStore((state: any) => state.setError);
+    const company = useCompanyStore((state: any) => state.company);
+
+    const companyData = useDepCompany(dpID as string);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (companyData.isSuccess) {
+                    setCompany(companyData.data);
+                }
+                if (companyData.isLoading) {
+                    setIsLoading(companyData.isLoading);
+                }
+            } catch (error) {
+                console.error("Error fetching College data:", error);
+                setError(error);
+            }
+        };
+
+        fetchData();
+    }, [
+        companyData.isSuccess,
+        companyData.isLoading,
+        setCompany,
+        setIsLoading,
+        setError,
+        companyData
+
+    ]);
+    return {
+        company,
+    
+    }
+}
+
 
 // export function useFindCompanyByUserId() {
 //     const { data, error, isPending, isSuccess, isError, mutate } = useFindCompanyByUserId();

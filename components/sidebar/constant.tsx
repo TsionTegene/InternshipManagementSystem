@@ -157,6 +157,11 @@ export const collegedean = [
 
 export const departmenthead = [
   {
+    title: "Dashboard",
+    path: "/departmenthead",
+    icon: <MdDashboard />,
+  },
+  {
     title: "Student",
     path: "/departmenthead/students",
     icon: <CgList />,
@@ -176,6 +181,24 @@ export const departmenthead = [
     path: "/departmenthead/addorganization",
     icon: <MdOutlineAddBusiness />,
   },
+  {
+    title: "Organizations",
+    path: "/departmenthead/Company",
+    icon: <FaUniversity />,
+
+  },
+  {
+    title: "Add Advisor",
+    path: "/departmenthead/Add_advisor",
+    icon: <User />,
+  },
+  {
+    title: "Assign Advisor",
+    path: "/departmenthead/assign_advisor",
+    icon: <User />,
+  },
+
+
 ];
 
 export const advisor = [

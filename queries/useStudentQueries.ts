@@ -1,5 +1,5 @@
 import { registerStudent } from "@/api/student/mutations";
-import { fetchStudentsByCompanyId, fetchStudentsByDepartmentId } from "@/api/student/queries";
+import { countApprovedStd, countToBeApprovedStd, fetchStudentsByCompanyId, fetchStudentsByDepartmentId, unvarifiedstd } from "@/api/student/queries";
 import { allStudentsInUniversity } from "@/api/student/queries";
 import { Query, useMutation, useQueries, useQuery } from "@tanstack/react-query";
 
@@ -29,8 +29,33 @@ export const useFetchAllStudents = (id: string) => {
 }
 export const useDepartmentStudents = (id: string) => {
     const query = useQuery({
-        queryKey: ["student"],
+        queryKey: ["Vstudent"],
         queryFn: async () => await fetchStudentsByDepartmentId(id),
+    })
+    return query;
+}
+
+export const useApproveStd = (id: string) => {
+    const query = useQuery({
+        queryKey: ["Nstudent"],
+        queryFn: async () => await unvarifiedstd(id),
+    })
+    return query;
+}
+
+
+export const useCountApprovedStd = (id: string) => {
+    const query = useQuery({
+        queryKey: ["castudent"],
+        queryFn: async () => await countApprovedStd(id),
+    })
+    return query;
+}
+
+export const useCountToBeApprovedStd = (id: string) => {
+    const query = useQuery({
+        queryKey: ["cistudent"],
+        queryFn: async () => await countToBeApprovedStd(id),
     })
     return query;
 }

@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 //import { useStudentSignup, useStudentsFilter } from "@/queries/useStudentQueries";
 import { useEffect } from "react";
-import { useDepartmentStudents, useFetchAllStudents, useStudentSignup } from "@/queries/useStudentQueries";
+import { useApproveStd, useDepartmentStudents, useFetchAllStudents, useStudentSignup } from "@/queries/useStudentQueries";
 import useSessionStore from "@/stores/sessionStore";
 import { useStudentStore } from "@/stores/student.store";
 import useUserStore from "@/stores/user.store";
+import { useQueryClient } from "@tanstack/react-query";
 
 const universityId = localStorage.getItem("universityId")
 const unID = universityId ?JSON.parse(universityId as string).universityId :null
@@ -26,6 +27,7 @@ export const useStudentRegister = () => {
             try {
                 if (studentData.isSuccess) {
                     setStudents(studentData.data);
+
                 }
                 if (studentData.isLoading) {
                     setIsLoading(true);
@@ -67,6 +69,8 @@ export const useStudentsFetchByDep = () => {
     const setIsLoading = useStudentStore((state: any) => state.setIsLoading);
     const setError = useStudentStore((state: any) => state.setError);
     const students = useStudentStore((state: any) => state.students);
+    const Error = useStudentStore((state: any) => state.error);
+    const isLoading = useStudentStore((state: any) => state.isLoading);
 
     const stdData = useDepartmentStudents(dpID as string)
     
@@ -92,10 +96,60 @@ export const useStudentsFetchByDep = () => {
         setIsLoading,
         setError,
         students,
+        isLoading,
+        stdData
     ]);
 
     return{
         students,
+        Error,
+        isLoading
+
+    }
+
+}
+
+export const useApproveStudents = () => {
+
+    const setStudents = useStudentStore((state: any) => state.setStudents);
+    const setIsLoading = useStudentStore((state: any) => state.setIsLoading);
+    const setError = useStudentStore((state: any) => state.setError);
+    const students = useStudentStore((state: any) => state.students);
+    const Error = useStudentStore((state: any) => state.error);
+    const isLoading = useStudentStore((state: any) => state.isLoading);
+
+    const stdData = useApproveStd(dpID as string)
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (stdData.isSuccess) {
+                    await setStudents(stdData.data);
+                    
+                }
+                if (stdData.isLoading) {
+                    setIsLoading(stdData.isLoading);
+                }
+            } catch (error) {
+                console.error("Error fetching university data:", error);
+                setError(error);
+            }
+        };
+
+        fetchData();
+    }, [
+        stdData.isSuccess,
+        setStudents,
+        setIsLoading,
+        setError,
+        students,
+        isLoading
+    ]);
+
+    return {
+        students,
+        Error,
+        isLoading
 
     }
 

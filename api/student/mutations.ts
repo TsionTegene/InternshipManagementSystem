@@ -49,3 +49,60 @@ export async function updateStudent(id: string, data: any) {
     return responseData;
   }
 }
+
+export async function approveStudent(id: string) {
+  const url = `${api}head/${id}/approve`;
+
+  const response = await axios.post(url, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+
+
+
+  const responseData = await response.data;
+  return responseData;
+}
+
+export async function rejectStudent(id: string) {
+  const url = `${api}head/${id}/reject`;
+
+  const response = await axios.post(url, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+
+
+
+  const responseData = await response.data;
+  return responseData;
+}
+
+export async function evaluateStudentByMentor(id: string, point:string) {
+  const url = `${api}student/evaluateByMentor/${id}/${point}`;
+
+  const response = await axios.patch(url, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+
+
+
+  const responseData = await response.data;
+  return responseData;
+}
+
+export async function evaluateStudentByAdvisor(id: string, point: string) {
+  const url = `${api}student/evaluateByAdvisor/${id}/${point}`;
+
+  const response = await axios.patch(url, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+
+
+
+  const responseData = await response.data;
+  return responseData;
+}
+

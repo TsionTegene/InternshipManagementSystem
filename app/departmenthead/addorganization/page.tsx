@@ -3,66 +3,29 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenuTrigger,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenu,
-} from "@/components/ui/dropdown-menu";
-import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
 import { useCompanyActions } from "@/hooks/useCompanyActions";
+import { addCompany} from "@/api/company/mutations";
+import { useRouter } from "next/navigation";
+
+const dpID = localStorage.getItem("depId");
+
 export default function Component() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const { company } = useCompanyActions();
 
-  // Sample company data
-  const companies = [
-    {
-      name: "Acme Inc.",
-      location: "New York, USA",
-      description:
-        "  Acme Inc. is a leading technology company that specializes in innovative software solutions.",
-    },
-    {
-      name: "Globex Corporation",
-      location: "San Francisco, USA",
-      description:
-        "  Globex Corporation is a multinational conglomerate that operates in various industries, including technology, finance, and energy.",
-    },
-    {
-      name: "Stark Industries",
-      location: "New York, USA",
-      description:
-        "Stark Industries is a leading defense contractor and technology company, known for its innovative products and advanced research.",
-    },
-    {
-      name: "INSA",
-      location: "New York, USA",
-      description:
-        "  Stark Industries is a leading defense contractor and technology company, known for its innovative products and advanced research.",
-    },
-    {
-      name: "Metatech Digital Consultancy",
-      location: "Addis Abeba, Ethiopia",
-      description:
-        "   Wayne Enterprises is a diversified multinational corporation with interests in various industries, including technology, aerospace,and real estate.",
-    },
-    {
-      name: "Wayne Enterprises",
-      location: "Gotham City, USA",
-      description:
-        "   Wayne Enterprises is a diversified multinational corporation with interests in various industries, including technology, aerospace,and real estate.",
-    },
-  ];
+  const add = (id: string) => {
+    addCompany(dpID as string, id);
+    router.push("/departmenthead/Company");
+  };
 
+  // Sample company data
   // Filter companies based on search query
-  const filteredCompanies = companies.filter(
-    (company) =>
-      company.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      company.location.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredCompanies = company.filter(
+    (value) =>
+      value.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      value.company?.email?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -82,50 +45,58 @@ export default function Component() {
       </div>
       {/* Display filtered companies */}
       <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-3 lg:grid-cols-1 gap-6">
-        {company?.map((company) => (
-          <div
-            key={company.name}
-            className="bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden"
-          >
-            <div className="flex items-center justify-between px-4 py-3 bg-gray-100 dark:bg-gray-800">
-              Company Name :
-              <h3 className="text-lg font-semibold">{company.name}</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <Button>Add</Button>
-                <Button>Remove</Button>
+        {Array.isArray(company) && company.length > 0 ? (
+          filteredCompanies.map((company) => (
+            <div
+              key={company.name}
+              className="max-w-fit bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden"
+            >
+              <div className="grid grid-cols-2 gap-3 items-center px-4 py-2 bg-gray-100 dark:bg-gray-800 justify-between">
+                <h3 className="text-lg font-semibold">{company?.name}</h3>
+                <div className="grid grid-cols-1 items-end sm:grid-cols-3 gap-4">
+                  <Button
+                    onClick={() => {
+                      add(company.id);
+                    }}
+                    className="bg-blue-500 col-span-1"
+                  >
+                    Add
+                  </Button>
+                </div>
+              </div>
+              <div className="p-4">
+                <div className="flex items-center space-x-4 mb-4">
+                  {/* Use appropriate company logo or image */}
+                  <Image
+                    alt="Acme Inc. Logo"
+                    className="rounded-md"
+                    height={48}
+                    src="/images/company.svg"
+                    style={{
+                      aspectRatio: "48/48",
+                      objectFit: "cover",
+                    }}
+                    width={48}
+                  />
+                </div>
+                <p className="text-gray-500 dark:text-gray-400 mb-2">
+                  {"Address: " + company?.address?.city}
+                </p>
+                <p className="text-gray-700 dark:text-gray-300 mb-2">
+                  {"Area: " + company?.industry}
+                </p>
+                <p className="text-gray-700 dark:text-gray-300 mb-2">
+                  {"Email: " + company?.email}
+                </p>
+                <p className="text-gray-700 dark:text-gray-300 mb-2">
+                  {"Website: " + company?.website}
+                </p>
               </div>
             </div>
-            <div className="p-4">
-              <div className="flex items-center space-x-4 mb-4">
-                {/* Use appropriate company logo or image */}
-                <Image
-                  alt="Acme Inc. Logo"
-                  className="rounded-md"
-                  height={48}
-                  src="/images/company.svg"
-                  style={{
-                    aspectRatio: "48/48",
-                    objectFit: "cover",
-                  }}
-                  width={48}
-                />
-              </div>
-              <p className="text-gray-500 dark:text-gray-400 mb-2">
-                {"Address: " + company.address.city}
-              </p>
-              <p className="text-gray-700 dark:text-gray-300 mb-2">
-                {"Area: " + company.industry}
-              </p>
-              <p className="text-gray-700 dark:text-gray-300 mb-2">
-                {"Email: " + company.email}
-              </p>
-              <p className="text-gray-700 dark:text-gray-300 mb-2">
-                {"Website: " + company.website}
-              </p>
-            </div>
-          </div>
-        ))}
-        {/* <Button>Add</Button> */}
+          ))
+        ) : (
+          <div>Empty</div>
+        )}
       </div>
     </section>
   );

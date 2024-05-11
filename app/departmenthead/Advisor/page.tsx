@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -9,74 +9,41 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import DashboardTable from "@/components/dashboard/Tables";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import {useAdvisorData} from '@/hooks/useUniversityActions'
+
+import { useAdvisorData } from "@/hooks/useUniversityActions";
 import { CardContent } from "@/components/ui/card";
-import { FaTrash } from "react-icons/fa";
+import { Input } from "@/components/ui/input";
+
 const page = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const { user } = useAdvisorData();
+  const filteredCompanies =
+    user && Array.isArray(user)
+      ? user.filter(
+        (value) =>
+          value.user?.firstName
+            ?.toLowerCase()
+            .includes(searchQuery.toLowerCase()) ||
+          value.user?.email
+            ?.toLowerCase()
+            .includes(searchQuery.toLowerCase())
+      )
+      : [];
 
-  const {user} = useAdvisorData();
-  const advisorHeaders = [
-    { key: "advisor", label: "Name", className: "text-left" },
-    {
-      key: "studentsAssigned",
-      label: "Students assigned",
-      className: "hidden sm:table-cell",
-    },
-    {
-      key: "phoneNumber",
-      label: "Phone Number",
-      className: "hidden md:table-cell",
-    },
-    {
-      key: "email",
-      label: "Email",
-      className: "hidden md:table-cell",
-    },
-  ];
-
-  const advisorData = [
-    {
-      advisor: "Emily Carter",
-      studentsAssigned: "20",
-      phoneNumber: "0909090909",
-      email: "xxx@gmail.com",
-      // className: "", // optional, for additional styling
-      // badgeVariant: "outline", // variant for the badge, assuming you use a badge to visualize status
-    },
-    {
-      advisor: "Robertson Carter",
-      studentsAssigned: "20",
-      phoneNumber: "0909090909",
-      email: "aaa@gmail.com",
-      // className: "bg-accent", // optional, for additional styling
-      // badgeVariant: "secondary",
-    },
-    {
-      advisor: "Millie Carter",
-      studentsAssigned: "20",
-      phoneNumber: "0909090909",
-      email: "yyy@gmail.com",
-      // className: "",
-      // badgeVariant: "outline",
-    },
-    {
-      advisor: "Carter Emmanuel",
-      studentsAssigned: "20",
-      phoneNumber: "0909090909",
-      email: "zzz@gmail.com",
-      // className: "bg-accent",
-      // badgeVariant: "outline",
-    },
-  ];
   return (
     <CardContent>
       <div>
         <h2 className="text-xl font-bold mb-4 text-center">Staff Members</h2>
+        <div className="relative w-full max-w-md  mb-8">
+          <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 dark:text-gray-400" />
+          <Input
+            className="justify-end mb-8 pl-10 pr-4 py-2 rounded-md border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-900 dark:text-white"
+            placeholder="Search Advisors..."
+            type="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
         <Table>
           <TableCaption></TableCaption>
 
@@ -87,44 +54,61 @@ const page = () => {
               <TableHead>Email</TableHead>
               <TableHead>Phone Number</TableHead>
               <TableHead>Role</TableHead>
+              <TableHead>Number of Students</TableHead>
+
               <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
-          {Array.isArray(user) && user.length > 0 ? (
-
-            <TableBody>
-              {user?.map((student, index) => (
+          <TableBody>
+            {filteredCompanies.length > 0 ? (
+              filteredCompanies.map((student, index) => (
                 <TableRow key={index}>
                   <TableCell>
-                    <img src={student.user?.profilePic} alt="Profile" className="w-12 h-12 rounded-full" />
+                    <img
+                      src={student.user?.profilePic}
+                      alt="Profile"
+                      className="w-12 h-12 rounded-full"
+                    />
                   </TableCell>
-                  <TableCell  >
-                    {student.user?.firstName}
-                  </TableCell>
-                  <TableCell>
-                    {student.user?.email}
-                  </TableCell>
-                  <TableCell>
-                    {student.user?.phoneNum}
-                  </TableCell>
+                  <TableCell>{student.user?.firstName}</TableCell>
+                  <TableCell>{student.user?.email}</TableCell>
+                  <TableCell>{student.user?.phoneNum}</TableCell>
                   <TableCell>{student.user?.roleName}</TableCell>
-                  <TableCell>
-                  
-                  </TableCell>
+                  <TableCell>{student.studentCount}</TableCell>
+
+                  <TableCell></TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          ) : (
-            <TableBody>
+              ))
+            ) : (
               <TableRow>
                 <TableCell colSpan={6}>No staffs found</TableCell>
               </TableRow>
-            </TableBody>
-          )}
+            )}
+          </TableBody>
         </Table>
       </div>
     </CardContent>
-  )
+  );
 };
+
+function SearchIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  );
+}
 
 export default page;

@@ -42,7 +42,26 @@ export async function fetchStudentsByCompanyId(id: string) {
 }
 
 export async function fetchStudentsByDepartmentId(id: string) {
-  const url = `${api}student/dep/${id}`;
+  const url = `${api}head/varified/${id}`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const responseData = await response.json();
+  return responseData;
+}
+
+export async function unvarifiedstd(id: string) {
+  const url = `${api}head/tovarify/${id}`;
 
   const response = await fetch(url, {
     method: 'GET',
@@ -144,6 +163,38 @@ export async function allStudentsInUniversity(id: string) {
     return
   }
   const url = `${api}student/${id}`
+  const response = await axios.get(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+
+  return response.data
+
+}
+
+export async function countApprovedStd(id: string) {
+  // to make it wait if the id is null, we can use the if statement
+  if (!id) {
+    return
+  }
+  const url = `${api}student/countvalid/${id}`
+  const response = await axios.get(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+
+  return response.data
+
+}
+
+export async function countToBeApprovedStd(id: string) {
+  // to make it wait if the id is null, we can use the if statement
+  if (!id) {
+    return
+  }
+  const url = `${api}student/countapprove/${id}`
   const response = await axios.get(url, {
     headers: {
       'Content-Type': 'application/json',

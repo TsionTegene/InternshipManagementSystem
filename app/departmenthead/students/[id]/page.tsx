@@ -141,8 +141,8 @@ const StudentDetailPage = ({ params }) => {
     { id: "4", name: "Tsion" },
   ];
   // const advisorOptions = ["Mr. Abebe", "Mr. John", "Ms. Emily", "Dr. Smith"];
-  const student = studentAdvisor.find((std) => std.id === params.id);
-  if (!student) {
+  // const student = studentAdvisor.find((std) => std.id === params.id);
+  if (!params) {
     return <div>Student not found</div>;
   }
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -161,9 +161,9 @@ const StudentDetailPage = ({ params }) => {
   }
 
   return (
-    <div key={student.id}>
+    <div key={"4543"}>
       <StudentsDetail
-        name={student.name}
+        name={params}
         advisor={
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
