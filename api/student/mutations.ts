@@ -1,29 +1,30 @@
-import axios from 'axios';
-const api = process.env.NEXT_PUBLIC_API
+import axios from "axios";
+const api = process.env.NEXT_PUBLIC_API;
 
-console.log(api)
+console.log(api);
 export async function registerStudent(formData: FormData) {
-  // console.log("student data: ",formData)
+  console.log("student data: ", formData);
   // const url = 'https://web-based-internship-management-system-5.onrender.com/auth/register/student';
-  const url = `${api}auth/register/student`; 
-  console.log('skills', formData.get('skills'))
+  const url = `${api}auth/register/student`;
+  for (const pair of formData.entries()) {
+    console.log(pair[0], pair[1]);
+  }
   await fetch(url, {
-    method: 'POST',
+    method: "POST",
     body: formData,
   })
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
-      return response.json() // or .text() if the response is plain text
+      return response.json(); // or .text() if the response is plain text
     })
-    .then(data => {
-      console.log('Success:', data);
+    .then((data) => {
+      console.log("Success:", data);
     })
-    .catch(error => {
-      console.error('Error:', error);
+    .catch((error) => {
+      console.error("Error:", error);
     });
-
 }
 
 export async function updateStudent(id: string, data: any) {
@@ -32,20 +33,19 @@ export async function updateStudent(id: string, data: any) {
   if (typeof window !== "undefined") {
     const accessToken = localStorage.getItem("access_token");
     const response = await fetch(url, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(data),
     });
-    
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
+
     const responseData = await response.json();
     return responseData;
   }
 }
-

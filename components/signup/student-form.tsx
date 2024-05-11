@@ -22,7 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -43,7 +43,12 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useUniversityActions, useDepartment, useFilterDepartment, useUniversityFetch } from "@/hooks/useUniversityActions";
+import {
+  useUniversityActions,
+  useDepartment,
+  useFilterDepartment,
+  useUniversityFetch,
+} from "@/hooks/useUniversityActions";
 import { Textarea } from "@/components/ui/textarea";
 import { TbSquareRoundedPlus } from "react-icons/tb";
 import { PiDeviceTabletSpeakerFill } from "react-icons/pi";
@@ -64,9 +69,9 @@ const formSchema = z
     universityName: z.string().min(2, {
       message: "Enter your university.",
     }),
-    departmentName: z.string().min(2, {
-      message: "Enter your department.",
-    }),
+    // departmentName: z.string().min(2, {
+    //   message: "Enter your department.",
+    // }),
     userName: z.string().min(2, {
       message: "Username must be at least 2 characters.",
     }),
@@ -109,20 +114,21 @@ export function StudentForm() {
   const setselectedItemID = useItemStore(
     (state: any) => state.setSelectedItemID
   );
-    const selectedItemID = useItemStore(
-      (state: any) => state.selectedItemID
-  );
-  const { signupStudent, isSLoading, isSError, isSSuccess } = useStudentRegister();
+  const selectedItemID = useItemStore((state: any) => state.selectedItemID);
+  const { signupStudent, isSLoading, isSError, isSSuccess } =
+    useStudentRegister();
   const { universities, error, isLoading } = useUniversityFetch();
   // const { departments, isDLoading, isDError } = useDeparmentData();
-  const {departments, isLoading: Dloading, departmentData,Error} = useFilterDepartment()
+  const {
+    departments,
+    isLoading: Dloading,
+    departmentData,
+    Error,
+  } = useFilterDepartment();
   const skillsInput = () => {
-
-    
     const input = document.getElementById("skillsArray") as HTMLInputElement;
     input.value = input.value.trim();
     if (input.value == "") return;
-
 
     if (skills.includes(input.value)) {
       input.value = "";
@@ -157,9 +163,11 @@ export function StudentForm() {
     console.log("formValues: ", formValues);
     const formData = new FormData();
     for (const field in formValues) {
-      if (field == "confirm_password") continue;
+      if (field == "confirm_password" || field == "image" || field == "resume")
+        continue;
       console.log(field, formValues[field]);
       formData.append(field, formValues[field]);
+      // console.log(formData.getAll(field))
     }
 
     skills.forEach((skill: string) => {
@@ -168,15 +176,15 @@ export function StudentForm() {
     });
 
     if (profileImg) {
-      // console.log("image: ", profileImg);
+      console.log("image: ", profileImg);
       formData.append("image", profileImg);
     }
     if (resume) {
-      // console.log("Resume", resume);
+      console.log("Resume", resume);
       formData.append("resume", resume);
     }
     // formData.append("universityName", selectedItemID)
-    console.log("Form Data: ", formData)
+    console.log("Form Data: ", formData.getAll("skills"));
 
     const student = signupStudent;
 
@@ -188,7 +196,7 @@ export function StudentForm() {
       router.push("/login");
     }
   };
-  useEffect(() => { }, [universities, departments])
+  useEffect(() => {}, [universities, departments]);
   return (
     <Card className="mx-auto max-w-4xl my-10 shadow-2xl rounded-lg overflow-hidden">
       <CardHeader>
@@ -343,32 +351,30 @@ export function StudentForm() {
                             <Select
                               onValueChange={async (value) => {
                                 field.onChange(value);
-                                setselectedItemID(value)
-                                console.log("main value", value)
-                               departmentData
+                                setselectedItemID(value);
+                                console.log("main value", value);
+                                departmentData;
                               }}
                               aria-label="Select University"
                             >
                               <SelectTrigger>
                                 <SelectValue placeholder="Select University" />{" "}
                               </SelectTrigger>
-                              {Array.isArray(universities) && universities.length > 0 ? (
-
-                              <SelectContent>
-                                {universities &&
-                                universities?.map((university: any) => (
-                                  <SelectItem
-                                    key={university.id}
-                                    value={university.id}
-                                    >
-                                    {university.name}
-                                  </SelectItem>
-                                )) }
-                              </SelectContent>
+                              {Array.isArray(universities) &&
+                              universities.length > 0 ? (
+                                <SelectContent>
+                                  {universities &&
+                                    universities?.map((university: any) => (
+                                      <SelectItem
+                                        key={university.id}
+                                        value={university.id}
+                                      >
+                                        {university.name}
+                                      </SelectItem>
+                                    ))}
+                                </SelectContent>
                               ) : (
-                            
-                                  <div>No University found</div>
-                            
+                                <div>No University found</div>
                               )}
                             </Select>
                           )}
@@ -418,7 +424,7 @@ export function StudentForm() {
                 />
 
                 {/* Department */}
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="departmentName"
                   render={({ field }) => (
@@ -439,7 +445,7 @@ export function StudentForm() {
                                 <SelectValue placeholder="Select Department" />{" "}
                               </SelectTrigger>
                               <SelectContent>
-                              {departments?.map((department: any) => (
+                                {departments?.map((department: any) => (
                                   <SelectItem
                                     key={department.id}
                                     value={department.id}
@@ -449,13 +455,13 @@ export function StudentForm() {
                                 ))}
                               </SelectContent>
                             </Select>
-  )}
+                          )}
                         </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
                 {/* Year */}
                 <FormField
                   control={form.control}
