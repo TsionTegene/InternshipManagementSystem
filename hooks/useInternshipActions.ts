@@ -38,5 +38,5 @@ export const useFetchInternshipByCompanyId = () => {
         setInternships(posted_internships.data);
     }
 
-    return posted_internships;
+    return {internships, isILoading: posted_internships.isPending, error: posted_internships.error};
 }

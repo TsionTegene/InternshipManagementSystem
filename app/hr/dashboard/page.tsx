@@ -24,8 +24,7 @@ import { Badge } from "@/components/ui/badge";
 
 export default function Dashboard() {
   const { mentors } = useFindMentorsByCompanyId();
-  const internship = useFetchInternshipByCompanyId();
-  const internships = internship.data;
+  const {internships, isILoading } = useFetchInternshipByCompanyId();
   console.log(internships);
   const { applications, isLoading } =
     useFetchApplicationsByCompanyId();

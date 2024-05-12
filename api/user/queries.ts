@@ -56,6 +56,22 @@ export async function fetchAdvisor(id: string) {
 
 }
 
+export async function fetchMentor(id: string) {
+    const url = `${api}users/mentor/${id}`
+
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+
+    const responseData = await response.json();
+    console.log("responseData: ", responseData[0]?.id)
+    return responseData?.id;
+
+}
+
 export async function countAdvisor(id: string) {
     const url = `${api}head/countadvisor/${id}`
 

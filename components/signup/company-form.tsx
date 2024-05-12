@@ -64,7 +64,7 @@ const formSchema = z
       region: z.string().min(2),
       subcity: z.string().min(2),
     }),
-    logo: z.optional(z.string().min(1)), // Optional profile picture field
+    companyLogo: z.optional(z.string().min(1)), // Optional profile picture field
     image: z.optional(z.string().min(1)), // Optional profile picture field
   })
   .refine((data) => data.HRPassword == data.confirm_password, {
@@ -90,8 +90,8 @@ export function CompanyForm() {
   const toggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
-  
-  const {signUpCompany, isLoading, isSuccess} = useCompanyActions();
+
+  const { signUpCompany, isLoading, isSuccess } = useCompanyActions();
   useEffect(() => {
     if (isSuccess) {
       router.push("/login");
@@ -102,45 +102,45 @@ export function CompanyForm() {
     resolver: zodResolver(formSchema),
   });
 
-  const company = signUpCompany
-    const onSubmit = async (formValues: any) => {
-      const formData = new FormData();
-
-      for (const field in formValues) {
-        // Check if the field is the "address" object
-        if (field === "address") {
-          const addressObj = formValues[field];
-          // Iterate over the keys in the "address" object
-          for (const nestedField in addressObj) {
-            // Append each nested field with its value to the formData
-            formData.append(`address[${nestedField}]`, addressObj[nestedField]);
-          }
-        } else if (field === "image") {
-          if (profileImg) {
-            formData.append("image", profileImg);
-          }
-        } else if (field === "logoImg") {
-          if (logoImg) {
-            formData.append("logo", logoImg);
-          }
-        } else {
-          // Append other fields as usual
-          formData.append(field, formValues[field]);
+  const company = signUpCompany;
+  const onSubmit = async (formValues: any) => {
+    const formData = new FormData();
+    for (const field in formValues) {
+      // Check if the field is the "address" object
+      if (field === "address") {
+        const addressObj = formValues[field];
+        // Iterate over the keys in the "address" object
+        for (const nestedField in addressObj) {
+          // Append each nested field with its value to the formData
+          formData.append(`address[${nestedField}]`, addressObj[nestedField]);
         }
+      } else if (field === "image") {
+        if (profileImg) {
+          formData.append("image", profileImg);
+        }
+      } else if (field === "companyLogo") {
+        if (logoImg) {
+          console.log(logoImg);
+          formData.append("logo", logoImg);
+        }
+      } else {
+        // Append other fields as usual
+        formData.append(field, formValues[field]);
       }
+    }
 
-      //@ts-ignore
-      for (let pair of formData.entries()) {
-        console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
-      }
-      console.log(formData.get("logo"));
-      const tokens = company.mutate(formData)
-      if(isSuccess){ 
-        console.log(tokens)
-        console.log("Company Registered Successfully");
-        router.push("/login");
-      }
-    };
+    //@ts-ignore
+    for (let pair of formData.entries()) {
+      console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
+    }
+    console.log(formData.getAll("logo"));
+    const tokens = company.mutate(formData);
+    if (isSuccess) {
+      console.log(tokens);
+      console.log("Company Registered Successfully");
+      router.push("/login");
+    }
+  };
 
   return (
     <Card className="mx-auto max-w-4xl my-10 shadow-2xl rounded-lg overflow-hidden">
@@ -444,7 +444,7 @@ export function CompanyForm() {
                 />
                 <FormField
                   control={form.control}
-                  name="logo"
+                  name="companyLogo"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Company Logo</FormLabel>
@@ -456,6 +456,7 @@ export function CompanyForm() {
                               id="file-custome-input"
                               onChange={(e) => {
                                 if (e.target.files) {
+                                  console.log(e.target.files[0]);
                                   setSelectedLogo(e.target.files[0].name);
                                   setLogoImg(e.target.files[0]);
                                 }
@@ -491,33 +492,33 @@ export function CompanyForm() {
               </div>
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? (
-                  <>
-                    <svg
-                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    Creating Account...
-                  </>
-                ) : (
-                  "Create an account"
-                )}
+              {isLoading ? (
+                <>
+                  <svg
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Creating Account...
+                </>
+              ) : (
+                "Create an account"
+              )}
             </Button>
             <div className="mt-4 text-center text-sm">
               Already have an account?{" "}

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function filterInternships(query: any) {
-    const url = 'http://localhost:5000/internship?filter=${query}';
+    const url = `http://localhost:5000/internship/company/${query}`;
     const internships = await axios.get(url, {
         headers: {
             'Content-Type': 'application/json',

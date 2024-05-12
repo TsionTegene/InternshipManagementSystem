@@ -104,7 +104,7 @@ export default function Home() {
                 transition={{ duration: 0.8 }}
               >
                 <p
-                  className="text-5xl font-bold text-center leading-tight mx-auto md:text-6xl"
+                  className="text-5xl font-bold text-center leading-tight mx-auto md:text-6xl capitalize"
                   style={{
                     lineHeight: "1.1",
                     maxWidth: "56rem",
@@ -123,10 +123,10 @@ export default function Home() {
                   className="text-center px-8 leading-relaxed md:text-lg md:px-0"
                   style={{ maxWidth: "48rem", lineHeight: "1.625" }}
                 >
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  et ullamcorper metus. Nam scelerisque, augue efficitur aliquet
-                  tempus, magna augue porttitor lacus, non faucibus ligula
-                  tellus
+                  Our platform seamlessly connects students with internships
+                  that match their career goals and educational aspirations. We
+                  provide an intuitive environment for easy application,
+                  tracking, and feedback. Join us and confidently embark on your professional journey.
                 </p>
               </motion.div>
             </div>
@@ -158,7 +158,7 @@ export default function Home() {
               </div>
               <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-2 py-8">
                 <p
-                  className="text-2xl font-bold text-center leading-tight md:text-left md:text-4xl"
+                  className="text-2xl font-bold text-center leading-tight md:text-left md:text-4xl capitalize"
                   style={{
                     lineHeight: "1.1",
                     maxWidth: "56rem",
@@ -172,10 +172,12 @@ export default function Home() {
                   className="text-lg pt-4 leading-relaxed text-center md:text-left md:text-xl"
                   style={{ maxWidth: "48rem", lineHeight: "1.625" }}
                 >
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  et ullamcorper metus. Nam scelerisque, augue efficitur aliquet
-                  tempus, magna augue porttitor lacus, non faucibus ligula
-                  tellus.
+                  Our Web-Based Internship Management System is engineered to
+                  seamlessly match students with mentors, turning each
+                  internship into a pivotal step toward professional growth.
+                  Leveraging innovative technology and insightful feedback, we
+                  enhance the internship experience, making it more efficient
+                  and rewarding.
                 </p>
               </div>
             </div>
@@ -319,9 +321,13 @@ export default function Home() {
                 className="text-lg pt-4 leading-relaxed "
                 style={{ maxWidth: "48rem", lineHeight: "1.625" }}
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                et ullamcorper metus. Nam scelerisque, augue efficitur aliquet
-                tempus, magna augue porttitor lacus, non faucibus ligula tellus.
+                Tsion Tegene, Bereket Tadele, Abel Zeleke, and Rebecca Asrat are
+                the core developers committed to transforming the internship
+                experience. With a collective vision of simplicity and
+                efficiency, our team combines technical expertise and creative
+                zeal to deliver a user-friendly platform tailored to the needs
+                of students and mentors alike. Get to know the faces behind the
+                code—our fantastic four who make it all happen.
               </p>
             </div>
           </div>

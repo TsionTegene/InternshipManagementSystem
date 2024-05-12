@@ -10,7 +10,6 @@ interface isDetail {
   university: string;
   department: string;
   skills: any;
-  project: string;
   endDate: string;
   startDate: string;
   internshipTitle: string;
@@ -28,7 +27,6 @@ const StudentsDetail = ({
   startDate,
   endDate,
   internshipTitle,
-  project,
 }: isDetail) => {
   return (
     <div className="container mx-auto px-4 md:px-0">
@@ -97,11 +95,6 @@ const StudentsDetail = ({
           {endDate && (
             <p className=" text-blue-950 p-2 dark:text-white">
               End Date: {endDate}
-            </p>
-          )}
-          {project && (
-            <p className=" text-blue-950 p-2 dark:text-white">
-              Project: {project}
             </p>
           )}
           {skills && (

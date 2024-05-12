@@ -41,6 +41,26 @@ export async function fetchStudentsByCompanyId(id: string) {
   }
 }
 
+export async function fetchStudentsByMentorId(id: string) {
+  const url = `${api}student/mentor/${id}`;
+  if (typeof window !== "undefined") {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    return responseData;
+  }
+}
+
 export async function fetchStudentsByDepartmentId(id: string) {
   const url = `${api}head/varified/${id}`;
 

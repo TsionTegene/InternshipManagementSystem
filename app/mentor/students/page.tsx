@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+"use client";
+
 import React from "react";
 import {
   Table,
@@ -17,14 +20,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useFetchAssignedStudents } from "@/hooks/useMentorActions";
 
 const page = () => {
-  const studentList = [
-    { id: "1", name: "Bereket Tadele", advisor: "Kuma" },
-    { id: "2", name: "Tsion Tegene", advisor: "Alazar" },
-    { id: "3", name: "Abel Zeleke", advisor: "Israel" },
-    { id: "4", name: "Rebecca Asrat", advisor: "Joseph" },
-  ];
+  const { students, isLoading, error, studentsData } =
+    useFetchAssignedStudents();
+  console.log("Students: ", students);
   return (
     <div className="mb-2">
       <Card className="transition duration-700 bg-blue-100 dark:bg-gray-950 hover:bg-blue-200 hover:shadow-sm dark:hover:bg-gray-900">
@@ -38,33 +39,34 @@ const page = () => {
               <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Advisor</TableHead>
-                <TableHead>Evaluate</TableHead>
-                <TableHead>Report</TableHead>
+                <TableHead>Internship Position</TableHead>
+                <TableHead>University</TableHead>
+                <TableHead>Department</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {studentList.map((student, index) => (
+              {students?.map((student: any, index: any) => (
                 <TableRow key={index}>
                   <TableCell style={{ listStyleType: "decimal" }}>
                     {" "}
                     <Link
                       key={student.id}
-                      href={`/mentor/students/${student.id}`}
+                      href={{
+                        pathname: `/mentor/students/${student.id}`,
+                        query: { studentId: student.id },
+                      }}
                     >
-                      {student.name}
+                      {student.user.firstName + " " + student.user.middleName}
                     </Link>{" "}
                   </TableCell>
-                  <TableCell>{student.advisor}</TableCell>
                   <TableCell>
-                    <Button variant={"ghost"} className="border-2">
-                      Evaluate
-                    </Button>
+                    {student.advisor.user.firstName +
+                      " " +
+                      student.advisor.user.middleName}
                   </TableCell>
-                  <TableCell>
-                    <Button variant={"ghost"} className="border-2">
-                      Report
-                    </Button>
-                  </TableCell>
+                  <TableCell>{student.internship.title}</TableCell>
+                  <TableCell>{student.University.name}</TableCell>
+                  <TableCell>{student.department.name}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

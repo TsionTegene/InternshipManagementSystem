@@ -114,6 +114,9 @@ export const useAuthenticate = () => {
       case 'ADVISOR':
         router.push('/advisor');
         break;
+      case 'MENTOR':
+        router.push('/mentor');
+        break;
       default:
         router.push('/login');
     }
