@@ -26,7 +26,7 @@ export default function WelcomeCard({name, children}: {name: string, children: R
         </div>
         { children }
       </CardHeader>
-      <CardContent className="py-3">
+      <CardContent className="p-4">
         <span className="MuiStack-root css-1d0id76">
           <svg
             className="MuiBox-root css-uwwqev"
