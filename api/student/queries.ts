@@ -42,6 +42,7 @@ export async function fetchStudentsByCompanyId(id: string) {
 }
 
 export async function fetchStudentsByMentorId(id: string) {
+  console.log("id: ", id)
   const url = `${api}student/mentor/${id}`;
   if (typeof window !== "undefined") {
     const response = await fetch(url, {

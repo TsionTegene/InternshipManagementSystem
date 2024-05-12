@@ -1,5 +1,5 @@
-import { registerStudent } from "@/api/student/mutations";
-import { countApprovedStd, countToBeApprovedStd, fetchStudentsByCompanyId, fetchStudentsByDepartmentId, unvarifiedstd } from "@/api/student/queries";
+import { registerStudent, submiteApplication } from "@/api/student/mutations";
+import { countAdvisorStd, countApprovedStd, countToBeApprovedStd, fetchStudentsByCompanyId, fetchStudentsByDepartmentId, fetchStudentsByMentorId, filterInternshipOpp, getAcceptedApplication, getInternshipById, getSubmittedApplication, unvarifiedstd } from "@/api/student/queries";
 import { allStudentsInUniversity } from "@/api/student/queries";
 import { advisorStudents } from "@/api/user/queries";
 import { Query, useMutation, useQueries, useQuery } from "@tanstack/react-query";
