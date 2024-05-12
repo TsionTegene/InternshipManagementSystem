@@ -63,11 +63,13 @@ export default function Component() {
     ];
 
     // Filter companies based on search query
-    const filteredCompanies = company.filter(
-        (value) =>
+    const filteredCompanies = Array.isArray(company)
+        ? company.filter((value) =>
             value.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
             value.company?.email?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+        )
+        : [];
+
 
 console.log("comapny=>",company)
 

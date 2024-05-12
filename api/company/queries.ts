@@ -42,8 +42,8 @@ export async function fetchCompany() {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
     const responseData = await response.json();
-    console.log("responseData: ", responseData[0]?.id)
-    return responseData[0]?.id;
+    console.log("responseData: ", responseData)
+    return responseData;
 } 
 
 export async function findMentorsByCompanyId(cId: string) {
@@ -105,6 +105,7 @@ export async function fetchDepCompany(id: string) {
     return response.json()
 
 }
+
 
 export async function countDepCompany(id: string) {
     if (!id) {

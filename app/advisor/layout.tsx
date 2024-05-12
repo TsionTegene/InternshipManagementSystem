@@ -14,14 +14,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  // useLayoutEffect(() => {
-  //   const isAuth = IsAuthenticated("STUDENT").then((isAuth) => {
-  //     if (!isAuth) {
-  //       console.log("isAuth: ", isAuth);
-  //       router.push("/login");
-  //     }
-  //   });
-  // }, []);
+  useLayoutEffect(() => {
+    const isAuth = IsAuthenticated("ADVISOR").then((isAuth) => {
+      if (!isAuth) {
+        console.log("isAuth: ", isAuth);
+        router.push("/login");
+      }
+    });
+  }, []);
 
   return (
     <div>

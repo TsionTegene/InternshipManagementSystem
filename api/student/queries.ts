@@ -204,3 +204,84 @@ export async function countToBeApprovedStd(id: string) {
   return response.data
 
 }
+
+export async function countAdvisorStd(id: string) {
+  // to make it wait if the id is null, we can use the if statement
+  if (!id) {
+    return
+  }
+  const url = `${api}student/countstdinadv/${id}`
+  const response = await axios.get(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+
+  return response.data
+
+}
+//students Function
+export async function filterInternshipOpp(id: string) {
+  // to make it wait if the id is null, we can use the if statement
+  if (!id) {
+    return
+  }
+  const url = `${api}student/internopp/${id}`
+  const response = await axios.get(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+  console.log("opp",response.data)
+
+  return response.data
+
+}
+
+export async function getAcceptedApplication(id: string) {
+  // to make it wait if the id is null, we can use the if statement
+  if (!id) {
+    return
+  }
+  const url = `${api}student/acceptedapp/${id}`
+  const response = await axios.get(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+
+  return response.data
+
+}
+
+export async function getSubmittedApplication(id: string) {
+  // to make it wait if the id is null, we can use the if statement
+  if (!id) {
+    return
+  }
+  const url = `${api}student/appsub/${id}`
+  const response = await axios.get(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+
+  return response.data
+
+}
+
+export async function getInternshipById(id: string) {
+  // to make it wait if the id is null, we can use the if statement
+  if (!id) {
+    return
+  }
+  const url = `${api}student/internship/${id}`
+  const response = await axios.get(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+
+  return response.data
+
+}

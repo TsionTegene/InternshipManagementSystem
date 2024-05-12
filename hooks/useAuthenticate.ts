@@ -47,6 +47,22 @@ export const useAuthenticate = () => {
           console.log(data.dpId)
           localStorage.setItem('depId', data.dpId)
         }
+        if (data.advId) {
+          console.log(data.advId)
+          localStorage.setItem('advisorId', data.advId)
+        }
+        if (data.stdDepId) {
+          console.log(data.stdDepId)
+          localStorage.setItem('stdDepId', data.stdDepId)
+        }
+        if (data.stdId) {
+          console.log(data.stdId)
+          localStorage.setItem('stdId', data.stdId)
+        }
+        if (data.stdFlag) {
+          console.log(data.stdFlag)
+          localStorage.setItem('stdFlag', data.stdFlag)
+        }
         console.log("Access token:", data.access_token);
         console.log("Refresh token:", data.refresh_token);
         const payload = decodeToken(data.access_token).then(payload => {
@@ -94,6 +110,9 @@ export const useAuthenticate = () => {
         break;
       case 'DEPARTMENT_HEAD':
         router.push('/departmenthead');
+        break;
+      case 'ADVISOR':
+        router.push('/advisor');
         break;
       default:
         router.push('/login');

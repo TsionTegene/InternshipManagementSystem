@@ -19,13 +19,8 @@ export function UserNav() {
     let uid = null;
     // const result = await logout();
     if (typeof window !== "undefined") {
-      localStorage.removeItem("user");
-      localStorage.removeItem("refresh_token");
-      localStorage.removeItem("role");
-      localStorage.removeItem("access_token");
-      uid = localStorage.getItem("userId");
-      localStorage.removeItem("userId");
-      localStorage.removeItem("universityId");
+
+      localStorage.clear()
     }
     console.log("uid: ", uid);
     // console.log("result: ", result);

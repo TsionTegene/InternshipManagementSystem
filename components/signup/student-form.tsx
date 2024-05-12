@@ -69,9 +69,9 @@ const formSchema = z
     universityName: z.string().min(2, {
       message: "Enter your university.",
     }),
-    // departmentName: z.string().min(2, {
-    //   message: "Enter your department.",
-    // }),
+    departmentName: z.string().min(2, {
+      message: "Enter your department.",
+    }),
     userName: z.string().min(2, {
       message: "Username must be at least 2 characters.",
     }),
@@ -196,7 +196,9 @@ export function StudentForm() {
       router.push("/login");
     }
   };
-  useEffect(() => {}, [universities, departments]);
+
+  console.log("deppp=>", departments)
+  useEffect(() => { console.log("dep in ui", departments) }, [departmentData]);
   return (
     <Card className="mx-auto max-w-4xl my-10 shadow-2xl rounded-lg overflow-hidden">
       <CardHeader>
@@ -424,7 +426,7 @@ export function StudentForm() {
                 />
 
                 {/* Department */}
-                {/* <FormField
+                 <FormField
                   control={form.control}
                   name="departmentName"
                   render={({ field }) => (
@@ -461,7 +463,7 @@ export function StudentForm() {
                       <FormMessage />
                     </FormItem>
                   )}
-                /> */}
+                /> 
                 {/* Year */}
                 <FormField
                   control={form.control}

@@ -6,9 +6,7 @@ export async function registerStudent(formData: FormData) {
   console.log("student data: ", formData);
   // const url = 'https://web-based-internship-management-system-5.onrender.com/auth/register/student';
   const url = `${api}auth/register/student`;
-  for (const pair of formData.entries()) {
-    console.log(pair[0], pair[1]);
-  }
+
   await fetch(url, {
     method: "POST",
     body: formData,
@@ -101,6 +99,19 @@ export async function evaluateStudentByAdvisor(id: string, point: string) {
 
 
 
+
+  const responseData = await response.data;
+  return responseData;
+}
+
+//Students Function
+
+export async function submiteApplication(formData: FormData) {
+  const url = `${api}apply`;
+
+  const response = await axios.post(url, formData,{
+    headers: { 'Content-Type': 'application/json' },
+  });
 
   const responseData = await response.data;
   return responseData;

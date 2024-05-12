@@ -193,10 +193,10 @@ const cardDetail = ({
           </p>
         )}
         <div className="flex justify-center items-center p-2 ">
-          {btn && (
+          {!btn && (
             <AlertDialog>
               <AlertDialogTrigger className="w-1/2 p-2 rounded-md dark:bg-blue-950 dark:text-white hover:bg-blue-950 dark:hover:bg-blue-700">
-                {btn}
+               Apply
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>

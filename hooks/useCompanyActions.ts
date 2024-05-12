@@ -34,6 +34,7 @@ export function useCompanyActions() {
 
         fetchData();
     }, [
+        company,
         companyData.isSuccess,
         companyData.isLoading,
         setCompany,
@@ -119,25 +120,24 @@ export function useAddMentor() {
     }
 }
 
-export function useFindMentorsByCompanyId() {
-    const setMentors = useMentorStore((state: any) => state.setMentors);
-    const setError = useMentorStore((state: any) => state.setError);
-    const setIsLoading = useMentorStore((state: any) => state.setIsLoading);
-    const mentors = useMentorStore((state: any) => state.mentors);
+// export function useFindMentorsByCompanyId() {
+//     const setMentors = useMentorStore((state: any) => state.setMentors);
+//     const setError = useMentorStore((state: any) => state.setError);
+//     const setIsLoading = useMentorStore((state: any) => state.setIsLoading);
+//     const mentors = useMentorStore((state: any) => state.mentors);
 
-    const userId = localStorage.getItem('userId'); // Consider using context or props for better practices
-    const { data: companyId } = FindCompanyByUserId(userId);
-    console.log("company Id from findMentors: ", companyId);
-    const data = useFindMentorByCId(companyId);
-    if (data.isSuccess) {
-        setMentors(data.data);
-    }
-    if (data.isLoading) {
-        setIsLoading(data.isLoading);
-    }
+//     const userId = localStorage.getItem('userId'); // Consider using context or props for better practices
+//     const { data: companyId } = FindCompanyByUserId(userId);
+//     console.log("company Id from findMentors: ", companyId);
+//     const data = useFindMentorByCId(companyId);
+//     if (data.isSuccess) {
+//         setMentors(data.data);
+//     }
+//     if (data.isLoading) {
+//         setIsLoading(data.isLoading);
+//     }
 
-    return { mentors, isMLoading: data.isLoading, error: data.error }
-}
+
 
 export function useFetchApplicationsByCompanyId() {
     const setApplications = useApplicationStore((state: any) => state.setApplications);
@@ -197,3 +197,5 @@ export function useAssignMentorToStudent() {
         isSuccess,
     }
 }
+//     return { mentors, isMLoading: data.isLoading, error: data.error}
+// }

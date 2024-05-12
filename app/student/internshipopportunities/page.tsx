@@ -4,92 +4,47 @@ import Card from "@/components/card/Cards";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { SearchIcon } from "lucide-react";
+import { useFilterInternship } from "@/hooks/useStudentsActions";
 
 const Page = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredOpportunities, setFilteredOpportunities] = useState([]);
-
-  const opportunities = [
-    {
-      id: 1,
-      title: "Web Development",
-      imageUrl: "/images/landing2.png",
-      startdate: "14/07/2024",
-      enddate: "11/09/2024",
-      address: "Hawassa",
-    },
-    {
-      id: 2,
-      title: "Networking",
-      imageUrl: "/images/landing2.png",
-      startdate: "22/01/2024",
-      enddate: "24/05/2024",
-      address: "Addis Abeba",
-    },
-    {
-      id: 3,
-      title: "Artificial Intelligence",
-      imageUrl: "/images/landing2.png",
-      startdate: "00/00/00",
-      enddate: "00/00/00",
-      address: "Addis Abeba",
-    },
-    {
-      id: 4,
-      title: "Networking",
-      imageUrl: "/images/landing2.png",
-      startdate: "00/00/00",
-      enddate: "00/00/00",
-      address: "Addis Abeba",
-    },
-    {
-      id: 5,
-      title: "Android Development",
-      imageUrl: "/images/landing2.png",
-      startdate: "00/00/00",
-      enddate: "00/00/00",
-      address: "Addis Abeba",
-    },
-    {
-      id: 6,
-      title: "Machine Learning",
-      imageUrl: "/images/landing2.png",
-      startdate: "00/00/00",
-      enddate: "00/00/00",
-      address: "Addis Abeba",
-    },
-  ];
+  const { internships } = useFilterInternship();
 
   // Function to handle search query change
   const handleSearchChange = (e) => {
     const { value } = e.target;
     setSearchQuery(value);
     // Filter opportunities based on search query
-    const filtered = opportunities.filter((opportunity) =>
+    const filtered = internships.filter((opportunity) =>
       opportunity.title.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredOpportunities(filtered);
   };
 
-  // Render either filtered opportunities or all opportunities
   const renderOpportunities = () => {
-    const dataToRender = searchQuery ? filteredOpportunities : opportunities;
-    return dataToRender.map((opportunity) => (
-      <Link
-        key={opportunity.id}
-        href={`/student/internshipopportunities/${opportunity.id}`}
-        onClick={() => console.log("Navigating to detail:", opportunity.id)}
-      >
-        <Card
-          title={opportunity.title}
-          imageUrl={opportunity.imageUrl}
-          startdate={opportunity.startdate}
-          enddate={opportunity.enddate}
-          address={opportunity.address}
-        />
-      </Link>
-    ));
+    const dataToRender = searchQuery ? filteredOpportunities : internships;
+    return dataToRender.flatMap((opportunity) =>
+      opportunity.company?.internshipOffered.map((offered) => (
+        <Link
+          key={`${opportunity.id}-${offered.id}`} // Unique key for each Card
+          href={`/student/internshipopportunities/${offered.id}`}
+          onClick={() => console.log("Navigating to detail:", offered.id)}
+        >
+          <Card
+            title={offered.title} // Use each title from internshipOffered
+            imageUrl={opportunity.imageUrl}
+            startdate={offered.startDate} // Use start date from internshipOffered
+            enddate={offered.endDate} // Use end date from internshipOffered
+            address={opportunity.company?.address?.city}
+          />
+        </Link>
+      ))
+    );
   };
+
+
+
 
   return (
     <div className="">

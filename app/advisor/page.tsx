@@ -1,5 +1,5 @@
+"use client"
 import React from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,7 +11,11 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 // import Footer from "@/components/footer";
+const user = localStorage.getItem("user")
+const userName = user ? JSON.parse(user as string).firstName : null
+
 const page = () => {
+  
   return (
     <div>
       <Card className="flex p-5 bg-blue-100 dark:bg-blue-950 rounded-xl">
@@ -21,7 +25,7 @@ const page = () => {
               Welcome 👋
             </CardTitle>
             <p className="text-2xl font-bold text-blue-950 dark:text-white">
-              Abel
+              {userName}
             </p>
             <CardDescription className="max-w-lg text-balance leading-relaxed pt-4 text-blue-900 dark:text-white">
               Discover exciting internship opportunities and streamline your

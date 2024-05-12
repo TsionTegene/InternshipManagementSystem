@@ -203,11 +203,6 @@ export const departmenthead = [
 
 export const advisor = [
   {
-    title: "Evaluate",
-    path: "/advisor/evaluate",
-    icon: <FaLightbulb />,
-  },
-  {
     title: "Reports",
     path: "/advisor/report",
     icon: <FaTasks />,

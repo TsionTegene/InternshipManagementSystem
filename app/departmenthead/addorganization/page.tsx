@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -22,12 +22,14 @@ export default function Component() {
 
   // Sample company data
   // Filter companies based on search query
-  const filteredCompanies = company.filter(
-    (value) =>
+  
+  const filteredCompanies = Array.isArray(company)
+    ? company.filter((value) =>
       value.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       value.company?.email?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
+    )
+    : [];
+  console.log("companies", company)
   return (
     <section className="container mx-auto px-4 py-8 md:px-6 lg:py-12">
       <div className="flex items-center justify-between mb-6">

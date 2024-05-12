@@ -25,6 +25,8 @@ if (universityId) {
   }
 }
 
+const dpID = localStorage.getItem("depId")
+
 export const useUniversityFetch = () => {
   const setUniversities = useUniversityStore(
     (state: any) => state.setUniversities
@@ -257,9 +259,10 @@ export const useNullrole = () => {
   };
 };
 
+
 export const useFilterDepartment = () => {
   const setDepartment = useDepartmentStore((state: any) => state.setDepartments);
-  const isLoading = useCollegeStore((state: any) => state.isLoading);
+  const isLoading = useDepartmentStore((state: any) => state.isLoading);
   const setIsLoading = useDepartmentStore((state: any) => state.setIsLoading);
   const departments = useDepartmentStore((state: any) => state.departments);
   const setError = useDepartmentStore((state: any) => state.setError);
@@ -270,47 +273,43 @@ export const useFilterDepartment = () => {
     (state: any) => state.setSelectedItemID
   );
 
-
   const departmentData = useDepartmentData(selectedItemID);
   console.log("un dep", departmentData.data)
+
+  setDepartment(departmentData.data);
+
   useEffect(() => {
     const fetchData = async () => {
-
       try {
-
         if (departmentData.isSuccess) {
           setDepartment(departmentData.data);
           console.log("this is deps in UnId", departmentData.data);
-          setError(false)
+          setError(false);
+          setIsLoading(false);
 
           queryClient.invalidateQueries("departmentfilter");
-
-        } if (departmentData.isLoading) {
-          setIsLoading(true)
+        } else if (departmentData.isLoading) {
+          setIsLoading(true);
           queryClient.invalidateQueries("departmentfilter");
-
-        }
-        if (departmentData.isError) {
+        } else if (departmentData.isError) {
           console.log("Error Fetching Department:", departmentData.error);
-          setError(true)
+          setError(true);
           queryClient.invalidateQueries("departmentfilter");
-
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-
     };
 
     fetchData();
   }, [
-    departmentData,
+    
+    setDepartment,
+    setIsLoading,
+    setError,
     queryClient,
-    // setError,
-    departmentData.isSuccess,
-    departmentData.isLoading,
-    // Error
-  ])
+    selectedItemID
+  ]);
 
   return {
     departmentData,
@@ -319,6 +318,7 @@ export const useFilterDepartment = () => {
     Error,
   };
 };
+
 
 export const useDepartment = () => {
   const setDepartment = useDepartmentStore(
@@ -580,7 +580,7 @@ export const useAdvisorData = () => {
     };
 
     fetchData();
-  }, [advisor.isSuccess, advisor.isLoading])
+  }, [advisor.isSuccess, advisor.isLoading, setUser, setError])
   const addUser = async (userData: any) => {
     try {
       const newUser = await register_user.mutateAsync(userData);

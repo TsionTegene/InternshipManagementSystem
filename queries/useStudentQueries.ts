@@ -1,6 +1,7 @@
-import { registerStudent } from "@/api/student/mutations";
-import { countApprovedStd, countToBeApprovedStd, fetchStudentsByCompanyId, fetchStudentsByDepartmentId, unvarifiedstd } from "@/api/student/queries";
+import { registerStudent, submiteApplication } from "@/api/student/mutations";
+import { countAdvisorStd, countApprovedStd, countToBeApprovedStd, fetchStudentsByCompanyId, fetchStudentsByDepartmentId, filterInternshipOpp, getAcceptedApplication, getInternshipById, getSubmittedApplication, unvarifiedstd } from "@/api/student/queries";
 import { allStudentsInUniversity } from "@/api/student/queries";
+import { advisorStudents } from "@/api/user/queries";
 import { Query, useMutation, useQueries, useQuery } from "@tanstack/react-query";
 
 
@@ -56,6 +57,65 @@ export const useCountToBeApprovedStd = (id: string) => {
     const query = useQuery({
         queryKey: ["cistudent"],
         queryFn: async () => await countToBeApprovedStd(id),
+    })
+    return query;
+}
+
+export const useAdvisorstudent = (id: string) => {
+    const query = useQuery({
+        queryKey: ["advisorstudent"],
+        queryFn: async () => await advisorStudents(id),
+    })
+    return query;
+}
+
+
+export const useAdvisorstudentCount = (id: string) => {
+    const query = useQuery({
+        queryKey: ["countstd"],
+        queryFn: async () => await countAdvisorStd (id),
+    })
+    return query;
+}
+
+//student functions
+export const useInternshipOppFilter = (id: string) => {
+    const query = useQuery({
+        queryKey: ["internOpp"],
+        queryFn: async () => await filterInternshipOpp(id),
+    })
+    return query;
+}
+
+export const useAcceptedAppFilter = (id: string) => {
+    const query = useQuery({
+        queryKey: ["application"],
+        queryFn: async () => await getAcceptedApplication(id),
+    })
+    return query;
+}
+
+export const useAllApplicationSubmitted = (id: string) => {
+    const query = useQuery({
+        queryKey: ["application"],
+        queryFn: async () => await getSubmittedApplication(id),
+    })
+    return query;
+}
+
+export const useSubmite = () => {
+    const mutation = useMutation({
+        mutationKey: ["submitapp"],
+        mutationFn: (formData: FormData) => submiteApplication(formData),
+    })
+
+    return mutation;
+};
+
+export const useInternshipByID = (id: string) => {
+    const query = useQuery({
+        queryKey: ["internship"],
+        queryFn: async () => await getInternshipById(id),
     })
     return query;
 }
