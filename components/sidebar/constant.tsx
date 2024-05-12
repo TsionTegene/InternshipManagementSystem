@@ -54,7 +54,7 @@ export const hr = [
     icon: <MdFiberNew />,
   },
   {
-    title: "Students",
+    title: "Interns",
     path: "/hr/studentdetail",
     icon: <PiStudentFill />,
   },

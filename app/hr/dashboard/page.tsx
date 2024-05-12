@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import WelcomeCard from "@/components/dashboard/WelcomeCard";
 import Cards from "@/components/dashboard/cards";
 import DashboardTable from "@/components/dashboard/Tables";
-import { CreditCard } from "lucide-react";
+import { CreditCard, RotateCcw } from "lucide-react";
 import { Users } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -19,82 +19,23 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useFindMentorsByCompanyId } from "@/hooks/useCompanyActions";
+import { useFetchApplicationsByCompanyId, useFindMentorsByCompanyId } from "@/hooks/useCompanyActions";
+import { Badge } from "@/components/ui/badge";
 
 export default function Dashboard() {
   const { mentors } = useFindMentorsByCompanyId();
   const internship = useFetchInternshipByCompanyId();
   const internships = internship.data;
   console.log(internships);
-  const headers = [
-    { key: "title", label: "Title", className: "text-left" },
-    {
-      key: "intenship_positions",
-      label: "Intenship Positions",
-      className: "hidden sm:table-cell",
-    },
-    {
-      key: "startDate",
-      label: "Start Date",
-      className: "hidden sm:table-cell",
-    },
-    { key: "endDate", label: "End Date", className: "hidden md:table-cell" },
-    { key: "compensations", label: "Compensations", className: "text-right" },
-    { key: "schedule", label: "Schedule", className: "text-right" },
-  ];
+  const { applications, isLoading } =
+    useFetchApplicationsByCompanyId();
 
-  const data = [
-    {
-      name: "John Doe",
-      email: "john@example.com",
-      type: "Sale",
-      status: "Fulfilled",
-      date: "2023-10-01",
-      amount: "$300.00",
-      className: "bg-accent", // optional, for styling the row
-      emailClass: "hidden text-sm text-muted-foreground md:inline", // class for the email
-      badgeVariant: "secondary", // variant for the badge
-    },
-    {
-      name: "Jane Smith",
-      email: "jane@example.com",
-      type: "Refund",
-      status: "Pending",
-      date: "2023-10-02",
-      amount: "$200.00",
-      className: "",
-      emailClass: "hidden text-sm text-muted-foreground md:inline",
-      badgeVariant: "outline",
-    },
-    {
-      name: "Alice Johnson",
-      email: "alice@example.com",
-      type: "Subscription",
-      status: "Renewed",
-      date: "2023-10-03",
-      amount: "$500.00",
-      className: "bg-accent",
-      emailClass: "hidden text-sm text-muted-foreground md:inline",
-      badgeVariant: "secondary",
-    },
-    {
-      name: "Bob Brown",
-      email: "bob@example.com",
-      type: "Sale",
-      status: "Fulfilled",
-      date: "2023-10-04",
-      amount: "$450.00",
-      className: "",
-      emailClass: "hidden text-sm text-muted-foreground md:inline",
-      badgeVariant: "secondary",
-    },
-  ];
-
+const acceptedInterns = applications?.filter((application: any) => application.status === "ACCEPTED");
   const cards = [
     {
       cardName: "Total Interns",
-      cardDescription: "8 from last year",
-      cardValue: 15,
+      cardDescription: "Overall interns who applied to your company",
+      cardValue: applications?.length,
       icon: <Users color="blue" className="h-4 w-4 text-muted-foreground" />,
     },
     {
@@ -110,75 +51,13 @@ export default function Dashboard() {
       icon: <Users className="h-4 w-4 text-muted-foreground" />,
     },
     {
-      cardName: "Former Interns",
-      cardDescription: "5 from last year",
-      cardValue: 17,
+      cardName: "Accepted Interns",
+      cardDescription: "Number of accpted interns",
+      cardValue: acceptedInterns?.length,
       icon: <Users className="h-4 w-4 text-muted-foreground" />,
     },
   ];
 
-  const internshipHeaders = [
-    { key: "student", label: "Student Name", className: "text-left" },
-    {
-      key: "internship",
-      label: "Internship Position",
-      className: "hidden sm:table-cell",
-    },
-    {
-      key: "status",
-      label: "Application Status",
-      className: "hidden sm:table-cell",
-    },
-    {
-      key: "applicationDate",
-      label: "Application Date",
-      className: "hidden md:table-cell",
-    },
-  ];
-
-  const internshipData = [
-    {
-      student: "Emily Carter",
-      internship: "Software Engineering Intern",
-      status: "Pending Review",
-      applicationDate: "2023-09-15",
-      location: "San Francisco, CA",
-      // className: "", // optional, for additional styling
-      // badgeVariant: "outline", // variant for the badge, assuming you use a badge to visualize status
-    },
-    {
-      student: "Michael Lawson",
-      internship: "Marketing Analyst Intern",
-      status: "Accepted",
-      applicationDate: "2023-09-20",
-      location: "New York, NY",
-      // className: "bg-accent", // optional, for additional styling
-      // badgeVariant: "secondary",
-    },
-    {
-      student: "Laura Jenkins",
-      internship: "Human Resources Intern",
-      status: "Declined",
-      applicationDate: "2023-09-18",
-      location: "Chicago, IL",
-      // className: "",
-      // badgeVariant: "outline",
-    },
-    {
-      student: "David Clarke",
-      internship: "Data Science Intern",
-      status: "Pending Review",
-      applicationDate: "2023-09-22",
-      location: "Boston, MA",
-      // className: "bg-accent",
-      // badgeVariant: "outline",
-    },
-  ];
-  const [posted_internships, setInternships] = useState([]);
-  // useEffect(() => {
-  //   // setInternships(internships);
-  //   console.log("Internships: ", internships);
-  // }, [internships])
   console.log("Internships: ", internships?.length);
   let user = null; // Default to null if no user data is available
   const userString = localStorage.getItem("user");
@@ -218,20 +97,16 @@ export default function Dashboard() {
           ))}
         </div>
       </div>
-      <DashboardTable
-        tableName="Internship Table"
-        tableDescription="Posted Internship Applications."
-        data={internshipData}
-        headers={internshipHeaders}
-      />
-
+      <InternsTable applications = {applications} isLoading = {isLoading}/>
       <div className="grid gap-4 md:gap-8">
         <div className="border rounded-lg w-full">
           <div className="relative w-full overflow-auto">
             <Card className="transition duration-700 hover:bg-blue-100 hover:shadow-sm dark:hover:bg-gray-900">
               <CardHeader>
                 <CardTitle>Opportunities Posted</CardTitle>
-                <CardDescription>Internship opportunities posted by your company.</CardDescription>
+                <CardDescription>
+                  Internship opportunities posted by your company.
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <Table>
@@ -306,5 +181,106 @@ function CardButton() {
     >
       Create New Internship
     </Button>
+  );
+}
+
+function InternsTable({applications, isLoading}: {applications: any, isLoading: boolean}) {
+  console.log(applications)
+  return (
+    <Card className="transition duration-700 hover:bg-blue-100 hover:shadow-sm dark:hover:bg-gray-900">
+      <CardHeader>
+        <CardTitle>Interns</CardTitle>
+        <CardDescription>Interns who applied to your company.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Position</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>GPA</TableHead>
+              <TableHead>University</TableHead>
+              <TableHead>Department</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {isLoading ? (
+              <RotateCcw className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              applications?.map((application: any, index: any) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    {application?.student.user.firstName}{" "}
+                    {application?.student.user.middleName}
+                  </TableCell>
+                  <TableCell>{application?.student.user.email}</TableCell>
+                  <TableCell>{application?.internship.title}</TableCell>
+                  <TableCell>
+                    {application?.status === "PENDING" ? (
+                      <Pending />
+                    ) : application?.status === "ACCEPTED" ? (
+                      <Accepted />
+                    ) : application?.status === "REJECTED" ? (
+                      <Rejected />
+                    ) : (
+                      <Canceled />
+                    )}
+                  </TableCell>
+                  <TableCell>{application?.student.gpa}</TableCell>
+                  <TableCell>{application?.student.University.name}</TableCell>
+                  <TableCell>{application?.student.department.name}</TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
+  );
+}
+
+function Pending() {
+  return (
+    <Badge
+      className="bg-yellow-100 text-yellow-600 dark:bg-yellow-900/20 dark:text-yellow-400"
+      variant="outline"
+    >
+      Pending
+    </Badge>
+  );
+}
+
+function Accepted() {
+  return (
+    <Badge
+      className="bg-green-100 text-green-600 dark:bg-green-900/20 dark:text-green-400"
+      variant="outline"
+    >
+      Accepted
+    </Badge>
+  );
+}
+
+function Rejected() {
+  return (
+    <Badge
+      className="bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400"
+      variant="outline"
+    >
+      Rejected
+    </Badge>
+  );
+}
+
+function Canceled() {
+  return (
+    <Badge
+      className="bg-gray-100 text-gray-600 dark:bg-gray-900/20 dark:text-gray-400"
+      variant="outline"
+    >
+      Pending
+    </Badge>
   );
 }

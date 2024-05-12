@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { registerCompany } from "@/api/company/mutations";
-import { useCompanyData, FindCompanyByUserId, useCompanySignup, useDepCompany,useMentorSignup, useFindMentorByCId } from "@/queries/useCompanyQueries";
+import { useCompanyData, FindCompanyByUserId, useCompanySignup, useDepCompany, useMentorSignup, useFindMentorByCId, useFetchApplicationByCId, useAssignMentor } from "@/queries/useCompanyQueries";
+import { useApplicationStore } from "@/stores/application.store";
 import { useCompanyStore } from "@/stores/company.store";
 import useMentorStore from "@/stores/mentors.store";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 const dpID = localStorage.getItem("depId")
 
@@ -84,7 +85,7 @@ export function useDepCompanyActions() {
     ]);
     return {
         company,
-    
+
     }
 }
 
@@ -135,5 +136,64 @@ export function useFindMentorsByCompanyId() {
         setIsLoading(data.isLoading);
     }
 
-    return { mentors, isMLoading: data.isLoading, error: data.error}
+    return { mentors, isMLoading: data.isLoading, error: data.error }
+}
+
+export function useFetchApplicationsByCompanyId() {
+    const setApplications = useApplicationStore((state: any) => state.setApplications);
+    const setIsLoading = useApplicationStore((state: any) => state.setIsLoading);
+    const setError = useApplicationStore((state: any) => state.setError);
+    const applications = useApplicationStore((state: any) => state.applications);
+
+    const userId = localStorage.getItem('userId'); // Consider using context or props for better practices
+    const { data: companyId } = FindCompanyByUserId(userId);
+    console.log("company Id from fetch applications: ", companyId);
+    const application = useFetchApplicationByCId(companyId);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (application.isSuccess) {
+                    setApplications(application.data);
+                }
+
+                if (application.isLoading) {
+                    setIsLoading(application.isLoading);
+                }
+
+                if (application.isError) {
+                    setError(application.error);
+                }
+            } catch (error) {
+                console.error("Error fetching university data:", error);
+                setError(error);
+            }
+        };
+
+        fetchData();
+    }, [application, application.isSuccess, application.isLoading, application.error, application.isError, application.data, setApplications, setIsLoading, setError])
+
+    return {
+        applications,
+        isLoading: application.isLoading,
+        error: application.error,
+        isSuccess: application.isSuccess
+    }
+}
+
+export function useAssignMentorToStudent() {
+    const queryClient = useQueryClient();
+    const { mutate, error, isPending, isSuccess } = useAssignMentor();
+    const assignMentor = async (formValues: any) => {
+        const result = await mutate(formValues);
+        console.log("assign mentor: ", result);
+        queryClient.invalidateQueries('findApplicationsByCompanyId');
+    }
+
+    return {
+        assignMentor,
+        isPending,
+        error,
+        isSuccess,
+    }
 }

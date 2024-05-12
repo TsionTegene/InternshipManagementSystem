@@ -87,7 +87,7 @@ export default function Component() {
                     <TableHead>Email</TableHead>
                     <TableHead>Position</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -166,7 +166,7 @@ export default function Component() {
                                         value={application?.student.gpa}
                                       />
                                     </div>
-                                    {/* <div className="space-y-1">
+                                    <div className="space-y-1">
                                       <Label htmlFor="department">
                                         Department
                                       </Label>
@@ -177,9 +177,9 @@ export default function Component() {
                                           application?.student.department.name
                                         }
                                       />
-                                    </div> */}
+                                    </div>
                                   </div>
-                                  {/* <div className="space-y-1">
+                                  <div className="space-y-1">
                                     <Label htmlFor="university">
                                       University
                                     </Label>
@@ -190,7 +190,7 @@ export default function Component() {
                                         application?.student.University.name
                                       }
                                     />
-                                  </div> */}
+                                  </div>
                                 </div>
                                 <div className="flex justify-between">
                                   <Link href={application?.student.resumeUrl}>

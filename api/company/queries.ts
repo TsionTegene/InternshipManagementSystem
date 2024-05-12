@@ -65,6 +65,31 @@ export async function findMentorsByCompanyId(cId: string) {
     return responseData;
 }
 
+export async function fetchpplicationsByCompanyId(cId: string) {
+    const url = `${api}apply/company/${cId}`;
+
+    try {
+        const response = await axios.get(url, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            // You can check additional info if needed
+            throw new Error(`HTTP error! status: ${error.response?.status}, message: ${error.message}`);
+        } else {
+            // Handle unexpected errors
+            throw new Error('An unexpected error occurred');
+        }
+    }
+}
+
+
+
 
 
 export async function fetchDepCompany(id: string) {

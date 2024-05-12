@@ -35,6 +35,29 @@ export async function addMentor(formValues: any) {
     console.error(error)
   }
 }
+
+export async function assignMentor(mentorId: string, studentId: string) {
+  const url = `${api}company/assign_mentor/${mentorId}/${studentId}`;
+
+  try {
+    const response = await axios.patch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // You can check additional info if needed
+      throw new Error(`HTTP error! status: ${error.response?.status}, message: ${error.message}`);
+    } else {
+      // Handle unexpected errors
+      throw new Error('An unexpected error occurred');
+    }
+  }
+}
 export async function addCompany(depid: string,compid:string) {
   const url = `${api}head/connect/${depid}/${compid}`;
 
