@@ -28,7 +28,7 @@ interface isDetail {
   firstName: any;
   middleName: any;
   userName: string;
-  studentPhoneNum: string;
+  PhoneNum: string;
   universityName: string;
   companyName: string;
   website: string;
@@ -53,7 +53,9 @@ const CardDetail = ({
   password,
   name,
   userName,
-  studentPhoneNum,
+  firstName,
+  middleName,
+  PhoneNum,
   universityName,
   companyPhoneNum,
   website,
@@ -126,7 +128,7 @@ const CardDetail = ({
                   id="fileInput"
                   style={{ display: "none" }}
                   onChange={(e) => {
-                    // Handle file selection logic here
+                    
                   }}
                 />
               </div>
@@ -136,7 +138,7 @@ const CardDetail = ({
         <div className="space-y-8">
           <Card className="bg-blue-100 dark:bg-blue-950">
             <CardContent className="space-y-6">
-              {name && (
+              {/* {name && (
                 <div className="space-y-2">
                   <Label htmlFor="name">Name</Label>
                   <Input
@@ -146,45 +148,23 @@ const CardDetail = ({
                     className="border-sky-200"
                   />
                 </div>
-              )}
-              {companyName && (
+              )} */}
+              {firstName && (
                 <div className="space-y-2">
-                  <Label htmlFor="name">Company Name</Label>
+                  <Label htmlFor="name">First Name</Label>
                   <Input
-                    defaultValue={companyName}
+                    defaultValue={firstName}
                     id="name"
                     placeholder=""
                     className="border-sky-200"
                   />
                 </div>
               )}
-              {universityName && (
+              {middleName && (
                 <div className="space-y-2">
-                  <Label htmlFor="name">University Name</Label>
+                  <Label htmlFor="name">Middle Name</Label>
                   <Input
-                    defaultValue={universityName}
-                    id="name"
-                    placeholder=""
-                    className="border-sky-200"
-                  />
-                </div>
-              )}
-              {industryType && (
-                <div className="space-y-2">
-                  <Label htmlFor="name">Industry Type</Label>
-                  <Input
-                    defaultValue={industryType}
-                    id="name"
-                    placeholder=""
-                    className="border-sky-200"
-                  />
-                </div>
-              )}
-              {departmentName && (
-                <div className="space-y-2">
-                  <Label htmlFor="name">Department Name</Label>
-                  <Input
-                    defaultValue={departmentName}
+                    defaultValue={middleName}
                     id="name"
                     placeholder=""
                     className="border-sky-200"
@@ -202,12 +182,36 @@ const CardDetail = ({
                   />
                 </div>
               )}
-              {password && (
+              {PhoneNum && (
+                <div className="space-y-2">
+                  <Label htmlFor="name">Phone Number</Label>
+                  <Input
+                    defaultValue={PhoneNum}
+                    id="name"
+                    placeholder=""
+                    className="border-sky-200"
+                  />
+                </div>
+              )}
+
+              {/* {industryType && (
+                <div className="space-y-2">
+                  <Label htmlFor="name">Industry Type</Label>
+                  <Input
+                    defaultValue={industryType}
+                    id="name"
+                    placeholder=""
+                    className="border-sky-200"
+                  />
+                </div>
+              )} */}
+
+              {/* {password && (
                 <div className="space-y-2">
                   <Label>Password</Label>
                   <p>{password}</p>
                 </div>
-              )}
+              )} */}
               {userName && (
                 <div className="space-y-2">
                   <Label htmlFor="name">Username</Label>
@@ -219,7 +223,7 @@ const CardDetail = ({
                   />
                 </div>
               )}
-              {studentPhoneNum && (
+              {/* {studentPhoneNum && (
                 <div className="space-y-2">
                   <Label htmlFor="name">Phone Number</Label>
                   <Input
@@ -229,79 +233,107 @@ const CardDetail = ({
                     className="border-sky-200"
                   />
                 </div>
-              )}
-              {year && (
-                <div className="space-y-2">
-                  <Label htmlFor="name">Year</Label>
-                  <Input
-                    defaultValue={year}
-                    id="name"
-                    placeholder=""
-                    className="border-sky-200"
-                  />
-                </div>
-              )}
-              {gpa && (
-                <div className="space-y-2">
-                  <Label htmlFor="name">GPA</Label>
-                  <Input
-                    defaultValue={gpa}
-                    id="name"
-                    placeholder=""
-                    className="border-sky-200"
-                  />
-                </div>
-              )}
-              {skillsArray && (
-                <div>
-                  <p>Skills</p>
-                  <ul>
-                    {skillsArray.map((skillArray, index) => (
-                      <li
-                        key={index}
-                        className="flex items-center text-blue-950 dark:text-white"
-                      >
-                        <Check className="h-4 w-4 mr-2  text-blue-950 dark:text-white" />
-                        {skillArray}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="flex">
-                    <p className="mr-2 mt-2">Add more</p>
-                    <div className="flex flex-wrap">
-                      {skills.map((skill, index) => (
-                        <Badge
-                          key={index}
-                          className="font-bold flex m-1 pl-1 p-2 gap-1.5"
-                        >
-                          <div className="">{skill}</div>
-                          <X
-                            size={14}
-                            className="mt-0.5 hover:cursor-pointer"
-                            onClick={deleteSkill(index)}
-                          />
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
+              )} */}
+              <Card className="bg-blue-100 dark:bg-blue-950">
+                {universityName && (
+                  <div className="space-y-2">
+                    <Label htmlFor="name">University Name</Label>
                     <Input
-                      id="skillsArray"
-                      placeholder="Add your skills here..."
+                      defaultValue={universityName}
+                      id="name"
+                      placeholder=""
                       className="border-sky-200"
                     />
-                    <Button
-                      asChild
-                      size="icon"
-                      className="p-2 rounded-full hover:translate-y-1 h-fit w-fit"
-                      variant="outline"
-                    >
-                      <Plus size={28} strokeWidth={1.5} onClick={skillsInput} />
-                    </Button>
                   </div>
-                </div>
-              )}
-              {region && (
+                )}
+                {departmentName && (
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Department Name</Label>
+                    <Input
+                      defaultValue={departmentName}
+                      id="name"
+                      placeholder=""
+                      className="border-sky-200"
+                    />
+                  </div>
+                )}
+                {year && (
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Year</Label>
+                    <Input
+                      defaultValue={year}
+                      id="name"
+                      placeholder=""
+                      className="border-sky-200"
+                    />
+                  </div>
+                )}
+                {gpa && (
+                  <div className="space-y-2">
+                    <Label htmlFor="name">GPA</Label>
+                    <Input
+                      defaultValue={gpa}
+                      id="name"
+                      placeholder=""
+                      className="border-sky-200"
+                    />
+                  </div>
+                )}
+                {skillsArray && (
+                  <div>
+                    <p>Skills</p>
+                    <ul>
+                      {skillsArray.map((skillArray, index) => (
+                        <li
+                          key={index}
+                          className="flex items-center text-blue-950 dark:text-white"
+                        >
+                          <Check className="h-4 w-4 mr-2  text-blue-950 dark:text-white" />
+                          {skillArray}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="flex">
+                      <p className="mr-2 mt-2">Add more</p>
+                      <div className="flex flex-wrap">
+                        {skills.map((skill, index) => (
+                          <Badge
+                            key={index}
+                            className="font-bold flex m-1 pl-1 p-2 gap-1.5"
+                          >
+                            <div className="">{skill}</div>
+                            <X
+                              size={14}
+                              className="mt-0.5 hover:cursor-pointer"
+                              onClick={deleteSkill(index)}
+                            />
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Input
+                        id="skillsArray"
+                        placeholder="Add your skills here..."
+                        className="border-sky-200"
+                      />
+                      <Button
+                        asChild
+                        size="icon"
+                        className="p-2 rounded-full hover:translate-y-1 h-fit w-fit"
+                        variant="outline"
+                      >
+                        <Plus
+                          size={28}
+                          strokeWidth={1.5}
+                          onClick={skillsInput}
+                        />
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </Card>
+              {/* {region && (
                 <div className="space-y-2">
                   <Label htmlFor="name">Region</Label>
                   <Input
@@ -355,7 +387,7 @@ const CardDetail = ({
                     className="border-sky-200"
                   />
                 </div>
-              )}
+              )} */}
               {resumeUrl && (
                 <div className="space-y-2">
                   <Label htmlFor="name">Resume</Label>

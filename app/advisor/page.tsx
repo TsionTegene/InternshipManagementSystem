@@ -28,10 +28,8 @@ const page = () => {
               {userName}
             </p>
             <CardDescription className="max-w-lg text-balance leading-relaxed pt-4 text-blue-900 dark:text-white">
-              Discover exciting internship opportunities and streamline your
-              internship experience with our dynamic dashboard. Gain valuable
-              insights and manage your internships seamlessly. Start your
-              journey towards a successful career today!
+              Empower your students with personalized support as they embark on
+              their professional journeys. Shape success together with your students!
             </CardDescription>
           </CardHeader>
           <CardFooter>
@@ -45,9 +43,9 @@ const page = () => {
         </div>
         <div>
           <Image
-            src={"/images/girlstudying.png"}
-            width={250}
-            height={250}
+            src={"/images/teacher.png"}
+            width={300}
+            height={300}
             alt=""
             className=""
           />

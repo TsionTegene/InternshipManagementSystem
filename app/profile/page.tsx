@@ -4,14 +4,17 @@ import CardDetail from "@/components/profile/userprofile";
 import { useRouter } from "next/navigation";
 
 const studentProfile = ({ params }) => {
+  const role = localStorage.getItem("role");
+  const getuser = localStorage.getItem("user");
+  const user = JSON.parse(getuser);
   const userInfo = [
     {
       id: "1",
-      name: "Tsion Tegene",
+      firstName: "Tsion",
+      middleName: "Tegene",
       email: "tsion@gmail.com",
       userName: "Tsion",
-      password: "123456",
-      studentPhoneNum: "0909090909",
+      PhoneNum: "0909090909",
       universityName: "Wolkite University",
       departmentName: "Software Engineering",
       year: "4",
@@ -31,17 +34,17 @@ const studentProfile = ({ params }) => {
     <div>
       {userInfo.map((user, index) => (
         <CardDetail
-          name={user.name}
+          firstName={user.firstName}
+          middleName={user.middleName}
           imageUrl={user.imageUrl}
           email={user.email}
           userName={user.userName}
           btn={user.btn}
-          password={user.password}
           universityName={user.universityName}
           departmentName={user.departmentName}
           year={user.year}
           gpa={user.gpa}
-          studentPhoneNum={user.studentPhoneNum}
+          PhoneNum={user.PhoneNum}
           skillsArray={user.skillsArray}
         />
       ))}
