@@ -306,3 +306,35 @@ export async function getInternshipById(id: string) {
   return response.data
 
 }
+
+export async function getStudentsInternship(id: string) {
+  // to make it wait if the id is null, we can use the if statement
+  if (!id) {
+    return
+  }
+  const url = `${api}student/stdintern/${id}`
+  const response = await axios.get(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+
+  return response.data
+
+}
+
+export async function getMyAdvisorandMentor(id: string) {
+  // to make it wait if the id is null, we can use the if statement
+  if (!id) {
+    return
+  }
+  const url = `${api}student/advandmen/${id}`
+  const response = await axios.get(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+
+  return response.data
+
+}

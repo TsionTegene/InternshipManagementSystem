@@ -17,31 +17,48 @@ const Page = () => {
     setSearchQuery(value);
     // Filter opportunities based on search query
     const filtered = internships.filter((opportunity) =>
-      opportunity.title.toLowerCase().includes(value.toLowerCase())
+      opportunity?.company?.address?.city?.toLowerCase().includes(value.toLowerCase()) ||
+      opportunity?.company?.name?.toLowerCase().includes(value.toLowerCase())
+
     );
     setFilteredOpportunities(filtered);
   };
-
   const renderOpportunities = () => {
     const dataToRender = searchQuery ? filteredOpportunities : internships;
-    return dataToRender.flatMap((opportunity) =>
-      opportunity.company?.internshipOffered.map((offered) => (
-        <Link
-          key={`${opportunity.id}-${offered.id}`} // Unique key for each Card
-          href={`/student/internshipopportunities/${offered.id}`}
-          onClick={() => console.log("Navigating to detail:", offered.id)}
-        >
-          <Card
-            title={offered.title} // Use each title from internshipOffered
-            imageUrl={opportunity.imageUrl}
-            startdate={offered.startDate} // Use start date from internshipOffered
-            enddate={offered.endDate} // Use end date from internshipOffered
-            address={opportunity.company?.address?.city}
-          />
-        </Link>
-      ))
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {dataToRender.flatMap((opportunity) => (
+          <div key={opportunity.id}>
+            {/* Display company name paragraph */}
+            <p className="text-lg font-semibold text-center text-gray-700 dark:text-gray-300">
+              {opportunity.company?.name}
+            </p>
+            {/* Display internship cards */}
+            {opportunity.company?.internshipOffered.map((offered) => (
+              <Link
+                key={`${opportunity.id}-${offered.id}`}
+                href={`/student/internshipopportunities/${offered.id}`}
+                onClick={() => console.log("Navigating to detail:", offered.id)}
+              >
+                <Card
+                  title={offered.title}
+                  imageUrl={opportunity.imageUrl}
+                  startdate={offered.startDate}
+                  enddate={offered.endDate}
+                  address={opportunity.company?.address?.city}
+                />
+              </Link>
+            ))}
+          </div>
+        ))}
+      </div>
     );
   };
+
+
+
+
+
 
   return (
     <div className="">

@@ -1,5 +1,5 @@
 import { registerStudent, submiteApplication } from "@/api/student/mutations";
-import { countAdvisorStd, countApprovedStd, countToBeApprovedStd, fetchStudentsByCompanyId, fetchStudentsByDepartmentId, fetchStudentsByMentorId, filterInternshipOpp, getAcceptedApplication, getInternshipById, getSubmittedApplication, unvarifiedstd } from "@/api/student/queries";
+import { countAdvisorStd, countApprovedStd, countToBeApprovedStd, fetchStudentsByCompanyId, fetchStudentsByDepartmentId, fetchStudentsByMentorId, filterInternshipOpp, getAcceptedApplication, getInternshipById, getStudentsInternship, getSubmittedApplication, unvarifiedstd } from "@/api/student/queries";
 import { allStudentsInUniversity } from "@/api/student/queries";
 import { advisorStudents } from "@/api/user/queries";
 import { Query, useMutation, useQueries, useQuery } from "@tanstack/react-query";
@@ -123,6 +123,14 @@ export const useFetchStudentsByAssignedMentor = (id: string) => {
     const query = useQuery({
         queryKey: ["fetchStudentsByAssignedMentor"],
         queryFn: () => fetchStudentsByMentorId(id),
+    })
+    return query;
+}
+
+export const useMyInternship = (id: string) => {
+    const query = useQuery({
+        queryKey: ["myinternship"],
+        queryFn: async () => await getStudentsInternship(id),
     })
     return query;
 }

@@ -15,7 +15,7 @@ interface IsCard {
 
 const Card = ({ id, title, description, icon, imageUrl, startdate, enddate, address }: IsCard) => {
     return (
-        <div className="flex flex-col card p-4  rounded-md shadow-lg items-center " style={{
+        <div className="flex flex-col card p-10 ml-28 rounded-md shadow-lg items-center  mb-10" style={{
             background:
               "radial-gradient(circle, rgba(47,90,145,0.7483368347338936) 0%, rgba(16,12,37,0.7343312324929971) 100%)",
             transition: "transform 0.3s ease",boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)' 

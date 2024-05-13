@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import {
   Card,
@@ -10,6 +11,8 @@ import { Briefcase, Book, Check } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useMyInternship } from "@/queries/useStudentQueries";
+const user = localStorage.getItem("userId")
 
 const Page = () => {
   const MyInternship = [
@@ -34,14 +37,17 @@ const Page = () => {
       evaluation: "88%",
     },
   ];
-
+  const { data: internship ,isSuccess} = useMyInternship(user as string)
+  if (!isSuccess) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="container mx-auto px-4">
-      {MyInternship.map((internship) => (
+      {internship.map((internship) => (
         <Card key={internship.id} className="bg-blue-50 dark:bg-gray-900 mb-8">
           <CardHeader>
             <CardTitle className="text-blue-950 dark:text-white">
-              My Internship
+              My Internship :{"   "+internship?.internship?.title}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -59,14 +65,14 @@ const Page = () => {
                       />
                     </div>
                   )}
-                  {internship.companyName && (
+                  {internship?.internship?.company?.name && (
                     <p className="font-semibold text-lg text-blue-950 dark:text-white">
-                      {internship.companyName}
+                      {internship.internship.company.name}
                     </p>
                   )}
-                  {internship.location && (
+                  {internship?.internship?.company?.address && (
                     <p className="text-blue-950 dark:text-white">
-                      {internship.location}
+                      {internship?.internship?.company?.address?.city}
                     </p>
                   )}
                 </CardContent>
@@ -76,24 +82,24 @@ const Page = () => {
                   <CardTitle className="text-lg p-2 text-blue-950 dark:text-white text-center ">
                     About the Internship
                   </CardTitle>
-                  {internship.startDate && (
+                  {internship.internship.startDate && (
                     <p className="text-blue-950 dark:text-white">
-                      Start Date: {internship.startDate}
+                      Start Date: {internship?.internship?.startDate}
                     </p>
                   )}
-                  {internship.endDate && (
+                  {internship?.internship?.endDate && (
                     <p className="text-blue-950 dark:text-white">
-                      End Date: {internship.endDate}
+                      End Date: {internship?.internship?.endDate}
                     </p>
                   )}
-                  {internship.schedule && (
+                  {internship?.internship?.schedule && (
                     <p className="text-blue-950 dark:text-white">
-                      Schedule: {internship.schedule}
+                      Schedule: {internship?.internship?.schedule}
                     </p>
                   )}
-                  {internship.compensations && (
+                  {internship?.internship?.compensations && (
                     <p className="text-blue-950 dark:text-white">
-                      Compensations: {internship.compensations}
+                      Compensations: {internship?.internship?.compensations}
                     </p>
                   )}
                 </CardContent>
@@ -102,13 +108,13 @@ const Page = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-2 justify-center">
               <Card className="bg-blue-100 dark:bg-gray-950">
                 <CardContent>
-                  {internship.responsibilities && (
+                  {internship?.internship?.description?.responsibilities && (
                     <div>
                       <p className="font-semibold mt-2 text-blue-950 dark:text-white">
                         Responsibilities:
                       </p>
                       <ul>
-                        {internship.responsibilities.map(
+                        {internship?.internship?.description?.responsibilities.map(
                           (responsibility, index) => (
                             <li
                               key={index}
@@ -126,13 +132,13 @@ const Page = () => {
               </Card>
               <Card className="bg-blue-100 dark:bg-gray-950">
                 <CardContent>
-                  {internship.qualifications && (
+                  {internship?.internship?.description?.qualifications && (
                     <div>
                       <p className="font-semibold mt-2 text-blue-950 dark:text-white">
                         Qualifications:
                       </p>
                       <ul>
-                        {internship.qualifications.map(
+                        {internship?.internship ?.description?.qualifications?.map(
                           (qualification, index) => (
                             <li
                               key={index}
@@ -151,33 +157,14 @@ const Page = () => {
             </div>
             <Card className="max-w-fit bg-blue-100 dark:bg-gray-950">
               <CardContent>
-                {internship.evaluation && (
+                {internship?.MentorePoint && (
                   <p className="text-center text-pretty p-2 text-blue-950 dark:text-white">
-                    Your evaluation result is: {internship.evaluation}
+                    Your evaluation result is: {internship?.MentorePoint+" "} from 100
                   </p>
                 )}
               </CardContent>
             </Card>
-            <Card className="m-2 bg-blue-100 dark:bg-gray-950">
-              <CardTitle className="text-lg p-2 text-blue-950 dark:text-white">
-                Feedback
-              </CardTitle>
-              <CardContent className="grid lg:grid-cols-3  md:grid-cols-2 gap-2">
-                <div className="md:col-span-2">
-                  <Input
-                    placeholder="give your feedback here..."
-                    className="border-sky-300 w-full"
-                  />
-                </div>
-                <div className="md:col-span-1 flex justify-end">
-                  {internship.btn && (
-                    <Button className="btn-primary w-full">
-                      {internship.btn}
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+
           </CardContent>
         </Card>
       ))}
