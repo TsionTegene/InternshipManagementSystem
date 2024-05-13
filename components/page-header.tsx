@@ -1,14 +1,15 @@
-"use client";
-
-import React from 'react'
+import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import router, { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-function Header() {
+function Header({ scrollToTeamSection }) {
+  const router = useRouter();
 
-  const router = useRouter()
+  const handleAboutUsClick = () => {
+    scrollToTeamSection();
+  };
 
   return (
     <nav className="flex justify-between items-center px-2 py-1 fixed top-0 left-0 w-full z-50 bg-gradient-to-b from-cyan-600/70 to-blue-400/10">
@@ -28,15 +29,15 @@ function Header() {
         <li className="hover:text-white transition duration-300 ease-in-out">
           <Button
             variant="secondary"
-            className=" rounded-2xl"
-            onClick={() => router.push("/login")}
+            className="rounded-2xl"
+            onClick={handleAboutUsClick}
           >
             About Us
           </Button>
         </li>
         <li className="hover:text-white transition duration-300 ease-in-out">
           <Button
-            className=" rounded-2xl bg-cyan-600"
+            className="rounded-2xl bg-cyan-600"
             onClick={() => router.push("/login")}
           >
             Login
@@ -44,7 +45,7 @@ function Header() {
         </li>
         <li className="hover:text-white transition duration-300 ease-in-out">
           <Button
-            className=" rounded-2xl bg-cyan-600"
+            className="rounded-2xl bg-cyan-600"
             onClick={() => router.push("/signup")}
           >
             Sign Up
@@ -55,4 +56,4 @@ function Header() {
   );
 }
 
-export default Header
+export default Header;

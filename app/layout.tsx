@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar/navbar";
 import ReactQueryProvider from "@/queries/ReactQueryProvider";
 import { QueryClient } from "@tanstack/react-query";
 import Footer from "@/components/footer";
+import { Toaster } from "@/components/ui/toaster";
 // import ThemeProvider from "@/components/themeprovider/ThemeProvider";
 // import Navbar from "@/components/home/Navbar";
 // import Footer from "@/components/home/Footer";
@@ -35,6 +36,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <Toaster />
             <Footer />
           </ThemeProvider>
         </ReactQueryProvider>

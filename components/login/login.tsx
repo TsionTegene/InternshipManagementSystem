@@ -32,7 +32,8 @@ const formSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 export function Login() {
-  const { authenticate, isPending, isError, error, isSuccess } = useAuthenticate();
+  const { authenticate, isPending, isError, error, isSuccess } =
+    useAuthenticate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,12 +44,12 @@ export function Login() {
 
   const onSubmit = (formValues: z.infer<typeof formSchema>) => {
     const result = authenticate(formValues);
-    console.log(result)
+    console.log(result);
     return result;
   };
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div
         className="flex bg-transparent items-center justify-center min-h-screen bg-cover bg-no-repeat"
         style={{

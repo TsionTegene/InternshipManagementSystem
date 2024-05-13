@@ -8,7 +8,7 @@ import { FaUniversity } from "react-icons/fa";
 import { PiStudent, PiStudentBold } from "react-icons/pi";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -28,10 +28,14 @@ import Header from "@/components/page-header";
 import { GiCheckMark } from "react-icons/gi";
 import Breadcrumb from "@/components/landingpage/breadcrumb";
 import { motion } from "framer-motion";
+import { useRef } from "react";
 
 export default function Home() {
   const router = useRouter();
-
+  const teamSectionRef = useRef(null);
+  const scrollToTeamSection = () => {
+    teamSectionRef.current.scrollIntoView({ behavior: "smooth" });
+  };
   // const [open, setOpen] = useState(false);
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
@@ -79,7 +83,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen box-border ">
-      <Header />
+      <Header scrollToTeamSection={scrollToTeamSection} />
       <div className="landing ">
         <div className="w-full ">
           <Breadcrumb />
@@ -126,7 +130,8 @@ export default function Home() {
                   Our platform seamlessly connects students with internships
                   that match their career goals and educational aspirations. We
                   provide an intuitive environment for easy application,
-                  tracking, and feedback. Join us and confidently embark on your professional journey.
+                  tracking, and feedback. Join us and confidently embark on your
+                  professional journey.
                 </p>
               </motion.div>
             </div>
@@ -245,52 +250,60 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="flex gap-8 p-10 box-border">
+          <div
+            className=" flex gap-8 p-10 box-border"
+            ref={teamSectionRef}
+            id="teamsection"
+          >
             <div className="grid grid-cols-2 p-5 gap-3 ">
               <div className="">
-                <div>
+                <div className="">
                   <Image
-                    src={"/images/lady.jpg"}
-                    width={"370"}
-                    height={"400"}
+                    src={"/images/se.jpg"}
+                    width={"200"}
+                    height={"200"}
                     alt={"students"}
-                    className="p-2 rounded-3xl"
+                    className="p-2 "
+                    style={{ borderRadius: "50px" }}
                   />
                   <p className="text-center text-blue-950">Rebecca Asrat</p>
                   <p className="text-sm text-center">Frontend Developer</p>
                 </div>
 
-                <div>
+                <div className="">
                   <Image
-                    src={"/images/man.jpg"}
-                    width={"300"}
-                    height={"300"}
+                    src={"/images/abel.jpg"}
+                    width={"200"}
+                    height={"200"}
                     alt={"students"}
-                    className="p-2 rounded-3xl"
+                    className="p-2"
+                    style={{ borderRadius: "50px" }}
                   />
                   <p className="text-center text-blue-950">Abel Zeleke</p>
                   <p className="text-sm text-center">Backend Developer</p>
                 </div>
               </div>
               <div className="pt-10">
-                <div>
+                <div className="">
                   <Image
-                    src={"/images/man.jpg"}
-                    width={"300"}
-                    height={"300"}
+                    src={"/images/becka.jpg"}
+                    width={"200"}
+                    height={"200"}
                     alt={"students"}
-                    className="p-2 rounded-3xl"
+                    className="p-2 "
+                    style={{ borderRadius: "50px" }}
                   />
                   <p className="text-center text-blue-950">Bereket Tadele</p>
                   <p className="text-sm text-center">Backend Developer</p>
                 </div>
-                <div>
+                <div className="">
                   <Image
-                    src={"/images/lady.jpg"}
-                    width={"370"}
-                    height={"400"}
+                    src={"/images/se.jpg"}
+                    width={"200"}
+                    height={"200"}
                     alt={"students"}
-                    className="p-2 rounded-3xl"
+                    className="p-2 "
+                    style={{ borderRadius: "50px" }}
                   />
                   <p className="text-center text-blue-950">Tsion Tegene</p>
                   <p className="text-sm text-center">Frontend Developer</p>
