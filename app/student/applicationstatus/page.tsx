@@ -1,3 +1,4 @@
+"use client";
 import {
   Table,
   TableBody,
@@ -39,10 +40,9 @@ const page = () => {
             <TableRow>
               <TableHead>Title of Internship</TableHead>
               <TableHead>Company Name</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>GPA</TableHead>
               <TableHead>Address</TableHead>
               <TableHead>Company Email</TableHead>
+              <TableHead>Application Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
