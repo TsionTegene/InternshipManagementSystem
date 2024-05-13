@@ -1,5 +1,5 @@
-import { registerStudent, submiteApplication } from "@/api/student/mutations";
-import { countAdvisorStd, countApprovedStd, countToBeApprovedStd, fetchStudentsByCompanyId, fetchStudentsByDepartmentId, fetchStudentsByMentorId, filterInternshipOpp, getAcceptedApplication, getInternshipById, getStudentsInternship, getSubmittedApplication, unvarifiedstd } from "@/api/student/queries";
+import { registerStudent, submiteApplication, submiteReport } from "@/api/student/mutations";
+import { countAdvisorStd, countApprovedStd, countToBeApprovedStd, fetchStudentsByCompanyId, fetchStudentsByDepartmentId, fetchStudentsByMentorId, filterInternshipOpp, getAcceptedApplication, getInternshipById, getMyAdvisorandMentor, getStudentByUserId, getStudentsInternship, getSubmittedApplication, unvarifiedstd } from "@/api/student/queries";
 import { allStudentsInUniversity } from "@/api/student/queries";
 import { advisorStudents } from "@/api/user/queries";
 import { Query, useMutation, useQueries, useQuery } from "@tanstack/react-query";
@@ -103,6 +103,7 @@ export const useAllApplicationSubmitted = (id: string) => {
 }
 
 export const useSubmite = () => {
+
     const mutation = useMutation({
         mutationKey: ["submitapp"],
         mutationFn: (formData: FormData) => submiteApplication(formData),
@@ -131,6 +132,32 @@ export const useMyInternship = (id: string) => {
     const query = useQuery({
         queryKey: ["myinternship"],
         queryFn: async () => await getStudentsInternship(id),
+    })
+    return query;
+}
+
+export const useMyAdvisorandMentor = (id: string) => {
+    const query = useQuery({
+        queryKey: ["mymenandadv"],
+        queryFn: async () => await getMyAdvisorandMentor(id),
+    })
+    return query;
+}
+
+export const useSubmiteReport = () => {
+
+    const mutation = useMutation({
+        mutationKey: ["submitreport"],
+        mutationFn: (formData: FormData) => submiteReport(formData),
+    })
+
+    return mutation;
+};
+
+export const useStudent = (id: string) => {
+    const query = useQuery({
+        queryKey: ["getstd"],
+        queryFn: async () => await getStudentByUserId(id),
     })
     return query;
 }

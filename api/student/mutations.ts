@@ -82,10 +82,6 @@ export async function evaluateStudentByMentor(id: string, point:string) {
   const response = await axios.patch(url, {
     headers: { 'Content-Type': 'application/json' },
   });
-
-
-
-
   const responseData = await response.data;
   return responseData;
 }
@@ -117,3 +113,15 @@ export async function submiteApplication(formData: FormData) {
   return responseData;
 }
 
+
+
+export async function submiteReport(formData: FormData) {
+  const url = `${api}report`;
+
+  const response = await axios.post(url, formData, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const responseData = await response.data;
+  return responseData;
+}

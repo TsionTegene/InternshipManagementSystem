@@ -334,7 +334,24 @@ export async function getMyAdvisorandMentor(id: string) {
       'Content-Type': 'application/json',
     }
   })
+  console.log("this is mentor and advisor", response.data)
+  return response.data
 
+}
+
+export async function getStudentByUserId(id: string) {
+  // to make it wait if the id is null, we can use the if statement
+  if (!id) {
+    return
+  }
+  const url = `${api}student/userId/${id}`
+  const response = await axios.get(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+  console.log("this is mentor and advisor", response.data)
+  console.log(response.data)
   return response.data
 
 }

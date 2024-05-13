@@ -49,12 +49,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, X } from "lucide-react";
+import { Plus, UploadIcon, X } from "lucide-react";
+import { useMyAdvisorandMentor, useStudent, useSubmiteReport } from "@/queries/useStudentQueries";
+import { json } from "node:stream/consumers";
 const phoneValidation = new RegExp(
   /^(?:(?:\+251|00?251)?\s?)?(?:(9\d{8})|([1-9]\d\s?\d{6}))$/
 );
 
+
+
 const formSchema = z
+
   .object({
     title: z.string().min(2, {
       message: "title must be at least 2 characters.",
@@ -62,151 +67,203 @@ const formSchema = z
     description: z.string().min(2, {
       message: "Middle name must be at least 2 characters.",
     }),
-    challenges: z.string().array().min(2, {
+    challengesFaced: z.string().min(2, {
       message: "Challenges faced.",
     }),
-    lessons: z.string().array().min(2, {
+    lessonsLearned: z.string().min(2, {
       message: "lessons learned.",
     }),
-    tasks: z.string().array().min(6, {
+    tasksAccomplished: z.string().min(6, {
       message: "Tasks accomplished.",
     }),
-    password: z.string().min(6, {
-      message: "Rewrite the password.",
-    }),
-    confirm_password: z.string().min(6, {
-      message: "Rewrite the password.",
-    }),
-    phoneNum: z
-      .string()
-      .min(8, { message: "Must have at least 1 character" })
-      .max(15, { message: "Must have at most 15 characters" })
-      .regex(phoneValidation, { message: "invalid phone" }),
+   
+    attachmentUrl: z.optional(z.string().min(1)),
+
   })
-  .refine((data) => data.password == data.confirm_password, {
-    message: "Passwords do not match",
-    path: ["confirm_password"],
-  });
 
 const Page = () => {
-  // const { mentors, isMLoading } = useFindMentorsByCompanyId();
-  // const mentor = mentors;
-
-  // console.log("mentors:", mentor);
   const [showPassword, setShowPassword] = useState(false);
   const [challenges, setChallenges] = useState<string[]>([]);
   const [lessons, setLessons] = useState<string[]>([]);
   const [tasks, setTasks] = useState<string[]>([]);
+  const [selectedImage, setSelectedImage] = useState("No Image Chosen");
+  const [selectedFile, setSelectedFile] = useState("No File Chosen");
+  const [profileImg, setProfileImg] = useState<File | null>(null);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  // const { addMentor, isLoading, isSuccess } = useAddMentor();
+  const userId = localStorage.getItem("userId")
+  const stdId = localStorage.getItem("stdId")
 
-  const challengesInput = () => {
-    const input = document.getElementById(
-      "challengesArray"
-    ) as HTMLInputElement;
-    input.value = input.value.trim();
-    if (input.value == "") return;
+  const { data: about, isSuccess } = useMyAdvisorandMentor(userId as string)
+  const { mutateAsync } = useSubmiteReport()
+  const {data:student} = useStudent(userId as string)
+  let mentorId = "";
+  let advisorId = "";
+  let internshipId = "";
 
-    if (challenges.includes(input.value)) {
-      input.value = "";
-      return;
-    }
-    setChallenges([...challenges, input.value]);
-    input.value = "";
-  };
+  if (student && student.length > 0) {
+    // Accessing the properties directly from the first student object
+    const firstStudent = student[0]?.Student[0];
+    mentorId = firstStudent?.mentorId || "";
+    advisorId = firstStudent?.advisorId || "";
+    internshipId = firstStudent?.internshipId || "";
+  }
 
-  const lessonsInput = () => {
-    const input = document.getElementById("lessonsArray") as HTMLInputElement;
-    input.value = input.value.trim();
-    if (input.value == "") return;
+// useEffect(()=>{
 
-    if (lessons.includes(input.value)) {
-      input.value = "";
-      return;
-    }
-    setLessons([...lessons, input.value]);
-    input.value = "";
-  };
+//   student?.map((value) => {
+//     value?.Student.map((id) => {
 
-  const tasksInput = () => {
-    const input = document.getElementById("tasksArray") as HTMLInputElement;
-    input.value = input.value.trim();
-    if (input.value == "") return;
+//       console.log(id)
+//       if (id == "mentorId") {
+//         mentoreId = id
+//         console.log("mentorid",mentoreId)
+//       }
+//       if (id == "advisorId") {
+//         advisorId = id
+//         console.log("advisorId", advisorId)
 
-    if (tasks.includes(input.value)) {
-      input.value = "";
-      return;
-    }
-    setTasks([...tasks, input.value]);
-    input.value = "";
-  };
+//       }
+//       if (id == "internshipId") {
+//         interenshipId = id
+//         console.log("internshipId", internshipId)
 
-  const deleteTask = (index: number) => {
-    return () => {
-      const newTasks = tasks.filter((_, i) => i !== index);
-      setTasks(newTasks);
-    };
-  };
+//       }
+//     })
+//     console.log(value)
+//   })
 
-  const deleteChallenge = (index: number) => {
-    return () => {
-      const newChallenges = challenges.filter((_, i) => i !== index);
-      setChallenges(newChallenges);
-    };
-  };
+// })
+  // const challengesInput = () => {
+  //   const input = document.getElementById(
+  //     "challengesArray"
+  //   ) as HTMLInputElement;
+  //   input.value = input.value.trim();
+  //   if (input.value == "") return;
 
-  const deleteLessons = (index: number) => {
-    return () => {
-      const newLessons = lessons.filter((_, i) => i !== index);
-      setLessons(newLessons);
-    };
-  };
-  const form = useForm<z.infer<typeof formSchema>>({
+  //   if (challenges.includes(input.value)) {
+  //     input.value = "";
+  //     return;
+  //   }
+  //   setChallenges([...challenges, input.value]);
+  //   input.value = "";
+  // };
+
+  // const lessonsInput = () => {
+  //   const input = document.getElementById("lessonsArray") as HTMLInputElement;
+  //   input.value = input.value.trim();
+  //   if (input.value == "") return;
+
+  //   if (lessons.includes(input.value)) {
+  //     input.value = "";
+  //     return;
+  //   }
+  //   setLessons([...lessons, input.value]);
+  //   input.value = "";
+  // };
+
+  // const tasksInput = () => {
+  //   const input = document.getElementById("tasksArray") as HTMLInputElement;
+  //   input.value = input.value.trim();
+  //   if (input.value == "") return;
+
+  //   if (tasks.includes(input.value)) {
+  //     input.value = "";
+  //     return;
+  //   }
+  //   setTasks([...tasks, input.value]);
+  //   input.value = "";
+  // };
+
+  // const deleteTask = (index: number) => {
+  //   return () => {
+  //     const newTasks = tasks.filter((_, i) => i !== index);
+  //     setTasks(newTasks);
+  //   };
+  // };
+
+  // const deleteChallenge = (index: number) => {
+  //   return () => {
+  //     const newChallenges = challenges.filter((_, i) => i !== index);
+  //     setChallenges(newChallenges);
+  //   };
+  // };
+
+  // const deleteLessons = (index: number) => {
+  //   return () => {
+  //     const newLessons = lessons.filter((_, i) => i !== index);
+  //     setLessons(newLessons);
+  //   };
+  // };
+// console.log("=====>",student[0]?.Student[0])
+ const form = useForm({
     resolver: zodResolver(formSchema),
-    // defaultValues: {
-    //   title: "",
-    //   description: "",
-    //   challenges: [],
-    //   lessons: [],
-    //   tasks: [],
-    // },
   });
-  // const togglePasswordVisibility = () => {
-  //   setShowPassword(!showPassword);
-  // };
-
-  // const toggleConfirmPasswordVisibility = () => {
-  //   setShowConfirmPassword(!showConfirmPassword);
-  // };
-
+  
   const onInvalid = (errors: any) => console.error(errors);
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // const result = addMentor(values);
-    console.log(values);
+  console.log("m\n", mentorId, "adv\n", advisorId, "intern\n", internshipId)
+
+  function onSubmit(formValues :any) {
+
+    const formData = new FormData();
+    for (const field in formValues) {
+      if (field == "confirm_password" || field == "image" || field == "resume")
+        continue;
+      console.log(field, formValues[field]);
+      formData.append(field, formValues[field]);
+      // console.log(formData.getAll(field))
+    }
+
+    if (profileImg) {
+      console.log("image: ", profileImg);
+      formData.append("attachmentUrl", profileImg);
+    }
+    //@ts-ignore
+    for (let pair of formData.entries()) {
+      console.log(pair[0], pair[1]); // Log key-value pairs in the FormData object
+    }
+    formData.append("mentorId", mentorId);
+    // formData.append("advisorId", advisorId);
+    formData.append("internshipId", internshipId);
+
+
+    formData.append("studentId", stdId as string)
+    mutateAsync(formData);
+    console.log(formValues);
+    console.log("m", mentorId,"adv",advisorId,"intern",internshipId)
     form.reset();
   }
-  // const Page = () => {
-    const router = useRouter();
-    const about = [
-      {
-        name: "Emma Smith",
-        email: "smith@gmail.com",
-        pno: "+2519874563",
-        currentRole: "Mentor at INSA",
-        imageUrl: "/images/avatar.svg",
-      },
-    ];
+  console.log("this is id  " + student
+)
 
+// student?.map((value)=>{
+//   value?.Student.map((id)=>{
+
+//     console.log(id)
+//     if (id ==="mentorId") {
+//       mentoreId = id
+//     }
+//     if (id === "advisorId") {
+// advisorId = id
+//     }
+//     if (id === "internshipId") {
+// interenshipId = id
+//     }
+//   })
+//   console.log(value)
+// })
+  if ( ! isSuccess) {
+  return (<div>Loading</div>)
+}
     return (
       <div className="container mx-auto px-4 py-8">
-        {about.map((person, index) => (
+        {about?.map((person, index) => (
           <div key={index}>
             <Card
               className={`bg-blue-100 shadow-md rounded-md p-9 mb-4 flex items-center relative dark:bg-slate-900 md:flex-wrap md:justify-between`}
             >
               <div className="absolute top-16 left-6 rounded-full">
-                <Image
-                  src={person.imageUrl}
+                <img
+                  src={person?.mentor?.user?.profilePic}
                   width={"75"}
                   height={"75"}
                   alt=""
@@ -223,21 +280,21 @@ const Page = () => {
               <div>
                 <div className="mb-4">
                   <p className="font-semibold">Name:</p>
-                  <p>{person.name}</p>
+                  <p>{person?.mentor?.user?.firstName}</p>
                 </div>
                 <div className="mb-4">
                   <p className="font-semibold">Email:</p>
-                  <p>{person.email}</p>
+                  <p>{person?.mentor?.user?.email}</p>
                 </div>
                 <div className="mb-4">
                   <p className="font-semibold">Phone Number:</p>
-                  <p>{person.pno}</p>
+                  <p>{person?.mentor?.user?.phoneNum}</p>
                 </div>
               </div>
               <div>
                 <p className="font-semibold ">Current Role:</p>
                 <Card className="bg-blue-100 shadow-md rounded-md p-4 max-w-fit dark:bg-slate-900">
-                  <p>{person.currentRole}</p>
+                  <p>{person?.mentor?.user?.roleName}</p>
                 </Card>
               </div>
             </div>
@@ -308,147 +365,105 @@ const Page = () => {
 
                               <FormField
                                 control={form.control}
-                                name="challenges"
+                                name="challengesFaced"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <div className="flex">
-                                      <FormLabel className="mr-2 mt-2">
-                                        Challenges Faced
-                                      </FormLabel>
-                                      <div className="flex flex-wrap">
-                                        {challenges.map((challenge, index) => (
-                                          <Badge
-                                            key={index}
-                                            className="font-bold flex m-1 pl-1 p-2 gap-1.5"
-                                          >
-                                            <div className="">{challenge}</div>
-                                            <X
-                                              size={14}
-                                              className="mt-0.5 hover:cursor-pointer"
-                                              onClick={deleteChallenge(index)}
-                                            />
-                                          </Badge>
-                                        ))}
-                                      </div>
-                                    </div>
+                                    <FormLabel className="mr-2 mt-2">
+                                      Challenges Faced
+                                    </FormLabel>
                                     <FormControl>
-                                      <div className="flex gap-2">
-                                        <Input
-                                          id="challengesArray"
-                                          placeholder="Add challenges you faced"
-                                        />
-                                        <Button
-                                          asChild
-                                          size="icon"
-                                          className="p-2 rounded-full hover:translate-y-1 h-fit w-fit"
-                                          variant="outline"
-                                        >
-                                          <Plus
-                                            size={28}
-                                            strokeWidth={1.5}
-                                            onClick={challengesInput}
-                                          />
-                                        </Button>
-                                      </div>
+                                      <Input
+                                        placeholder="Add challenges you faced"
+                                        {...field}
+                                      />
                                     </FormControl>
+                                    <FormMessage />
                                   </FormItem>
                                 )}
                               />
 
                               <FormField
                                 control={form.control}
-                                name="lessons"
+                                name="lessonsLearned"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <div className="flex">
-                                      <FormLabel className="mr-2 mt-2">
-                                        Lessons Learned
-                                      </FormLabel>
-                                      <div className="flex flex-wrap">
-                                        {lessons.map((lesson, index) => (
-                                          <Badge
-                                            key={index}
-                                            className="font-bold flex m-1 pl-1 p-2 gap-1.5"
-                                          >
-                                            <div className="">{lesson}</div>
-                                            <X
-                                              size={14}
-                                              className="mt-0.5 hover:cursor-pointer"
-                                              onClick={deleteLessons(index)}
-                                            />
-                                          </Badge>
-                                        ))}
-                                      </div>
-                                    </div>
+                                    <FormLabel className="mr-2 mt-2">
+                                      Lessons Learned
+                                    </FormLabel>
                                     <FormControl>
-                                      <div className="flex gap-2">
-                                        <Input
-                                          id="lessonsArray"
-                                          placeholder="Add lessons you learned"
-                                        />
-                                        <Button
-                                          asChild
-                                          size="icon"
-                                          className="p-2 rounded-full hover:translate-y-1 h-fit w-fit"
-                                          variant="outline"
-                                        >
-                                          <Plus
-                                            size={28}
-                                            strokeWidth={1.5}
-                                            onClick={lessonsInput}
-                                          />
-                                        </Button>
-                                      </div>
+                                      <Input
+                                        placeholder="Add lessons you learned"
+                                        {...field}
+                                      />
                                     </FormControl>
+                                    <FormMessage />
                                   </FormItem>
                                 )}
                               />
 
                               <FormField
                                 control={form.control}
-                                name="tasks"
+                                name="tasksAccomplished"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <div className="flex">
-                                      <FormLabel className="mr-2 mt-2">
-                                        Tasks Accomplished
-                                      </FormLabel>
-                                      <div className="flex flex-wrap">
-                                        {tasks.map((task, index) => (
-                                          <Badge
-                                            key={index}
-                                            className="font-bold flex m-1 pl-1 p-2 gap-1.5"
-                                          >
-                                            <div className="">{task}</div>
-                                            <X
-                                              size={14}
-                                              className="mt-0.5 hover:cursor-pointer"
-                                              onClick={deleteTask(index)}
-                                            />
-                                          </Badge>
-                                        ))}
-                                      </div>
-                                    </div>
+                                    <FormLabel className="mr-2 mt-2">
+                                      Tasks Accomplished
+                                    </FormLabel>
                                     <FormControl>
-                                      <div className="flex gap-2">
-                                        <Input
-                                          id="tasksArray"
-                                          placeholder="Add tasks you accomplished"
-                                        />
-                                        <Button
-                                          asChild
-                                          size="icon"
-                                          className="p-2 rounded-full hover:translate-y-1 h-fit w-fit"
-                                          variant="outline"
-                                        >
-                                          <Plus
-                                            size={28}
-                                            strokeWidth={1.5}
-                                            onClick={tasksInput}
+                                      <Input
+                                        placeholder="Add tasks you accomplished"
+                                        {...field}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+
+
+                              <FormField
+                                control={form.control}
+                                name="attachmentUrl"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Profile Picture</FormLabel>
+                                    <FormControl className="flex flex-col">
+                                      <div className="">
+                                        <div className="flex flex-row items-center">
+                                          <input
+                                            type="file"
+                                            id="custome-input"
+                                            onChange={(e) => {
+                                              if (e.target.files) {
+                                                setSelectedImage(e.target.files[0].name);
+                                                setProfileImg(e.target.files[0]);
+                                              }
+                                            }}
+                                            hidden
                                           />
-                                        </Button>
+                                          <label
+                                            htmlFor="custome-input"
+                                            className="w-full flex text-sm justify-center text-slate-800 mr-4 py-2 px-4 rounded-md border-0 font-semibold bg-slate-100 hover:bg-slate-200 cursor-pointer "
+                                          >
+                                            <UploadIcon />
+                                            <span className="mx-3 text-sm ">
+                                              Upload Image
+                                            </span>
+                                          </label>
+                                        </div>
+                                        <label
+                                          htmlFor="custome-input"
+                                          className="text-slate-500 truncate ..."
+                                        >
+                                          {selectedImage && (
+                                            <span className="block mt-2 text-sm text-gray-500">
+                                              Selected pdf: {selectedImage}
+                                            </span>
+                                          )}
+                                        </label>
                                       </div>
                                     </FormControl>
+                                    <FormMessage />
                                   </FormItem>
                                 )}
                               />
@@ -459,33 +474,6 @@ const Page = () => {
                               // disabled={isLoading}
                             >
                               Submit
-                              {/* {isLoading ? (
-                                <>
-                                  <svg
-                                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <circle
-                                      className="opacity-25"
-                                      cx="12"
-                                      cy="12"
-                                      r="10"
-                                      stroke="currentColor"
-                                      stroke-width="4"
-                                    ></circle>
-                                    <path
-                                      className="opacity-75"
-                                      fill="currentColor"
-                                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                    ></path>
-                                  </svg>
-                                  Creating Account...
-                                </>
-                              ) : (
-                                "Create an account"
-                              )} */}
                             </Button>
                           </div>
                         </form>
@@ -494,66 +482,6 @@ const Page = () => {
                   </DialogContent>
                 </Dialog>
               </div>
-              {/* <div className="border rounded-lg overflow-hidden">
-        <Card className="transition duration-700 hover:bg-blue-100 hover:shadow-sm dark:hover:bg-gray-900">
-          <CardHeader>
-            <CardTitle>Mentor List</CardTitle>
-            <CardDescription>
-              Emloyers added to mentor interns by your company.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Username</TableHead>
-                  <TableHead>Phone Number</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {isMLoading ? (
-                  <div className="flex min-w-full p-10 justify-center items-center">
-                    <svg
-                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    <p>Loading...</p>
-                  </div>
-                ) : (
-                  mentors?.map((mentor: any, index: any) => (
-                    <TableRow key={index}>
-                      <TableCell>
-                        {mentor.user.firstName} {mentor.user.middleName}
-                      </TableCell>
-                      <TableCell>{mentor.user.email}</TableCell>
-                      <TableCell>{mentor.user.userName}</TableCell>
-                      <TableCell>{mentor.user.phoneNum}</TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      </div> */}
             </div>
           </div>
         ))}
