@@ -43,9 +43,6 @@ const Page = () => {
     );
   };
 
-
-
-
   return (
     <div className="">
       <div className="grid grid-cols-2 px-2">
@@ -60,7 +57,7 @@ const Page = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-16 ml-15 justify-evenly m-5 mt-10">
+      <div className="grid grid-cols-3 gap-16 ml-15 justify-evenly m-5 mt-10">
         {renderOpportunities()}
       </div>
     </div>
