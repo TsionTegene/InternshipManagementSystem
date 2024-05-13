@@ -51,29 +51,40 @@ console.log("Interns: ", interns);
               </TableRow>
             </TableHeader>
             <TableBody>
-              {interns?.map((student: any, index: any) => (
-                <TableRow key={index}>
-                  <TableCell style={{ listStyleType: "decimal" }}>
-                    {student.user.firstName + " " + student.user.middleName}
-                  </TableCell>
-                  <TableCell>{student.internship.title}</TableCell>
-                  <TableCell>{student.University.name}</TableCell>
-                  <TableCell>{student.department.name}</TableCell>
-                  <TableCell>
-                    <Button variant="outline" asChild>
-                    <Link
-                      key={student.id}
-                      href={{
-                        pathname: `/mentor/evaluate/${student.id}`,
-                        query: { studentId: student.id },
-                      }}
-                    >
-                      Evaluate
-                    </Link>
-                    </Button>
+              {interns.length < 1 ? (
+                <TableRow>
+                  <TableCell
+                    colSpan={5}
+                    className="h-12 text-center text-gray-500 dark:text-gray-400"
+                  >
+                      No Data
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                interns?.map((student: any, index: any) => (
+                  <TableRow key={index}>
+                    <TableCell style={{ listStyleType: "decimal" }}>
+                      {student.user.firstName + " " + student.user.middleName}
+                    </TableCell>
+                    <TableCell>{student.internship.title}</TableCell>
+                    <TableCell>{student.University.name}</TableCell>
+                    <TableCell>{student.department.name}</TableCell>
+                    <TableCell>
+                      <Button variant="outline" asChild>
+                        <Link
+                          key={student.id}
+                          href={{
+                            pathname: `/mentor/evaluate/${student.id}`,
+                            query: { studentId: student.id },
+                          }}
+                        >
+                          Evaluate
+                        </Link>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </CardContent>
