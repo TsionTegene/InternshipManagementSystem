@@ -1,68 +1,151 @@
-"use client"
+/* eslint-disable @next/next/no-img-element */
+"use client";
 
-import { Card } from "@/components/ui/card";
-import { useadvisorsStudents } from "@/hooks/useStudentsActions";
-import { Download, FileIcon, Lightbulb, MountainSnow, Trophy } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
+import { format, parseISO } from "date-fns";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+  DropdownMenuContent,
+  DropdownMenu,
+} from "@/components/ui/dropdown-menu";
+import {
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableCell,
+  TableBody,
+  Table,
+} from "@/components/ui/table";
+import Image from "next/image";
+import { useFetchReportByAdvisorId, useFetchReportByMentorId } from "@/hooks/useReportQuery";
+import {
+  PanelTopCloseIcon,
+  FileIcon,
+  Swords,
+  MountainSnow,
+  Lightbulb,
+  Trophy,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  CardTitle,
+  CardHeader,
+  CardDescription,
+  CardContent,
+  Card,
+} from "@/components/ui/card";
 
-export default function Reports() {
+export default function Component() {
+  const { reports, isLoading, error } = useFetchReportByAdvisorId();
+  console.log("Reports: ", reports);
+  const [internreport, setReport] = useState<any>(reports[0]);
+  useEffect(() => {
+    setReport(reports[0]);
+  }, [reports]);
 
-  const { students, isLoading } = useadvisorsStudents()
-  const [searchQuery, setSearchQuery] = useState("");
-
-console.log(students)
-  const filteredCompanies = students?.filter(
-    (value) =>
-      value.user?.firstName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      value.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
   return (
-    <main className="container mx-auto px-4 md:px-6 mb-5">
-      <h1 className="text-3xl font-bold mb-8">Reports</h1>
-      <div className="relative w-full max-w-md  mb-8 justify-end">
-        <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 dark:text-gray-400" />
-        <Input
-          className=" mb-3 pl-10 pr-4 py-2 rounded-md border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-900 dark:text-white"
-          placeholder="Search Report..."
-          type="search"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-        {filteredCompanies.map((student, index) => (
-          <Card
-            key={index}
-            className="bg-white dark:bg-gray-950 rounded-lg shadow-md overflow-hidden"
-          >
-            <div className="p-6">
-              <h2 className="text-xl font-bold mb-2">{student.user?.firstName}</h2>
-              <p className="text-gray-500 dark:text-gray-400 mb-4">
-                {student.Report.attachmenturl  || "Not Submitted"}
-                student.r
-              </p>
-              <div className="flex gap-4">
-                {
-                  student.Report.map((repo)=>{
-                    <p>{repo.description}</p>
-                  }) ? <Link
-                    className="inline-flex items-center justify-center px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-950 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-200 dark:focus:ring-gray-300"
-                    href="#"
-                  >
-                    <Download /> Report
-                  </Link> :<p>Empty</p>
-                  
-                }
+    <div className="flex flex-col w-full min-h-screen gap-5">
+      <Card className="transition duration-700 bg-blue-100 dark:bg-gray-950 hover:bg-blue-200 hover:shadow-sm dark:hover:bg-gray-900">
+        <CardHeader>
+          <CardTitle>Internship Reports</CardTitle>
+          <CardDescription>List of reports of interns.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[200px]">Intern</TableHead>
+                <TableHead className="w-[200px]">Internship</TableHead>
+                <TableHead className="w-[300px]">Report Title</TableHead>
+                <TableHead className="w-[150px]">Submitted</TableHead>
+                <TableHead className="w-[150px]">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {reports.map((report: any, index: any) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <img
+                        alt="Intern Avatar"
+                        className="rounded-full"
+                        height="32"
+                        src={report.student.user.profilePic}
+                        style={{
+                          aspectRatio: "32/32",
+                          objectFit: "cover",
+                        }}
+                        width="32"
+                      />
+                      <div>
+                        <div className="font-medium">
+                          {report.student.user.firstName}{" "}
+                          {report.student.user.middleName}
+                        </div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                          {report.student.user.email}
+                        </div>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="font-medium">{report.internship.title}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      {format(
+                        parseISO(report.internship.startDate),
+                        "MMMM d, yyyy"
+                      )}{" "}
+                      -{" "}
+                      {format(
+                        parseISO(report.internship.endDate),
+                        "MMMM d, yyyy"
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="font-medium">{report.title}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      {format(parseISO(report.createdAt), "MMMM, yyyy")}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="font-medium">
+                      {format(parseISO(report.createdAt), "MMMM d, yyyy")}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <Link href="/#details" passHref>
+                      <Button
+                        variant="outline"
+                        onClick={() => setReport(report)}
+                      >
+                        View Detail
+                      </Button>
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
 
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
-    </main>
+      <Card className="transition my-5 duration-700 bg-blue-100 dark:bg-gray-950 hover:bg-blue-200 hover:shadow-sm dark:hover:bg-gray-900">
+        <CardHeader className="my-5">
+          <CardTitle>
+            Internship Reports Details {internreport?.student?.user?.firstName}{" "}
+            {internreport?.student?.user?.middleName}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <RepoertDetail internreport={internreport} />
+        </CardContent>
+      </Card>
+    </div>
   );
 }
 
@@ -144,23 +227,3 @@ function RepoertDetail({ internreport }: { internreport: any }) {
     </div>
   );
 }
-function SearchIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="11" cy="11" r="8" />
-      <path d="m21 21-4.3-4.3" />
-    </svg>
-  );
-}
-

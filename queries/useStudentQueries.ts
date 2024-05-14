@@ -1,7 +1,8 @@
+import { getReportsByAdvisorId } from "@/api/report /query";
 import { registerStudent, submiteApplication, submiteReport } from "@/api/student/mutations";
 import { countAdvisorStd, countApprovedStd, countToBeApprovedStd, fetchStudentsByCompanyId, fetchStudentsByDepartmentId, fetchStudentsByMentorId, filterInternshipOpp, getAcceptedApplication, getInternshipById, getMyAdvisorandMentor, getStudentByUserId, getStudentsInternship, getSubmittedApplication, unvarifiedstd } from "@/api/student/queries";
 import { allStudentsInUniversity } from "@/api/student/queries";
-import { advisorStudents } from "@/api/user/queries";
+import { advisorStudents, advisorrepos } from "@/api/user/queries";
 import { Query, useMutation, useQueries, useQuery } from "@tanstack/react-query";
 
 
@@ -158,6 +159,15 @@ export const useStudent = (id: string) => {
     const query = useQuery({
         queryKey: ["getstd"],
         queryFn: async () => await getStudentByUserId(id),
+    })
+    return query;
+}
+
+
+export const usereportByAdvisor = (id: string) => {
+    const query = useQuery({
+        queryKey: ["advisorrepo"],
+        queryFn: async () => await advisorrepos(id),
     })
     return query;
 }
