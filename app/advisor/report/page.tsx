@@ -2,42 +2,18 @@
 
 import { Card } from "@/components/ui/card";
 import { useadvisorsStudents } from "@/hooks/useStudentsActions";
-import { Download } from "lucide-react";
+import { Download, FileIcon, Lightbulb, MountainSnow, Trophy } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function Reports() {
 
   const { students, isLoading } = useadvisorsStudents()
   const [searchQuery, setSearchQuery] = useState("");
 
-  const reportsData = [
-    {
-      name: "Tsion Tegene",
-      description: "Graphic Design Intern",
-    },
-    {
-      name: "Bereket Tadele",
-      description: "Software Development Intern",
-    },
-    {
-      name: "Abel Zeleke",
-      description: "Data Analysis Intern.",
-    },
-    {
-      name: "Rebecca Asrat",
-      description: "Project Management Intern",
-    },
-    {
-      name: "Ebisa Girma",
-      description: "User Experience (UX) Design Intern",
-    },
-    {
-      name: "Eyob Kefale",
-      description: "Quality Assurance (QA) Intern",
-    },
-  ];
+console.log(students)
   const filteredCompanies = students?.filter(
     (value) =>
       value.user?.firstName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -75,6 +51,7 @@ export default function Reports() {
                   >
                     <Download /> Report
                   </Link> :<p>Empty</p>
+                  
                 }
 
               </div>
@@ -83,6 +60,85 @@ export default function Reports() {
         ))}
       </div>
     </main>
+  );
+}
+
+function RepoertDetail({ internreport }: { internreport: any }) {
+  return (
+    <div id="details">
+      <div>
+        <div>
+          <div className="grid grid-cols-2 gap-12">
+            <div>
+              <h3 className="text-lg font-bold mb-2">Description</h3>
+              <p className="text-gray-600 dark:text-gray-400 font-light leading-loose">
+                {internreport?.description}
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold mb-4">Challenges</h3>
+              <ul className="list-disc pl-4 space-y-4 list-image-none ">
+                {internreport?.challengesFaced.map(
+                  (challenge: any, index: any) => (
+                    <li key={index} className="flex gap-3 ">
+                      <div>
+                        <MountainSnow color="#df5d4e" />
+                      </div>
+                      <div className="text-gray-600 dark:text-gray-400 font-light leading-relaxed">
+                        {challenge}
+                      </div>
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold mb-4">Lessons Learned</h3>
+              <ul className="list-disc pl-4 space-y-4 list-image-none">
+                {internreport?.lessonsLearned.map((lesson: any, index: any) => (
+                  <li key={index} className="flex gap-3">
+                    <div>
+                      <Lightbulb color="#857300" />
+                    </div>
+                    <div className="text-gray-600 dark:text-gray-400 font-light leading-relaxed">
+                      {lesson}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold mb-4">Tasks Accomplished</h3>
+              <ul className="list-disc pl-4 space-y-4 list-image-none">
+                {internreport?.tasksAccomplished.map(
+                  (task: any, index: any) => (
+                    <li key={index} className="flex gap-3">
+                      <div>
+                        <Trophy color="#087a00" />
+                      </div>
+                      <div className="text-gray-600 dark:text-gray-400 font-light leading-relaxed">
+                        {task}
+                      </div>
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold mb-2">Attachment</h3>
+              <div className="space-y-2">
+                <Button variant="outline" asChild>
+                  <a href={internreport?.attachmentUrl} target="_blank">
+                    <FileIcon className="h-5 w-5 mr-2 text-gray-400" />
+                    <span>Report File</span>
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 function SearchIcon(props) {

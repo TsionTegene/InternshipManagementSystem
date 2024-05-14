@@ -65,7 +65,7 @@ const Page = () => {
                   <TableCell>{student.user?.firstName} {student.user?.middleName}</TableCell>
                   <TableCell>{student.user?.email}</TableCell>
                   <TableCell>{student.user?.phoneNum}</TableCell>
-                  <TableCell>{student.user?.company}</TableCell>
+                  <TableCell>{student.user?.internship?.company?.name}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
