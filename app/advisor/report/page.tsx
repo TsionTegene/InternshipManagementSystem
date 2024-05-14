@@ -42,10 +42,13 @@ console.log(students)
               <h2 className="text-xl font-bold mb-2">{student.user?.firstName}</h2>
               <p className="text-gray-500 dark:text-gray-400 mb-4">
                 {student.Report.attachmenturl  || "Not Submitted"}
+                student.r
               </p>
               <div className="flex gap-4">
                 {
-                  student.Report.attachmenturl ? <Link
+                  student.Report.map((repo)=>{
+                    <p>{repo.description}</p>
+                  }) ? <Link
                     className="inline-flex items-center justify-center px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-950 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-200 dark:focus:ring-gray-300"
                     href="#"
                   >
