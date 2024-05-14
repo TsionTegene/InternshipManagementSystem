@@ -30,10 +30,15 @@ const depformSchema = z.object({
 const RoleAssignment = () => {
   const router = useRouter()
   const { user, Loading, Error } = useNullrole();
-  const{roleName,role_Loading,role_error} =userole()
+  const{role_Loading,role_error} =userole()
 
 
+  const roleName = [
+"UNIVERSITY_ADMIN",
+"DEPARTMENT_HEAD",
+"ADVISOR",
 
+  ]
 
   const handleRoleChange = async (formValues:any) => {
      const formData = new FormData();
@@ -145,10 +150,10 @@ const RoleAssignment = () => {
                         <SelectValue placeholder="Select Role" />{" "}
                       </SelectTrigger>
                       <SelectContent>
-                        {roleName &&
+                       { 
                         roleName?.map((roleName:any) => (
-                          <SelectItem key={roleName.id} value={roleName.name}>
-                            {roleName.name}
+                          <SelectItem key={roleName.id} value={roleName}>
+                            {roleName}
                           </SelectItem>
                         ))}
                       </SelectContent>

@@ -24,6 +24,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
+import { useInternshipByID, useStudent, useSubmite } from "@/queries/useStudentQueries";
 
 interface isDetail {
   imageUrl: string;
@@ -33,10 +34,12 @@ interface isDetail {
   schedule: any;
   compensations: any;
   companyName: string;
+  companyid: string,
   responsibilities: string[];
   qualifications: string[];
   applicationInstructions: any;
   deadline: any;
+  internshipid: string,
   location: string;
   requirements: string;
   numberOfApplicants: number;
@@ -47,6 +50,8 @@ interface isDetail {
 const cardDetail = ({
   imageUrl,
   companyName,
+  companyid,
+  internshipid,
   location,
   numberOfApplicants,
   qualifications,
@@ -61,8 +66,23 @@ const cardDetail = ({
   btn,
   field,
 }: isDetail) => {
-    const router = useRouter();
+  const userId = localStorage.getItem("userId")
+  const { mutateAsync } = useSubmite()
+  const router = useRouter();
+  const stdId = localStorage.getItem("stdId") as string
 
+
+  const handler = () => {
+    console.log("submitted")
+    mutateAsync(
+      { 
+        "studentId": stdId,
+       "companyId": companyid ,
+       "internshipId":internshipid,
+       "status":"PENDING"
+      })
+    router.push('/student/internshipopportunities')
+  }
   return (
     <Card className="bg-blue-50 dark:bg-gray-900 m-3">
       <CardHeader className="pb-2">
@@ -196,7 +216,7 @@ const cardDetail = ({
           {!btn && (
             <AlertDialog>
               <AlertDialogTrigger className="w-1/2 p-2 rounded-md dark:bg-blue-950 dark:text-white hover:bg-blue-950 dark:hover:bg-blue-700">
-               Apply
+                Apply
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
@@ -207,7 +227,7 @@ const cardDetail = ({
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={()=>router.push('/student/internshipopportunities')}>Continue</AlertDialogAction>
+                  <AlertDialogAction onClick={handler}>Continue</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>

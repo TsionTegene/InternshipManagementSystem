@@ -22,9 +22,11 @@ import {
   // useFindMentorsByCompanyId,
 } from "@/hooks/useCompanyActions";
 import { Badge } from "@/components/ui/badge";
+import { useAllApplicationSubmitted } from "@/queries/useStudentQueries";
+const stdId = localStorage.getItem("stdId")
 
 const page = () => {
-  const { applications, isLoading } = useFetchApplicationsByCompanyId();
+  const { data: applications, isLoading } = useAllApplicationSubmitted(stdId as string);
   const acceptedInterns = applications?.filter(
     (application: any) => application.status === "ACCEPTED"
   );
@@ -51,26 +53,23 @@ const page = () => {
             ) : (
               applications?.map((application: any, index: any) => (
                 <TableRow key={index}>
+                  <TableCell>{application?.Application[0]?.internship?.title}</TableCell>
+                  <TableCell>{application?.Application[0]?.company?.name}</TableCell>
+                  <TableCell>{application?.Application[0]?.company?.address.city}</TableCell>
+                  <TableCell>{application?.Application[0]?.company?.email}</TableCell>
+
                   <TableCell>
-                    {application?.student.user.firstName}{" "}
-                    {application?.student.user.middleName}
-                  </TableCell>
-                  <TableCell>{application?.student.user.email}</TableCell>
-                  <TableCell>{application?.internship.title}</TableCell>
-                  <TableCell>
-                    {application?.status === "PENDING" ? (
+                    {application?.Application[0]?.status === "PENDING" ? (
                       <Pending />
-                    ) : application?.status === "ACCEPTED" ? (
+                    ) : application?.Application[0]?.status === "ACCEPTED" ? (
                       <Accepted />
-                    ) : application?.status === "REJECTED" ? (
+                      ) : application?.Application[0]?.status === "REJECTED" ? (
                       <Rejected />
                     ) : (
                       <Canceled />
                     )}
                   </TableCell>
-                  <TableCell>{application?.student.gpa}</TableCell>
-                  <TableCell>{application?.student.University.name}</TableCell>
-                  <TableCell>{application?.student.department.name}</TableCell>
+        
                 </TableRow>
               ))
             )}

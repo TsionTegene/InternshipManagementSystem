@@ -32,7 +32,7 @@ const studentProfile = ({ params }) => {
 
   return (
     <div>
-      {userInfo.map((user, index) => (
+     
         <CardDetail
           firstName={user.firstName}
           middleName={user.middleName}
@@ -47,7 +47,7 @@ const studentProfile = ({ params }) => {
           PhoneNum={user.PhoneNum}
           skillsArray={user.skillsArray}
         />
-      ))}
+  
     </div>
   );
 };

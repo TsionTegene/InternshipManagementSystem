@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -29,7 +29,10 @@ const page = () => {
             .includes(searchQuery.toLowerCase())
       )
       : [];
+useEffect(()=>{
 
+
+}, [user])
   return (
     <CardContent>
       <div>
@@ -56,7 +59,7 @@ const page = () => {
               <TableHead>Role</TableHead>
               <TableHead>Number of Students</TableHead>
 
-              <TableHead>Action</TableHead>
+              {/* <TableHead>Action</TableHead> */}
             </TableRow>
           </TableHeader>
           <TableBody>

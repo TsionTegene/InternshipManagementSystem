@@ -41,9 +41,10 @@ const Page = () => {
   if (!isSuccess) {
     return <div>Loading...</div>;
   }
+  if(internship.length >= 1)
   return (
     <div className="container mx-auto px-4">
-      {internship.map((internship) => (
+      { internship &&  internship.map((internship) => (
         <Card key={internship.id} className="bg-blue-50 dark:bg-gray-900 mb-8">
           <CardHeader>
             <CardTitle className="text-blue-950 dark:text-white">
@@ -82,7 +83,7 @@ const Page = () => {
                   <CardTitle className="text-lg p-2 text-blue-950 dark:text-white text-center ">
                     About the Internship
                   </CardTitle>
-                  {internship.internship.startDate && (
+                  {internship?.internship?.startDate && (
                     <p className="text-blue-950 dark:text-white">
                       Start Date: {internship?.internship?.startDate}
                     </p>
@@ -114,7 +115,7 @@ const Page = () => {
                         Responsibilities:
                       </p>
                       <ul>
-                        {internship?.internship?.description?.responsibilities.map(
+                        {internship?.internship?.description?.responsibilities?.map(
                           (responsibility, index) => (
                             <li
                               key={index}

@@ -57,6 +57,8 @@ useEffect(()=>{
                 <TableHead>Name</TableHead>
                 <TableHead>Advisor</TableHead>
                 <TableHead>Organization</TableHead>
+                <TableHead>Email</TableHead>
+
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -73,7 +75,10 @@ useEffect(()=>{
                   </TableCell>
                   <TableCell>{student.advisor?.user?.firstName}</TableCell>
                   <TableCell>
-                    {student.user.organization}
+                    {student.internship?.company?.name}
+                  </TableCell>
+                  <TableCell>
+                    {student.internship?.company?.email}
                   </TableCell>
                 </TableRow>
               ))}

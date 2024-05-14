@@ -124,6 +124,7 @@ export function UniversityForm() {
     console.log(formData.get("logo"));
     if (university.isSuccess) {
     }
+    form.reset();
     return university.mutate(formData);
   };
 

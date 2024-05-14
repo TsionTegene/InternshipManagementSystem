@@ -17,54 +17,14 @@ import { addCompany, removeCompany } from "@/api/company/mutations";
 import { useDepCompanyActions } from "@/hooks/useCompanyActions";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { toast, useToast } from "@/components/ui/use-toast";
 
 const dpID = localStorage.getItem("depId");
 
 export default function Component() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const { company } = useDepCompanyActions();
-  const router = useRouter();
-  // Sample company data
-  const companies = [
-    {
-      name: "Acme Inc.",
-      location: "New York, USA",
-      description:
-        "  Acme Inc. is a leading technology company that specializes in innovative software solutions.",
-    },
-    {
-      name: "Globex Corporation",
-      location: "San Francisco, USA",
-      description:
-        "  Globex Corporation is a multinational conglomerate that operates in various industries, including technology, finance, and energy.",
-    },
-    {
-      name: "Stark Industries",
-      location: "New York, USA",
-      description:
-        "Stark Industries is a leading defense contractor and technology company, known for its innovative products and advanced research.",
-    },
-    {
-      name: "INSA",
-      location: "New York, USA",
-      description:
-        "  Stark Industries is a leading defense contractor and technology company, known for its innovative products and advanced research.",
-    },
-    {
-      name: "Metatech Digital Consultancy",
-      location: "Addis Abeba, Ethiopia",
-      description:
-        "   Wayne Enterprises is a diversified multinational corporation with interests in various industries, including technology, aerospace,and real estate.",
-    },
-    {
-      name: "Wayne Enterprises",
-      location: "Gotham City, USA",
-      description:
-        "   Wayne Enterprises is a diversified multinational corporation with interests in various industries, including technology, aerospace,and real estate.",
-    },
-  ];
-  const { toast } = useToast();
+    const [searchQuery, setSearchQuery] = useState("");
+    const { company} = useDepCompanyActions ()
+    const router = useRouter();
 
   // Filter companies based on search query
   const filteredCompanies = Array.isArray(company)

@@ -12,12 +12,13 @@ const OpportunityDetailPage = ({ params }) => {
   const router = useRouter();
   const { data: mockOpportunities, isSuccess } = useInternshipByID(params.id);
 
+
   useEffect(() => {
     // Check if data has been successfully fetched
     if (isSuccess) {
       console.log("Detail intern", mockOpportunities);
     }
-  }, [isSuccess, mockOpportunities]);
+  }, [isSuccess, mockOpportunities, stdFlag]);
 
   if (!isSuccess) {
     return <div>Loading...</div>;
@@ -29,6 +30,8 @@ const OpportunityDetailPage = ({ params }) => {
         imageUrl={mockOpportunities[0]?.imageUrl}
         location={mockOpportunities[0]?.location}
         companyName={mockOpportunities[0]?.companyName}
+        companyid={mockOpportunities[0]?.company?.id}
+        internshipid={mockOpportunities[0]?.id}
         btn={stdFlag}
         startDate={mockOpportunities[0]?.startDate}
         endDate={mockOpportunities[0]?.endDate}
@@ -37,8 +40,8 @@ const OpportunityDetailPage = ({ params }) => {
         compensations={mockOpportunities[0]?.compensations}
         responsibilities={mockOpportunities[0]?.description?.responsibilities}
         qualifications={mockOpportunities[0]?.description?.qualifications}
-            />
-    
+      />
+
 
 
     </div>

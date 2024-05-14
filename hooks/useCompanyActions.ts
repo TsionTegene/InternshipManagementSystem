@@ -56,6 +56,7 @@ export function useDepCompanyActions() {
     const setIsLoading = useCompanyStore((state: any) => state.setIsLoading);
     const setError = useCompanyStore((state: any) => state.setError);
     const company = useCompanyStore((state: any) => state.company);
+    const queryClient = useQueryClient();
 
     const companyData = useDepCompany(dpID as string);
 
@@ -64,6 +65,8 @@ export function useDepCompanyActions() {
             try {
                 if (companyData.isSuccess) {
                     setCompany(companyData.data);
+                  
+
                 }
                 if (companyData.isLoading) {
                     setIsLoading(companyData.isLoading);

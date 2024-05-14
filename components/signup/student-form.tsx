@@ -187,8 +187,8 @@ export function StudentForm() {
     console.log("Form Data: ", formData.getAll("skills"));
 
     const student = signupStudent;
-
     const tokens = student.mutateAsync(formData);
+    form.reset()
     console.log("tokens: ", tokens);
     if (isSSuccess) {
       console.log(tokens)

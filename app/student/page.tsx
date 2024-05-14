@@ -13,7 +13,9 @@ import Image from "next/image";
 import Link from "next/link";
 const user = localStorage.getItem("user")
 const userName = user ? JSON.parse(user as string).firstName : null
+
 const page = () => {
+  console.log(user)
   return (
     <div>
       <Card className="flex p-5 bg-blue-100 dark:bg-blue-950 rounded-xl">

@@ -62,6 +62,7 @@ export default function DepartmentCreation() {
       }
 
     await addDepartment(formData);
+    
     router.push("/UniversityAdmin/list_department")
   };
 
@@ -189,7 +190,7 @@ export default function DepartmentCreation() {
                     >
                       <SelectTrigger>
                     
-                        <SelectValue placeholder="Select Dean" />{" "}
+                            <SelectValue placeholder="Select Head" />{" "}
                       </SelectTrigger>
                           <SelectContent>
                             {user.map((data: any) => (
